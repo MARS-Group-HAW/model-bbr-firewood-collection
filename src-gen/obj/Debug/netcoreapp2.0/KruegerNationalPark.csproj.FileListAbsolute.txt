@@ -1,0 +1,3 @@
+/Users/thc/Documents/Gitlab repos/model-kruger-national-park/src-gen/obj/Debug/netcoreapp2.0/KruegerNationalPark.csproj.CoreCompileInputs.cache
+/Users/thc/Documents/Gitlab repos/model-kruger-national-park/src-gen/obj/Debug/netcoreapp2.0/KruegerNationalPark.AssemblyInfoInputs.cache
+/Users/thc/Documents/Gitlab repos/model-kruger-national-park/src-gen/obj/Debug/netcoreapp2.0/KruegerNationalPark.AssemblyInfo.cs

@@ -1,0 +1,155 @@
+model KruegerNationalPark
+
+use Mars 
+
+layer SavannaLayer
+
+enum TreeStateType { Seedling Juvenile Adult Death }
+enum GenderType { Male Female }
+enum DamageType { No Light Moderate Heavy Extreme }
+
+class MyConstants {
+	static def CarbonDensity() => return 3.51
+	static def MaxHeight() => return 15
+}
+
+agent Tree on SavannaLayer {
+
+	observe var HasLeaves : bool	
+	external var StemDiameter : real
+	observe external var Height : real
+	observe external var LivingWoodMass : real
+	observe external var WoodMass : real
+	observe external var DeadwoodMass : real
+	external var Growthrate : real
+	
+	var IsMultiStem : bool
+	var WaterHousehold : real
+	var ResproutCapacity : real
+	var TreeState : TreeStateType
+	//var Damage : DamageType = DamageType.No
+	
+	def Position() => return #(xcor, ycor)
+	
+	var IsPhotosentheseActive = false
+	
+	passive TakeDeadWoodMass(mass : real) {
+		var result : real
+		if (mass < DeadwoodMass) {
+			result = mass
+		} else {
+			result = DeadwoodMass
+		}
+		DeadwoodMass = DeadwoodMass - result
+		return result
+	}
+	
+	passive TakeLivingWoodMass(mass : real) {
+		// TODO: damage class?
+		var result : real;
+		if (mass < LivingWoodMass) 
+			result = mass
+		else 
+			result = LivingWoodMass
+		LivingWoodMass = LivingWoodMass - result
+		return result
+	}
+	
+	tick {
+		if (Time::Month(simtime) === 10 and Time::Day(simtime) === 15)
+			HasLeaves = true
+		if (Time::Month(simtime) === 6 and Time::Day(simtime) === 15)
+			HasLeaves = false
+			 
+		var rate = 0.0;
+		// TODO: Check if HasLeaves switch on/off
+		
+		println Time::Month(simtime)
+		println Time::Day(simtime)
+		println simtime
+		
+		if(HasLeaves === true) {
+			rate = Growthrate;
+		}
+		else {rate = 0} // no leaves no fun
+		
+		if (Height >= MyConstants.MaxHeight) Height = MyConstants.MaxHeight
+		else {		
+			Height = Height + rate * Height
+			StemDiameter = (Height - 88.326) / 11.043
+			// Volume equation of cylinder multiplied with the carbon density
+			LivingWoodMass = (Height * (3.141 * (StemDiameter/2)**2) 
+				* MyConstants::CarbonDensity
+			) / 1000
+			DeadwoodMass = DeadwoodMass + LivingWoodMass * 0.01 // TODO: Check the one percent
+			WoodMass = DeadwoodMass + LivingWoodMass
+		}
+		
+	}
+	
+	def GreenUp() => IsPhotosentheseActive = true
+	def LeaveDrop() => IsPhotosentheseActive = false
+}
+ 
+//agent SclerocaryaBirrea on SavannaLayer extends Tree {
+//	var Sex : GenderType = GenderType.Female
+//	
+//	tick {
+//		// TODO: Identify individual precondition for green up action
+//		// GreenUp
+//		MakePhotonsynthese
+//	}
+//
+//	 // Photosynthesis equation for SclerocaryaBirrea tree
+//	def MakePhotonsynthese() {
+//		
+//		HasLeaves = ((Time::Month(simtime) >= 10 and Time::Day(simtime) >= 15) or
+//			(Time::Month(simtime) <= 6 and Time::Day(simtime) <= 15))
+//		
+//		if(HasLeaves) {
+//			Growthrate = 0.625/24
+//		} else {
+//			Growthrate = 0
+//		}
+//		
+//		Height = Height + Growthrate * Height
+//		StemDiameter = (Height - 88.326) / 11.043
+//		// Volume equation of cylinder multiplied with the carbon density
+//		LivingWoodMass = (Height * (3.141 * (StemDiameter/2)**2) 
+//			* MyConstants::CarbonDensity
+//		) / 1000
+//		DeadwoodMass = DeadwoodMass + LivingWoodMass * 0.01 // TODO: Check the one percent
+//		WoodMass = DeadwoodMass + LivingWoodMass
+//	} 
+//	
+//	 //TODO: Special photosynthese calculation or growthrate, include max height
+//	
+//}
+//agent CombretumApiculatum on SavannaLayer extends Tree { 
+//	
+//	tick {
+//		// TODO: Identify individual precondition for green up action
+//	}
+//	
+//	def MakePhotonsynthese() {
+//		if(HasLeaves) {
+//			Growthrate = 0.3/24
+//		} else {
+//			Growthrate = 0
+//		}
+//	}// TODO: Special photosynthese calculation
+//}
+//agent AcaciaNigrescens on SavannaLayer extends Tree {
+//	
+//	tick {
+//		// TODO: Identify individual precondition for green up action
+//	}
+//	
+//	def MakePhotonsynthese() {
+//		if(HasLeaves) {
+//			Growthrate = 0.1/24
+//		} else {
+//			Growthrate = 0
+//		}
+//	}// TODO: Special photosynthese calculation
+//}
