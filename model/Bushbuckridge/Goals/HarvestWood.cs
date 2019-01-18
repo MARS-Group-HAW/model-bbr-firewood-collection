@@ -1,8 +1,8 @@
-﻿using Firewood_Collection.States;
-using GOAP_Test.Agents;
+﻿using Bushbuckridge.Agents.Collector;
+using Bushbuckridge.States;
 using Mars.Components.Services.Planning.Implementation;
 
-namespace FirewoodCollectionv2.Goals
+namespace Bushbuckridge.Goals
 {
     public class HarvestWood : GoapGoal
     {

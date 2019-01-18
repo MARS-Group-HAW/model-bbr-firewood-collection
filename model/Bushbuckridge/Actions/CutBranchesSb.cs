@@ -1,8 +1,8 @@
-﻿using Firewood_Collection.States;
-using GOAP_Test.Agents;
+﻿using Bushbuckridge.Agents.Collector;
+using Bushbuckridge.States;
 using Mars.Components.Services.Planning.Implementation;
 
-namespace Firewood_Model_Test.Actions
+namespace Bushbuckridge.Actions
 {
     public class CutBranchesSb : GoapAction
     {

@@ -2,17 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using GOAP_Test.Agents;
+using Bushbuckridge.Agents.Tree;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services;
-using Mars.Interfaces.Agent;
-using Mars.Interfaces.Environment;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.Layer.Initialization;
 
-namespace FirewoodCollectionv2.Agents.Collector
+namespace Bushbuckridge.Agents.Collector
 {
     public class FirewoodCollectorLayer : ISteppedActiveLayer
 

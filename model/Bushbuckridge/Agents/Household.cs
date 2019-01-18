@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Firewood_Model_Test.Goals;
+using Bushbuckridge.Agents.Collector;
+using Bushbuckridge.Goals;
 using Mars.Components.Environments.SpatialAPI.Entities.Transformation;
 using Mars.Components.Services.Planning.Implementation;
 using Mars.Components.Services.Planning.Interfaces;
 
-namespace GOAP_Test.Agents
+namespace Bushbuckridge.Agents
 {
     public class Household : GoapAgentStates
     {

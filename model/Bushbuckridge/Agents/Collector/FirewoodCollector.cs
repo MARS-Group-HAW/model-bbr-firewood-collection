@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using FirewoodCollectionv2.Agents;
-using FirewoodCollectionv2.Agents.Collector;
-using FirewoodCollectionv2.Goals;
-using Firewood_Collection.States;
-using Firewood_Model_Test.Actions;
-using Firewood_Model_Test.Goals;
+using Bushbuckridge.Actions;
+using Bushbuckridge.Agents.Tree;
+using Bushbuckridge.Goals;
+using Bushbuckridge.States;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services.Planning.Implementation;
-using Mars.Components.Services.Planning.Implementation.ActionCommons;
 using Mars.Components.Services.Planning.Interfaces;
 using Mars.Interfaces.Agent;
 using Mars.Interfaces.Environment.GeoCommon;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.LIFECapabilities;
 
-namespace GOAP_Test.Agents
+namespace Bushbuckridge.Agents.Collector
 {
    
 //TODO females sollen min 50 % Totholz sammeln

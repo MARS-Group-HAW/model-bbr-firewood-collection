@@ -7,7 +7,7 @@ using Mars.Components.Services.Planning.Interfaces;
 using Mars.Components.Services.Planning.Worldstate;
 using Mars.Interfaces.Agent;
 
-namespace FirewoodCollectionv2.Agents
+namespace Bushbuckridge.Agents
 {
     public class ReplaningGoapInteraction : IInteraction
     {

@@ -1,6 +1,6 @@
 ﻿using Mars.Components.Services.Planning.Worldstate;
 
-namespace Firewood_Collection.States
+namespace Bushbuckridge.States
 {
     public class FirewoodState
     {

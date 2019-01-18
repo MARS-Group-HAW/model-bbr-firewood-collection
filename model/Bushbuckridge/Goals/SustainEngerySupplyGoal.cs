@@ -1,7 +1,7 @@
 ﻿using Mars.Components.Services.Planning.Implementation;
 using Mars.Components.Services.Planning.Interfaces;
 
-namespace Firewood_Model_Test.Goals
+namespace Bushbuckridge.Goals
 {
     public class SustainEngerySupplyGoal : GoapGoal
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mars.Components.Environments.SpatialAPI.Entities.Transformation;
 using Mars.Interfaces.Agent;
 
-namespace GOAP_Test.Agents
+namespace Bushbuckridge.Agents
 {
     public class FirewoodSite : IAgent
     {
