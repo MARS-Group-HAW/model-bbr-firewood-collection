@@ -12,18 +12,18 @@
 //				{ "name": "cellSizeMeters", "value": "100" }
 //			] 
 //		},
-		{ "name": "KNPGISRasterTempLayer", "file": "../model_input/RCP4.5_2018_temp.zip" },
-		{ "name": "KNPGISRasterPrecipitationLayer", "file": "../model_input/RCP4.5_2018_pre.zip" },
-		{ "name": "KNPGISVectorWaterLayer", "file": "../model_input/merged_water.geojson" },
-		{ "name": "KNPGISRasterVegetationLayer", "file": "../model_input/2018.asc" },
-		{ "name": "KNPGISRasterShadeLayer", "file": "../model_input/gis_raster_shade.zip" },
-		{ "name": "KNPGISRasterFenceLayer", "file": "../model_input/gis_raster_border.asc" }
+		{ "name": "KNPGISRasterTempLayer", "file": "model_input/RCP4.5_2018_temp.zip" },
+		{ "name": "KNPGISRasterPrecipitationLayer", "file": "model_input/RCP4.5_2018_pre.zip" },
+		{ "name": "KNPGISVectorWaterLayer", "file": "model_input/merged_water.geojson" },
+		{ "name": "KNPGISRasterVegetationLayer", "file": "model_input/2018.asc" },
+		{ "name": "KNPGISRasterShadeLayer", "file": "model_input/gis_raster_shade.zip" },
+		{ "name": "KNPGISRasterFenceLayer", "file": "model_input/gis_raster_border.asc" }
 	],
 	"agents": [
 		{
 			"name": "Elephant",
 			"count": 100,
-			"file": "../model_input/elephant1989_constant_population_15k.csv",
+			"file": "model_input/elephant1989_constant_population_15k.csv",
 			"individuals": [
 				{ "name": "xcor", "field": "Longitude" },
 				{ "name": "ycor", "field": "Latitude" }
@@ -40,7 +40,7 @@
 				{
 			"name": "Tree",
 			"count": 50,
-			"file": "../model_input/marula_50.csv",
+			"file": "model_input/marula_50.csv",
 			"individuals": [
 				{ "name": "xcor", "field": "Lon" },
 				{ "name": "ycor", "field": "Lat" }
