@@ -1,1 +1,1 @@
-dotnet run -sm src/config.json --project src-gen/ -l
+dotnet run -sm src/config.json --project model/Bushbuckridge

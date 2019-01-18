@@ -2,7 +2,7 @@
 
 namespace Bushbuckridge.States
 {
-    public class FirewoodState
+    public static class FirewoodState
     {
         public static readonly GoapStateKey<bool> HasEnoughFirewood = new GoapStateKey<bool>("HasEnoughFirewood");
         public static readonly GoapStateKey<bool> AtExploitablePosition = new GoapStateKey<bool>("AtExploitablePosition");

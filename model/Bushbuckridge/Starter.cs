@@ -19,7 +19,10 @@ namespace Bushbuckridge
             description.AddLayer<FirewoodCollectorLayer>(new[] {typeof(FirewoodCollectorLayer)});
             description.AddAgent<FirewoodCollector, FirewoodCollectorLayer>();
 
-            var loopResult = SimulationStarter.Start(description, SimulationConfig()).Run();
+            var path = Path.Combine("src", "config.json");
+            var config = Mars.Core.ModelContainer.Entities.SimulationConfig.Deserialize(path);
+           
+            var loopResult = SimulationStarter.Start(description, config).Run();
             
             Console.WriteLine("Happe End! :) after Tick " + loopResult.CurrentTick);
             // Bäume und Sammler leben auf ihren layern

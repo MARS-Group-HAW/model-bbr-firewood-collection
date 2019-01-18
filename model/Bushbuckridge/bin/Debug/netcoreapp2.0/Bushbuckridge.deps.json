@@ -1,17 +1,60 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "8203582d2998525a71c55e70b708c4c517ab0e97"
+    "signature": "1b49a940ee3062ff1d110ce124256f7aa0839687"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
       "Bushbuckridge/1.0.0": {
         "dependencies": {
-          "Mars.Life.Simulations": "3.0.6-preview"
+          "Mars.Life.Simulations": "3.0.7-preview"
         },
         "runtime": {
           "Bushbuckridge.dll": {}
+        }
+      },
+      "Accord/3.8.0": {
+        "runtime": {
+          "lib/netstandard2.0/Accord.dll": {}
+        }
+      },
+      "Accord.MachineLearning/3.8.0": {
+        "dependencies": {
+          "Accord": "3.8.0",
+          "Accord.Math": "3.8.0",
+          "Accord.Statistics": "3.8.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Accord.MachineLearning.dll": {}
+        }
+      },
+      "Accord.Math/3.8.0": {
+        "dependencies": {
+          "Accord": "3.8.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Accord.Math.Core.dll": {},
+          "lib/netstandard2.0/Accord.Math.dll": {}
+        }
+      },
+      "Accord.Statistics/3.8.0": {
+        "dependencies": {
+          "Accord": "3.8.0",
+          "Accord.Math": "3.8.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Accord.Statistics.dll": {}
+        }
+      },
+      "ArangoDB.Client/0.7.70": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.5.0",
+          "Newtonsoft.Json": "10.0.3",
+          "Remotion.Linq": "2.1.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ArangoDB.Client.dll": {}
         }
       },
       "Autofac/4.2.1": {
@@ -106,8 +149,10 @@
           "lib/netstandard1.6/mars-cloo.dll": {}
         }
       },
-      "Mars.Life.Simulations/3.0.6-preview": {
+      "Mars.Life.Simulations/3.0.7-preview": {
         "dependencies": {
+          "Accord.MachineLearning": "3.8.0",
+          "ArangoDB.Client": "0.7.70",
           "Autofac": "4.2.1",
           "GeoAPI": "1.7.5",
           "Microsoft.CSharp": "4.5.0",
@@ -125,6 +170,7 @@
           "mars-cloo": "1.0.0"
         },
         "runtime": {
+          "lib/netstandard2.0/Mars.Common.dll": {},
           "lib/netstandard2.0/Mars.Components.dll": {},
           "lib/netstandard2.0/Mars.Core.dll": {},
           "lib/netstandard2.0/Mars.Interfaces.dll": {}
@@ -323,6 +369,24 @@
         },
         "runtime": {
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Remotion.Linq/2.1.2": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Linq.Expressions": "4.3.0",
+          "System.Linq.Queryable": "4.0.1",
+          "System.ObjectModel": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Threading": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.0/Remotion.Linq.dll": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -1675,6 +1739,41 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Accord/3.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+eVNmmLXTL5HZZ3zcWggQtK+cMs6FhCKimUQ35MkywRcFhXangpQdYvO0bAx9XkcqtyEHRO0xBSqNxoehCMeXw==",
+      "path": "accord/3.8.0",
+      "hashPath": "accord.3.8.0.nupkg.sha512"
+    },
+    "Accord.MachineLearning/3.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7YEUZTQFcLadLHqq38IQVHJYoLE/UEYv6jMu7eD+NIQvMvEi0OvozN0qeoNWsiQ7Wlk9Sk26rWIWlCg7TVuMPQ==",
+      "path": "accord.machinelearning/3.8.0",
+      "hashPath": "accord.machinelearning.3.8.0.nupkg.sha512"
+    },
+    "Accord.Math/3.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MFkgZzUxArkE3s9Np8oZwuMCWiAiaur/Mr6ePrlc1Jjizf8BgIKab5TobrPw97cUSPF0RjbZZ4s8N2lhjqqLeg==",
+      "path": "accord.math/3.8.0",
+      "hashPath": "accord.math.3.8.0.nupkg.sha512"
+    },
+    "Accord.Statistics/3.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZPo9c9jTHq5xSVWnGH+sJOpZsGe6MWlp2IpOWbMFJ5/I3jfaVkCAgXE5D3gxaG5QE6ezQbGQKRK4N3hJcLRGQw==",
+      "path": "accord.statistics/3.8.0",
+      "hashPath": "accord.statistics.3.8.0.nupkg.sha512"
+    },
+    "ArangoDB.Client/0.7.70": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oeCEIwdjTf47Z5MHJGIIGMRmb7HHv5HG+Dr9A6/BYgdrZGvmtlA8j7XJoFqbyiAGe0Ocwvn393bhNl4/cc1HwA==",
+      "path": "arangodb.client/0.7.70",
+      "hashPath": "arangodb.client.0.7.70.nupkg.sha512"
+    },
     "Autofac/4.2.1": {
       "type": "package",
       "serviceable": true,
@@ -1731,12 +1830,12 @@
       "path": "mars-cloo/1.0.0",
       "hashPath": "mars-cloo.1.0.0.nupkg.sha512"
     },
-    "Mars.Life.Simulations/3.0.6-preview": {
+    "Mars.Life.Simulations/3.0.7-preview": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BTPO6flgUhe/mBukNucoBt9GkWMhdgGPNbBkQmDxmklyYHwojZuqWbWmxaH1otidgDBbx+dVaAF4J0vc65/lcg==",
-      "path": "mars.life.simulations/3.0.6-preview",
-      "hashPath": "mars.life.simulations.3.0.6-preview.nupkg.sha512"
+      "sha512": "sha512-Uw8ESTPxMEkWhcy24JFgY1TGEasgTFRF+nNRs5ZkMutVANhumCKg9Qp5dLYMEIl1MsntsAczBDbANRcLqfwtVw==",
+      "path": "mars.life.simulations/3.0.7-preview",
+      "hashPath": "mars.life.simulations.3.0.7-preview.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.Analyzers/1.1.0": {
       "type": "package",
@@ -1863,6 +1962,13 @@
       "sha512": "sha512-MoATFm6YJyk5OdqDdxDWfKe5dkY3Cygu0wrpKPH/LbWtMmSuD/3G/JIInt9sIJN7hKQOFYCIb2UjLc2vO5byQQ==",
       "path": "newtonsoft.json/10.0.3",
       "hashPath": "newtonsoft.json.10.0.3.nupkg.sha512"
+    },
+    "Remotion.Linq/2.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Cid+x6ItSesJSB+8zA9evWWBH3Jo5XtIUt6FUSu99BipVzWBA/Zi2bT6LMN/WIjZh/2rgeRlgXpa5WQoatG01A==",
+      "path": "remotion.linq/2.1.2",
+      "hashPath": "remotion.linq.2.1.2.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

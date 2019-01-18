@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bushbuckridge.Agents.Collector;
 using Bushbuckridge.Goals;
 using Mars.Components.Environments.SpatialAPI.Entities.Transformation;
 using Mars.Components.Services.Planning.Implementation;
@@ -10,7 +9,7 @@ namespace Bushbuckridge.Agents
 {
     public class Household : GoapAgentStates
     {
-        private readonly FirewoodCollector _man, _woman;
+//        private readonly FirewoodCollector _man, _woman;
         public int ChildCount { get; }
 
         private readonly IGoapPlanner _goapPlanner;

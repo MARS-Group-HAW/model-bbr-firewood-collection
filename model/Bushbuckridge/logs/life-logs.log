@@ -1,0 +1,12 @@
+[ERROR] 2019-01-18 17:34:07,012 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/elephant1989_constant_population_15k.csv could not found for mapping Elephant 
+[ERROR] 2019-01-18 17:34:07,075 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/marula_50.csv could not found for mapping Tree 
+[ERROR] 2019-01-18 17:34:07,075 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/RCP4.5_2018_temp.zip could not found for mapping KNPGISRasterTempLayer 
+[ERROR] 2019-01-18 17:34:07,076 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/RCP4.5_2018_pre.zip could not found for mapping KNPGISRasterPrecipitationLayer 
+[ERROR] 2019-01-18 17:34:07,076 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/merged_water.geojson could not found for mapping KNPGISVectorWaterLayer 
+[ERROR] 2019-01-18 17:34:07,076 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/2018.asc could not found for mapping KNPGISRasterVegetationLayer 
+[ERROR] 2019-01-18 17:34:07,076 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/gis_raster_shade.zip could not found for mapping KNPGISRasterShadeLayer 
+[ERROR] 2019-01-18 17:34:07,076 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/gis_raster_border.asc could not found for mapping KNPGISRasterFenceLayer 
+[ERROR] 2019-01-18 17:34:36,731 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/household.csv could not found for mapping FirewoodCollector 
+[ERROR] 2019-01-18 17:34:36,795 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/tree.csv could not found for mapping Tree 
+[ERROR] 2019-01-18 17:35:02,813 | Mars.Core.ModelContainer.Implementation.Validator - The input file ../model_input/household.csv could not found for mapping FirewoodCollector 
+[ERROR] 2019-01-18 17:35:02,876 | Mars.Core.ModelContainer.Implementation.Validator - The input file ../model_input/tree.csv could not found for mapping Tree 
