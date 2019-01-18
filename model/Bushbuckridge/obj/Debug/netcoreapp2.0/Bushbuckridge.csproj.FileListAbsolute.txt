@@ -1,0 +1,10 @@
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/bin/Debug/netcoreapp2.0/Bushbuckridge.deps.json
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/bin/Debug/netcoreapp2.0/Bushbuckridge.runtimeconfig.json
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/bin/Debug/netcoreapp2.0/Bushbuckridge.runtimeconfig.dev.json
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/bin/Debug/netcoreapp2.0/Bushbuckridge.dll
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/bin/Debug/netcoreapp2.0/Bushbuckridge.pdb
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/Debug/netcoreapp2.0/Bushbuckridge.csproj.CoreCompileInputs.cache
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/Debug/netcoreapp2.0/Bushbuckridge.AssemblyInfoInputs.cache
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/Debug/netcoreapp2.0/Bushbuckridge.AssemblyInfo.cs
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/Debug/netcoreapp2.0/Bushbuckridge.dll
+/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/Debug/netcoreapp2.0/Bushbuckridge.pdb

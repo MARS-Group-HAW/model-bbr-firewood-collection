@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bushbuckridge", "Bushbuckridge\Bushbuckridge.csproj", "{4B50C10D-52E0-49FE-A2D7-505E7E06AB7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KruegerNationalPark", "..\src-gen\KruegerNationalPark.csproj", "{CADC5FF2-D417-4E3D-B88E-2A02181C54DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B50C10D-52E0-49FE-A2D7-505E7E06AB7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B50C10D-52E0-49FE-A2D7-505E7E06AB7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B50C10D-52E0-49FE-A2D7-505E7E06AB7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B50C10D-52E0-49FE-A2D7-505E7E06AB7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADC5FF2-D417-4E3D-B88E-2A02181C54DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADC5FF2-D417-4E3D-B88E-2A02181C54DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADC5FF2-D417-4E3D-B88E-2A02181C54DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADC5FF2-D417-4E3D-B88E-2A02181C54DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

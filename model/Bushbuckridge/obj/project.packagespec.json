@@ -1,0 +1,47 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/Bushbuckridge.csproj",
+    "projectName": "Bushbuckridge",
+    "projectPath": "/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/Bushbuckridge.csproj",
+    "outputPath": "/Users/furoo/Documents/workspace/mars/model-bushbuckridge/model/Bushbuckridge/obj/",
+    "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+    ],
+    "originalTargetFrameworks": [
+      "netcoreapp2.0"
+    ],
+    "frameworks": {
+      "netcoreapp2.0": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netcoreapp2.0": {
+      "dependencies": {
+        "Mars.Life.Simulations": {
+          "target": "Package",
+          "version": "[3.0.6-preview, )"
+        },
+        "Microsoft.NETCore.App": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.0.0, )",
+          "autoReferenced": true
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}

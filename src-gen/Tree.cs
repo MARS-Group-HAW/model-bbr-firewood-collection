@@ -141,7 +141,7 @@ namespace KruegerNationalPark {
 		public double TakeDeadWoodMass(
 		double mass) {
 			{
-				double result = null;	if(mass < DeadwoodMass) {
+				double result;	if(mass < DeadwoodMass) {
 								{
 									result = mass;
 								}
@@ -158,7 +158,7 @@ namespace KruegerNationalPark {
 		public double TakeLivingWoodMass(
 		double mass) {
 			{
-				double result = null;	if(mass < LivingWoodMass) {
+				double result;	if(mass < LivingWoodMass) {
 								result = mass
 						;} else {
 								result = LivingWoodMass
