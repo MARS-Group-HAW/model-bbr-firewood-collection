@@ -2,40 +2,49 @@ model KruegerNationalPark
 
 use Mars 
 
+raster-layer Temperature as temperature
+raster-layer Precipitation as precipitation
+
 layer SavannaLayer
 
 enum TreeStateType { Seedling Juvenile Adult Death }
+
 enum GenderType { Male Female }
+
 enum DamageType { No Light Moderate Heavy Extreme }
 
 class MyConstants {
 	static def CarbonDensity() => return 3.51
+
 	static def MaxHeight() => return 15
 }
 
 agent Tree on SavannaLayer {
-
-	observe var HasLeaves : bool	
-	external var StemDiameter : real
-	observe external var Height : real
-	observe external var LivingWoodMass : real
-	observe external var WoodMass : real
-	observe external var DeadwoodMass : real
-	external var Growthrate : real
+	var IsAlive : bool
 	
+	external var TreeType : string
+	external var StemDiameter : real
+
+	observe var HasLeaves : bool
+
+	observe var LivingWoodMass : real
+	observe var DeadwoodMass : real
+	
+	var Growthrate : real = 0.5
+	var SeedlingGrowthrate : real = 0.5
+	var ResproutGrowthrate : real = 0.5
+
+	observe var MyDamageType : DamageType = DamageType.No
+	var MyTreeStateType : TreeStateType = TreeStateType.Seedling;
+
 	var IsMultiStem : bool
 	var WaterHousehold : real
 	var ResproutCapacity : real
-	var TreeState : TreeStateType
-	//var Damage : DamageType = DamageType.No
-	
-	def Position() => return #(xcor, ycor)
-	
-	var IsPhotosentheseActive = false
-	
+
+	def TreePosition() => return #(xcor, ycor)
+
 	passive TakeDeadWoodMass(mass : real) {
-		var result : real
-		if (mass < DeadwoodMass) {
+		var result : real if (mass < DeadwoodMass) {
 			result = mass
 		} else {
 			result = DeadwoodMass
@@ -43,10 +52,10 @@ agent Tree on SavannaLayer {
 		DeadwoodMass = DeadwoodMass - result
 		return result
 	}
-	
+
 	passive TakeLivingWoodMass(mass : real) {
 		// TODO: damage class?
-		var result : real;
+		var result : real
 		if (mass < LivingWoodMass) 
 			result = mass
 		else 
@@ -54,102 +63,91 @@ agent Tree on SavannaLayer {
 		LivingWoodMass = LivingWoodMass - result
 		return result
 	}
-	
-	tick {
+
+	def UpdatePhotosyntheseActive() {
 		if (Time::Month(simtime) === 10 and Time::Day(simtime) === 15)
 			HasLeaves = true
-		if (Time::Month(simtime) === 6 and Time::Day(simtime) === 15)
+		else if (Time::Month(simtime) === 6 and Time::Day(simtime) === 15)
 			HasLeaves = false
-			 
-		var rate = 0.0;
-		// TODO: Check if HasLeaves switch on/off
-		
-		println Time::Month(simtime)
-		println Time::Day(simtime)
-		println simtime
-		
-		if(HasLeaves === true) {
-			rate = Growthrate;
-		}
-		else {rate = 0} // no leaves no fun
-		
-		if (Height >= MyConstants.MaxHeight) Height = MyConstants.MaxHeight
-		else {		
-			Height = Height + rate * Height
-			StemDiameter = (Height - 88.326) / 11.043
-			// Volume equation of cylinder multiplied with the carbon density
-			LivingWoodMass = (Height * (3.141 * (StemDiameter/2)**2) 
-				* MyConstants::CarbonDensity
-			) / 1000
-			DeadwoodMass = DeadwoodMass + LivingWoodMass * 0.01 // TODO: Check the one percent
-			WoodMass = DeadwoodMass + LivingWoodMass
-		}
-		
 	}
-	
-	def GreenUp() => IsPhotosentheseActive = true
-	def LeaveDrop() => IsPhotosentheseActive = false
+
+	def Grow(growthrate : real) {
+		//TODO Umwelteinflüsse verkleinern growthrate
+		var mytemp = temperature.GetNumberValue(ycor, xcor)	
+		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
+		
+		StemDiameter =  StemDiameter + StemDiameter * growthrate
+	}
+
+	def UpdateTreeStateType() {
+		if (StemDiameter < 10) {
+			MyTreeStateType = TreeStateType.Juvenile;
+		} else {
+			MyTreeStateType = TreeStateType.Adult;
+		}
+	}
+
+	def Reduce(growthrate : real, min : integer, max : integer) {
+		return growthrate * (min + random(max - min)) / 100 
+	}
+
+	def Die() {
+		MyTreeStateType = TreeStateType.Death
+		IsAlive = false
+	}
+
+	tick {
+		UpdateTreeStateType()
+		UpdatePhotosyntheseActive()
+		
+//		switch(MyTreeStateType) {
+//			case Seedling: { Seedling() } 
+//			case Juvenile: { Juvenile() } 
+//			case Adult: { Adult() } 
+//		}
+		if (TreeStateType.Seedling === MyTreeStateType) {
+			Seedling()
+		} else if (TreeStateType.Juvenile === MyTreeStateType) {
+			Juvenile()
+		} else if (TreeStateType.Adult === MyTreeStateType) {
+			Adult()
+		}
+		MyDamageType = DamageType.No	 
+				 	
+		println simtime + " " + StemDiameter 
+	}
+
+	def Seedling() {
+		if (MyDamageType != DamageType.No) {
+			Die()
+		} else if (HasLeaves) {
+			Grow(SeedlingGrowthrate)
+		} 
+	}
+
+	def Juvenile() {
+		if (HasLeaves) {
+			if (MyDamageType != DamageType.No) {
+				Grow(ResproutGrowthrate)
+			} else {
+				Grow(Growthrate)
+			}
+		} 
+	}
+
+	def Adult() {
+		if (HasLeaves) {
+			if (MyDamageType === DamageType.No) {
+				Grow(Growthrate)
+			} else if (MyDamageType === DamageType.Light) {
+				Grow(Reduce(Growthrate, 90, 100))
+			} else if (MyDamageType === DamageType.Moderate) {
+				Grow(Reduce(Growthrate, 70, 90))
+			} else if (MyDamageType === DamageType.Heavy) {
+				Grow(Reduce(Growthrate, 40, 70))
+			} else if (MyDamageType === DamageType.Extreme) {
+				Grow(ResproutGrowthrate)
+			}
+		} 
+	}
 }
- 
-//agent SclerocaryaBirrea on SavannaLayer extends Tree {
-//	var Sex : GenderType = GenderType.Female
-//	
-//	tick {
-//		// TODO: Identify individual precondition for green up action
-//		// GreenUp
-//		MakePhotonsynthese
-//	}
-//
-//	 // Photosynthesis equation for SclerocaryaBirrea tree
-//	def MakePhotonsynthese() {
-//		
-//		HasLeaves = ((Time::Month(simtime) >= 10 and Time::Day(simtime) >= 15) or
-//			(Time::Month(simtime) <= 6 and Time::Day(simtime) <= 15))
-//		
-//		if(HasLeaves) {
-//			Growthrate = 0.625/24
-//		} else {
-//			Growthrate = 0
-//		}
-//		
-//		Height = Height + Growthrate * Height
-//		StemDiameter = (Height - 88.326) / 11.043
-//		// Volume equation of cylinder multiplied with the carbon density
-//		LivingWoodMass = (Height * (3.141 * (StemDiameter/2)**2) 
-//			* MyConstants::CarbonDensity
-//		) / 1000
-//		DeadwoodMass = DeadwoodMass + LivingWoodMass * 0.01 // TODO: Check the one percent
-//		WoodMass = DeadwoodMass + LivingWoodMass
-//	} 
-//	
-//	 //TODO: Special photosynthese calculation or growthrate, include max height
-//	
-//}
-//agent CombretumApiculatum on SavannaLayer extends Tree { 
-//	
-//	tick {
-//		// TODO: Identify individual precondition for green up action
-//	}
-//	
-//	def MakePhotonsynthese() {
-//		if(HasLeaves) {
-//			Growthrate = 0.3/24
-//		} else {
-//			Growthrate = 0
-//		}
-//	}// TODO: Special photosynthese calculation
-//}
-//agent AcaciaNigrescens on SavannaLayer extends Tree {
-//	
-//	tick {
-//		// TODO: Identify individual precondition for green up action
-//	}
-//	
-//	def MakePhotonsynthese() {
-//		if(HasLeaves) {
-//			Growthrate = 0.1/24
-//		} else {
-//			Growthrate = 0
-//		}
-//	}// TODO: Special photosynthese calculation
-//}

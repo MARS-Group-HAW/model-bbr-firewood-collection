@@ -2,23 +2,17 @@
 	"globals": {
 		"deltaT": 1,
 		"deltaTUnit": "days",
-		// "startTime": "31.12.2017",
-		// "endTime": "31.01.2018",
-		"ticks" : "10",
-		"output" : "csv"
+		"startTime": "31.12.2017",
+		"endTime": "31.12.2027",
+		"output" : "csv",
+		"options" : {
+			"delimiter" : ";"
+		}
 	},
 	"layers": [
 	
-//		{ "name": "ElephantLayer", "individual": [
-//				{ "name": "cellSizeMeters", "value": "100" }
-//			] 
-//		},
-//		{ "name": "KNPGISRasterTempLayer", "file": "model_input/RCP4.5_2018_temp.zip" },
-//		{ "name": "KNPGISRasterPrecipitationLayer", "file": "model_input/RCP4.5_2018_pre.zip" },
-//		{ "name": "KNPGISVectorWaterLayer", "file": "model_input/merged_water.geojson" },
-//		{ "name": "KNPGISRasterVegetationLayer", "file": "model_input/2018.asc" },
-//		{ "name": "KNPGISRasterShadeLayer", "file": "model_input/gis_raster_shade.zip" },
-//		{ "name": "KNPGISRasterFenceLayer", "file": "model_input/gis_raster_border.asc" }
+		{ "name": "Temperature", "file": "model_input/RCP4.5_2018_temp.zip" },
+		{ "name": "Precipitation", "file": "model_input/RCP4.5_2018_pre.zip" },
 	],
 	"agents": [
 		{
@@ -26,34 +20,21 @@
 			"count": 1,
 			"file": "model_input/household.csv",
 			//"individuals": [
-			//	{ "name": "xcor", "field": "Longitude" },
-			//	{ "name": "ycor", "field": "Latitude" }
-			//]
-			//	{ "name": "Height", "value": "5" },
-			//	{ "name": "WoodMass", "value": "100"},
-			//	{ "name": "LivingWoodMass", "value": "80"},
-			//	{ "name": "DeadWoodMass", "value": "20"},
-			//	{ "name": "GrowthRate", "value": "0.0001"},
-			//	{ "name": "Latitude", "value" : 52.00 },
-			//	{ "name": "Longitude", "value" : -23.00 }
+			//	{ "name": "xcor", "field": "lon" },
+			//	{ "name": "ycor", "field": "lat" }
 			//]
 		},
 				{
-			"name": "ExploitableTree",
-			"count": 100,
+			"name": "Tree",
+			"count": 1,
 			"file": "model_input/tree.csv",
-			//"individuals": [
-			//	{ "name": "xcor", "field": "Lon" },
-			//	{ "name": "ycor", "field": "Lat" }
-			//]
-			//	{ "name": "Height", "value": "5" },
-			//	{ "name": "WoodMass", "value": "100"},
-			//	{ "name": "LivingWoodMass", "value": "80"},
-			//	{ "name": "DeadWoodMass", "value": "20"},
-			//	{ "name": "GrowthRate", "value": "0.0001"},
-			//	{ "name": "Latitude", "value" : 52.00 },
-			//	{ "name": "Longitude", "value" : -23.00 }
-			//]
+			"frequency": 1,
+			"individuals": [
+				{ "name": "xcor", "field": "lon" },
+				{ "name": "ycor", "field": "lat" },
+				{ "name": "StemDiameter", "field": "diameter" },
+				{ "name": "TreeType", "field": "type" }
+			]
 		}
 	]
 	

@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="analysis\**" />
+    <Compile Remove="logs\**" />
+    <Compile Remove="model\**" />
+    <Compile Remove="model_input\**" />
+    <Compile Remove="src\**" />
+    <Compile Remove="src-gen\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="analysis\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="model\**" />
+    <EmbeddedResource Remove="model_input\**" />
+    <EmbeddedResource Remove="src\**" />
+    <EmbeddedResource Remove="src-gen\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="analysis\**" />
+    <None Remove="logs\**" />
+    <None Remove="model\**" />
+    <None Remove="model_input\**" />
+    <None Remove="src\**" />
+    <None Remove="src-gen\**" />
+    <None Remove=".project" />
+    <None Remove="README.md" />
+    <None Remove="run.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mars.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\..\..\.nuget\packages\mars.life.simulations\3.0.352-preview\lib\netstandard2.0\Mars.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="model\Bushbuckridge\Bushbuckridge.csproj" />
+  </ItemGroup>
+</Project>

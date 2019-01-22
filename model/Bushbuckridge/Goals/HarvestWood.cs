@@ -11,13 +11,13 @@ namespace Bushbuckridge.Goals
         public HarvestWood(FirewoodCollector agent) : base(agent.AgentStates)
         {
             _agent = agent;
-            
+
             AddOrUpdateDesiredState(FirewoodState.WoodstockRaised, true);
         }
-        
+
         public new void UpdateRelevance()
         {
-           Relevance = _agent.MeasureDistanceAndStockForAlivewood();
+//            Relevance = (float) _agent.MeasureDistanceAndStockForAlivewood();
         }
     }
 }

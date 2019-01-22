@@ -6,13 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "Bushbuckridge/1.0.0": {
+      "KruegerNationalPark/1.0.0": {
         "dependencies": {
-          "KruegerNationalPark": "1.0.0",
           "Mars.Life.Simulations": "3.0.352-preview"
         },
         "runtime": {
-          "Bushbuckridge.dll": {}
+          "KruegerNationalPark.dll": {}
         }
       },
       "Accord/3.8.0": {
@@ -1731,19 +1730,11 @@
         "runtime": {
           "lib/netstandard1.3/YamlDotNet.dll": {}
         }
-      },
-      "KruegerNationalPark/1.0.0": {
-        "dependencies": {
-          "Mars.Life.Simulations": "3.0.352-preview"
-        },
-        "runtime": {
-          "KruegerNationalPark.dll": {}
-        }
       }
     }
   },
   "libraries": {
-    "Bushbuckridge/1.0.0": {
+    "KruegerNationalPark/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -2748,11 +2739,6 @@
       "sha512": "sha512-dOf4ofiMv5CISFgebsspyi/Wr/95X9I5VqXaIcrDrB5VmOKLLs8mOtyhUyZbi38HMaBPc9NsXLsdZCB81a3ulw==",
       "path": "yamldotnet/5.0.1",
       "hashPath": "yamldotnet.5.0.1.nupkg.sha512"
-    },
-    "KruegerNationalPark/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

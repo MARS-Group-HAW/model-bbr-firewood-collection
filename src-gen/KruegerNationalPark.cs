@@ -6,15 +6,9 @@ public static class Program {
 			Mars.Common.Logging.LoggerFactory.ActivateConsoleLogging();
 		}
 		var description = new Mars.Core.ModelContainer.Entities.ModelDescription();
-		description.AddLayer<KruegerNationalPark.ElephantLayer>();
 		description.AddLayer<KruegerNationalPark.SavannaLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISRasterFenceLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISRasterPrecipitationLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISRasterShadeLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISRasterTempLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISRasterVegetationLayer>();
-		description.AddLayer<KruegerNationalPark.KNPGISVectorWaterLayer>();
-		description.AddAgent<KruegerNationalPark.Elephant, KruegerNationalPark.ElephantLayer>();
+		description.AddLayer<KruegerNationalPark.Precipitation>();
+		description.AddLayer<KruegerNationalPark.Temperature>();
 		description.AddAgent<KruegerNationalPark.Tree, KruegerNationalPark.SavannaLayer>();
 		var task = Mars.Core.SimulationStarter.SimulationStarter.Start(description, args);
 		var loopResults = task.Run();

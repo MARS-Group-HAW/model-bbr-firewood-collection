@@ -10,11 +10,11 @@ namespace KruegerNationalPark {
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "PossibleInvalidOperationException")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "ExpressionIsAlwaysNull")]
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "RedundantCheckBeforeAssignment")]
-	public class KNPGISRasterPrecipitationLayer : Mars.Components.Layers.GISRasterModelLayer
+	public class Precipitation : Mars.Components.Layers.GISRasterModelLayer
 	{
 		private static readonly Mars.Common.Logging.ILogger _Logger = 
-					Mars.Common.Logging.LoggerFactory.GetLogger(typeof(KNPGISRasterPrecipitationLayer));
+					Mars.Common.Logging.LoggerFactory.GetLogger(typeof(Precipitation));
 		private static readonly Mars.Components.Common.Random _Random = new Mars.Components.Common.Random();
-		public KruegerNationalPark.KNPGISRasterPrecipitationLayer rasterPrecipitation => this;
+		public KruegerNationalPark.Precipitation precipitation => this;
 	}
 }

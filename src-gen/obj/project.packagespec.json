@@ -28,7 +28,7 @@
       "dependencies": {
         "Mars.Life.Simulations": {
           "target": "Package",
-          "version": "[3.0.7-preview, )"
+          "version": "[3.0.352-preview, )"
         },
         "Microsoft.NETCore.App": {
           "suppressParent": "All",

@@ -10,3 +10,5 @@
 [ERROR] 2019-01-18 17:34:36,795 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/tree.csv could not found for mapping Tree 
 [ERROR] 2019-01-18 17:35:02,813 | Mars.Core.ModelContainer.Implementation.Validator - The input file ../model_input/household.csv could not found for mapping FirewoodCollector 
 [ERROR] 2019-01-18 17:35:02,876 | Mars.Core.ModelContainer.Implementation.Validator - The input file ../model_input/tree.csv could not found for mapping Tree 
+[ERROR] 2019-01-22 12:59:40,320 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/household.csv could not found for mapping FirewoodCollector 
+[ERROR] 2019-01-22 12:59:40,383 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/tree.csv could not found for mapping ExploitableTree 

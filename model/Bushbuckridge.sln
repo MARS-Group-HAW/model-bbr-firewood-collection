@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KruegerNationalPark", "..\s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentCsvGenerator", "AgentCsvGenerator\AgentCsvGenerator.csproj", "{DE64FA5D-BF6F-41DE-87CC-4D31A900972F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "..\Starter.csproj", "{1001A3AB-5262-49D8-801A-6B0DAB83CF8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{DE64FA5D-BF6F-41DE-87CC-4D31A900972F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE64FA5D-BF6F-41DE-87CC-4D31A900972F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE64FA5D-BF6F-41DE-87CC-4D31A900972F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1001A3AB-5262-49D8-801A-6B0DAB83CF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1001A3AB-5262-49D8-801A-6B0DAB83CF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1001A3AB-5262-49D8-801A-6B0DAB83CF8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1001A3AB-5262-49D8-801A-6B0DAB83CF8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

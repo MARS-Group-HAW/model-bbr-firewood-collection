@@ -16,23 +16,15 @@ namespace KruegerNationalPark {
 		private static readonly Mars.Components.Common.Random _Random = new Mars.Components.Common.Random();
 		private double?[] _bbox = new double?[4]; private int? _cellSizeMeters;
 		public Mars.Components.Environments.GeoGridHashEnvironment<Tree> _TreeEnvironment { get; set; }
-		public KNPGISRasterFenceLayer _KNPGISRasterFenceLayer { get; set; }
-		public KNPGISRasterPrecipitationLayer _KNPGISRasterPrecipitationLayer { get; set; }
-		public KNPGISRasterShadeLayer _KNPGISRasterShadeLayer { get; set; }
-		public KNPGISRasterTempLayer _KNPGISRasterTempLayer { get; set; }
-		public KNPGISRasterVegetationLayer _KNPGISRasterVegetationLayer { get; set; }
-		public KNPGISVectorWaterLayer _KNPGISVectorWaterLayer { get; set; }
+		public Precipitation _Precipitation { get; set; }
+		public Temperature _Temperature { get; set; }
 		public System.Collections.Generic.IDictionary<System.Guid, Tree> _TreeAgents { get; set; }
 		public SavannaLayer _SavannaLayer => this;
 		public SavannaLayer (
-		KNPGISRasterFenceLayer _knpgisrasterfencelayer, KNPGISRasterPrecipitationLayer _knpgisrasterprecipitationlayer, KNPGISRasterShadeLayer _knpgisrastershadelayer, KNPGISRasterTempLayer _knpgisrastertemplayer, KNPGISRasterVegetationLayer _knpgisrastervegetationlayer, KNPGISVectorWaterLayer _knpgisvectorwaterlayer, 
+		Precipitation _precipitation, Temperature _temperature, 
 		double? topLatitude = null, double? bottomLatitude = null, double? leftLatitude = null, double? rightLatitude = null, int? cellSizeMeters = null) {
-			this._KNPGISRasterFenceLayer = _knpgisrasterfencelayer;
-			this._KNPGISRasterPrecipitationLayer = _knpgisrasterprecipitationlayer;
-			this._KNPGISRasterShadeLayer = _knpgisrastershadelayer;
-			this._KNPGISRasterTempLayer = _knpgisrastertemplayer;
-			this._KNPGISRasterVegetationLayer = _knpgisrastervegetationlayer;
-			this._KNPGISVectorWaterLayer = _knpgisvectorwaterlayer;
+			this._Precipitation = _precipitation;
+			this._Temperature = _temperature;
 			_bbox[0] = topLatitude;_bbox[1] = bottomLatitude;_bbox[2] = leftLatitude;_bbox[3] = rightLatitude;
 			_cellSizeMeters = cellSizeMeters;
 		}
@@ -48,34 +40,21 @@ namespace KruegerNationalPark {
 			{
 				var geometries = new List<GeoAPI.Geometries.IGeometry>();
 				var _factory = new NetTopologySuite.Utilities.GeometricShapeFactory();
-				_factory.Base = new GeoAPI.Geometries.Coordinate(this._KNPGISRasterFenceLayer.Metadata.LowerLeftBound.Longitude, this._KNPGISRasterFenceLayer.Metadata.LowerLeftBound.Latitude);
-				_factory.Height = this._KNPGISRasterFenceLayer.Metadata.CellSizeInDegree * this._KNPGISRasterFenceLayer.Metadata.HeightInGridCells;
-				_factory.Width = this._KNPGISRasterFenceLayer.Metadata.CellSizeInDegree * this._KNPGISRasterFenceLayer.Metadata.WidthInGridCells;
+				_factory.Base = new GeoAPI.Geometries.Coordinate(this._Precipitation.Metadata.LowerLeftBound.Longitude, this._Precipitation.Metadata.LowerLeftBound.Latitude);
+				_factory.Height = this._Precipitation.Metadata.CellSizeInDegree * this._Precipitation.Metadata.HeightInGridCells;
+				_factory.Width = this._Precipitation.Metadata.CellSizeInDegree * this._Precipitation.Metadata.WidthInGridCells;
 				geometries.Add(_factory.CreateRectangle());
-				_factory.Base = new GeoAPI.Geometries.Coordinate(this._KNPGISRasterPrecipitationLayer.Metadata.LowerLeftBound.Longitude, this._KNPGISRasterPrecipitationLayer.Metadata.LowerLeftBound.Latitude);
-				_factory.Height = this._KNPGISRasterPrecipitationLayer.Metadata.CellSizeInDegree * this._KNPGISRasterPrecipitationLayer.Metadata.HeightInGridCells;
-				_factory.Width = this._KNPGISRasterPrecipitationLayer.Metadata.CellSizeInDegree * this._KNPGISRasterPrecipitationLayer.Metadata.WidthInGridCells;
+				_factory.Base = new GeoAPI.Geometries.Coordinate(this._Temperature.Metadata.LowerLeftBound.Longitude, this._Temperature.Metadata.LowerLeftBound.Latitude);
+				_factory.Height = this._Temperature.Metadata.CellSizeInDegree * this._Temperature.Metadata.HeightInGridCells;
+				_factory.Width = this._Temperature.Metadata.CellSizeInDegree * this._Temperature.Metadata.WidthInGridCells;
 				geometries.Add(_factory.CreateRectangle());
-				_factory.Base = new GeoAPI.Geometries.Coordinate(this._KNPGISRasterShadeLayer.Metadata.LowerLeftBound.Longitude, this._KNPGISRasterShadeLayer.Metadata.LowerLeftBound.Latitude);
-				_factory.Height = this._KNPGISRasterShadeLayer.Metadata.CellSizeInDegree * this._KNPGISRasterShadeLayer.Metadata.HeightInGridCells;
-				_factory.Width = this._KNPGISRasterShadeLayer.Metadata.CellSizeInDegree * this._KNPGISRasterShadeLayer.Metadata.WidthInGridCells;
-				geometries.Add(_factory.CreateRectangle());
-				_factory.Base = new GeoAPI.Geometries.Coordinate(this._KNPGISRasterTempLayer.Metadata.LowerLeftBound.Longitude, this._KNPGISRasterTempLayer.Metadata.LowerLeftBound.Latitude);
-				_factory.Height = this._KNPGISRasterTempLayer.Metadata.CellSizeInDegree * this._KNPGISRasterTempLayer.Metadata.HeightInGridCells;
-				_factory.Width = this._KNPGISRasterTempLayer.Metadata.CellSizeInDegree * this._KNPGISRasterTempLayer.Metadata.WidthInGridCells;
-				geometries.Add(_factory.CreateRectangle());
-				_factory.Base = new GeoAPI.Geometries.Coordinate(this._KNPGISRasterVegetationLayer.Metadata.LowerLeftBound.Longitude, this._KNPGISRasterVegetationLayer.Metadata.LowerLeftBound.Latitude);
-				_factory.Height = this._KNPGISRasterVegetationLayer.Metadata.CellSizeInDegree * this._KNPGISRasterVegetationLayer.Metadata.HeightInGridCells;
-				_factory.Width = this._KNPGISRasterVegetationLayer.Metadata.CellSizeInDegree * this._KNPGISRasterVegetationLayer.Metadata.WidthInGridCells;
-				geometries.Add(_factory.CreateRectangle());
-				geometries.AddRange(this._KNPGISVectorWaterLayer.GeometryCollection.Geometries);
 				var _feature = new NetTopologySuite.Geometries.GeometryCollection(geometries.ToArray()).Envelope;
 				this._TreeEnvironment = Mars.Components.Environments.GeoGridHashEnvironment<Tree>.BuildEnvironment(_feature.Coordinates[1].Y, _feature.Coordinates[0].Y, _feature.Coordinates[0].X, _feature.Coordinates[2].X, _cellSizeMeters ?? 100);
 			}
 			_TreeAgents = Mars.Components.Services.AgentManager.SpawnAgents<Tree>(
 			initData.AgentInitConfigs.First(config => config.Type == typeof(Tree)),
 			regHandle, unregHandle, 
-			new System.Collections.Generic.List<Mars.Interfaces.Layer.ILayer> { this, this._KNPGISRasterFenceLayer, this._KNPGISRasterPrecipitationLayer, this._KNPGISRasterShadeLayer, this._KNPGISRasterTempLayer, this._KNPGISRasterVegetationLayer, this._KNPGISVectorWaterLayer });
+			new System.Collections.Generic.List<Mars.Interfaces.Layer.ILayer> { this, this._Precipitation, this._Temperature });
 			
 			
 			return base.InitLayer(initData, regHandle, unregHandle);
@@ -86,17 +65,9 @@ namespace KruegerNationalPark {
 			var id = System.Guid.NewGuid();
 			var agent = new KruegerNationalPark.Tree(id, this, _registerAgent, _unregisterAgent,
 			_TreeEnvironment,
-			_KNPGISRasterFenceLayer, 
-			_KNPGISRasterPrecipitationLayer, 
-			_KNPGISRasterShadeLayer, 
-			_KNPGISRasterTempLayer, 
-			_KNPGISRasterVegetationLayer, 
-			_KNPGISVectorWaterLayer
-		, 	default(double), 
-			default(double), 
-			default(double), 
-			default(double), 
-			default(double), 
+			_Precipitation, 
+			_Temperature
+		, 	default(string), 
 			default(double)
 		, 	xcor, ycor, freq);
 			_TreeAgents.Add(id, agent);

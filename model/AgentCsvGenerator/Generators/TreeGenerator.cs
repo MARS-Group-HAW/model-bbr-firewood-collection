@@ -9,13 +9,16 @@ namespace AgentCsvGenerator.Generators
     {
         public string Name { get; }
 
-        public float AmountPerHa { get; }
-//        sb, ca, an, xx
+        public float SeedlingsHa { get; }
+        public float JuvenilesHa { get; }
+        public float AdultHa { get; }
 
-        public TreeType(string name, float amountPerHa)
+        public TreeType(string name, float seedlingsHa, float juvenilesHa, float adultHa)
         {
             Name = name;
-            AmountPerHa = amountPerHa;
+            SeedlingsHa = seedlingsHa;
+            JuvenilesHa = juvenilesHa;
+            AdultHa = adultHa;
         }
     }
 
@@ -34,14 +37,15 @@ namespace AgentCsvGenerator.Generators
         public string Generate(List<TreeType> types)
         {
             var result = new StringBuilder();
-            result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "type" + Delmiter + "mass");
+            result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "type" + Delmiter + "diameter");
 
+            //TODO irgendwie anders, damit in skukuza das ganze gebiet befüllt wird
             var latDistanceToHouseholds = 1500 * _area.OneMeterLat;
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
             var rasterCountLon = _area.WidthInMeter / rasterMeterLength;
             var rasterCountLat = (_area.LengthInMeter - 1500) / rasterMeterLength;
-            
+
             for (var rasterLonIndex = 0; rasterLonIndex < rasterCountLon; rasterLonIndex++)
             {
                 var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
@@ -49,9 +53,22 @@ namespace AgentCsvGenerator.Generators
                 {
                     foreach (var type in types)
                     {
-                        for (var i = 0; i < type.AmountPerHa; i++)
+                        for (int i = 0; i < type.SeedlingsHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon));
+                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                                GenerateRandomDiameter(0, 0)));
+                        }
+
+                        for (int i = 0; i < type.JuvenilesHa; i++)
+                        {
+                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                                GenerateRandomDiameter(1, 9)));
+                        }
+
+                        for (int i = 0; i < type.SeedlingsHa; i++)
+                        {
+                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                                GenerateRandomDiameter(10, 100)));
                         }
                     }
                 }
@@ -60,32 +77,20 @@ namespace AgentCsvGenerator.Generators
             return result.ToString();
         }
 
-        private string GenerateTree(TreeType type, double latDistanceToHouseholds, int rasterLatIndex, double offsetLon)
+        private string GenerateTree(TreeType type, double latDistanceToHouseholds, int rasterLatIndex, double offsetLon,
+            float diameter)
         {
             //TODO noch prüfen, ob was in der nähe, sonst neu
             var offsetLat = _area.North + latDistanceToHouseholds + rasterLatIndex * 100 * _area.OneMeterLat;
             var posLon = offsetLon + _area.OneMeterLon * Random.NextDouble() * 100;
             var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
 
-            return posLat + Delmiter + posLon + Delmiter + type.Name + Delmiter + GenerateMass();
+            return posLat + Delmiter + posLon + Delmiter + type.Name + Delmiter + diameter;
         }
 
-        private static float GenerateMass()
+        private static float GenerateRandomDiameter(int min, int max)
         {
-            var category = Random.NextDouble();
-            //84% seedlings dazu (so dass am Ende 84% Seedlings sind)
-            if (category < 0.84) // seedling
-            {
-                return Random.Next();
-            }
-
-            if (category > 0.98) // adult
-            {
-                return Random.Next(10, 20) + Random.Next();
-            }
-
-            //juvenil
-            return Random.Next(0, 9) + Random.Next();
+            return Random.Next(min, max) + Random.Next();
         }
     }
 }

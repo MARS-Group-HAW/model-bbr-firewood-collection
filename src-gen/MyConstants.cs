@@ -10,7 +10,7 @@ namespace KruegerNationalPark {
 					return 3.51
 					;
 					}
-			return default(double);
+			return default(double);;
 		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public static int MaxHeight() 
@@ -19,7 +19,7 @@ namespace KruegerNationalPark {
 					return 15
 					;
 					}
-			return default(int);
+			return default(int);;
 		}
 	}
 }

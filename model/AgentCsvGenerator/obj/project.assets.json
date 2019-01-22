@@ -687,7 +687,8 @@
       ],
       "sources": {
         "/Users/furoo/Documents/workspace/mars/life/Release": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nexus.informatik.haw-hamburg.de/repository/nuget-group/": {}
       },
       "frameworks": {
         "netcoreapp2.0": {

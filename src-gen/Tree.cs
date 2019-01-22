@@ -14,12 +14,20 @@ namespace KruegerNationalPark {
 		private static readonly Mars.Common.Logging.ILogger _Logger = 
 					Mars.Common.Logging.LoggerFactory.GetLogger(typeof(Tree));
 		private static readonly Mars.Components.Common.Random _Random = new Mars.Components.Common.Random();
-		private bool __HasLeaves
+		private bool __IsAlive
 			 = default(bool);
-		public bool HasLeaves { 
-			get { return __HasLeaves; }
+		internal bool IsAlive { 
+			get { return __IsAlive; }
 			set{
-				if(__HasLeaves != value) __HasLeaves = value;
+				if(__IsAlive != value) __IsAlive = value;
+			}
+		}
+		private string __TreeType
+			 = default(string);
+		internal string TreeType { 
+			get { return __TreeType; }
+			set{
+				if(__TreeType != value) __TreeType = value;
 			}
 		}
 		private double __StemDiameter
@@ -30,12 +38,12 @@ namespace KruegerNationalPark {
 				if(System.Math.Abs(__StemDiameter - value) > 0.0000001) __StemDiameter = value;
 			}
 		}
-		private double __Height
-			 = default(double);
-		public double Height { 
-			get { return __Height; }
+		private bool __HasLeaves
+			 = default(bool);
+		public bool HasLeaves { 
+			get { return __HasLeaves; }
 			set{
-				if(System.Math.Abs(__Height - value) > 0.0000001) __Height = value;
+				if(__HasLeaves != value) __HasLeaves = value;
 			}
 		}
 		private double __LivingWoodMass
@@ -44,14 +52,6 @@ namespace KruegerNationalPark {
 			get { return __LivingWoodMass; }
 			set{
 				if(System.Math.Abs(__LivingWoodMass - value) > 0.0000001) __LivingWoodMass = value;
-			}
-		}
-		private double __WoodMass
-			 = default(double);
-		public double WoodMass { 
-			get { return __WoodMass; }
-			set{
-				if(System.Math.Abs(__WoodMass - value) > 0.0000001) __WoodMass = value;
 			}
 		}
 		private double __DeadwoodMass
@@ -63,11 +63,43 @@ namespace KruegerNationalPark {
 			}
 		}
 		private double __Growthrate
-			 = default(double);
+			 = 0.5;
 		internal double Growthrate { 
 			get { return __Growthrate; }
 			set{
 				if(System.Math.Abs(__Growthrate - value) > 0.0000001) __Growthrate = value;
+			}
+		}
+		private double __SeedlingGrowthrate
+			 = 0.5;
+		internal double SeedlingGrowthrate { 
+			get { return __SeedlingGrowthrate; }
+			set{
+				if(System.Math.Abs(__SeedlingGrowthrate - value) > 0.0000001) __SeedlingGrowthrate = value;
+			}
+		}
+		private double __ResproutGrowthrate
+			 = 0.5;
+		internal double ResproutGrowthrate { 
+			get { return __ResproutGrowthrate; }
+			set{
+				if(System.Math.Abs(__ResproutGrowthrate - value) > 0.0000001) __ResproutGrowthrate = value;
+			}
+		}
+		private KruegerNationalPark.DamageType __MyDamageType
+			 = DamageType.No;
+		public KruegerNationalPark.DamageType MyDamageType { 
+			get { return __MyDamageType; }
+			set{
+				if(__MyDamageType != value) __MyDamageType = value;
+			}
+		}
+		private KruegerNationalPark.TreeStateType __MyTreeStateType
+			 = TreeStateType.Seedling;
+		internal KruegerNationalPark.TreeStateType MyTreeStateType { 
+			get { return __MyTreeStateType; }
+			set{
+				if(__MyTreeStateType != value) __MyTreeStateType = value;
 			}
 		}
 		private bool __IsMultiStem
@@ -94,54 +126,158 @@ namespace KruegerNationalPark {
 				if(System.Math.Abs(__ResproutCapacity - value) > 0.0000001) __ResproutCapacity = value;
 			}
 		}
-		private KruegerNationalPark.TreeStateType __TreeState
-			 = default(KruegerNationalPark.TreeStateType);
-		internal KruegerNationalPark.TreeStateType TreeState { 
-			get { return __TreeState; }
-			set{
-				if(__TreeState != value) __TreeState = value;
-			}
-		}
-		private bool __IsPhotosentheseActive
-			 = false;
-		internal bool IsPhotosentheseActive { 
-			get { return __IsPhotosentheseActive; }
-			set{
-				if(__IsPhotosentheseActive != value) __IsPhotosentheseActive = value;
-			}
-		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-		public System.Tuple<double,double> Position() 
+		public System.Tuple<double,double> TreePosition() 
 		{
 			{
 					return new System.Tuple<double,double>(base.Position[0],base.Position[1])
 					;
 					}
-			return default(System.Tuple<double,double>);
+			return default(System.Tuple<double,double>);;
 		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-		public void GreenUp() 
+		public void UpdatePhotosyntheseActive() 
 		{
 			{
-					IsPhotosentheseActive = true
-					;
-					}
+				if(Object.Equals(Mars.Components.Common.Time.Month((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
+				, 10) && Object.Equals(Mars.Components.Common.Time.Day((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
+				, 15)) {
+								HasLeaves = true
+						;} else {
+								if(Object.Equals(Mars.Components.Common.Time.Month((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
+								, 6) && Object.Equals(Mars.Components.Common.Time.Day((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
+								, 15)) {
+												HasLeaves = false
+										;} 
+							;};
+			}
 			return;
 		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-		public void LeaveDrop() 
+		public void Grow(double growthrate) 
 		{
 			{
-					IsPhotosentheseActive = false
-					;
-					}
+				double mytemp = temperature.GetNumberValue(base.Position[1],base.Position[0]);
+					double myPrec = precipitation.GetNumberValue(base.Position[1],base.Position[0]);
+					StemDiameter = StemDiameter + StemDiameter * growthrate;
+			}
+			return;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public void UpdateTreeStateType() 
+		{
+			{
+				if(StemDiameter < 10) {
+								{
+									MyTreeStateType = TreeStateType.Juvenile;
+								}
+						;} else {
+								{
+									MyTreeStateType = TreeStateType.Adult;
+								}
+							;};
+			}
+			return;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public double Reduce(double growthrate, int min, int max) 
+		{
+			{
+				return growthrate * (min + _Random.Next(max - min)) / 100;
+			}
+			return default(double);;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public void Die() 
+		{
+			{
+				MyTreeStateType = TreeStateType.Death;	IsAlive = false;
+			}
+			return;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public void Seedling() 
+		{
+			{
+				if(!Object.ReferenceEquals(MyDamageType, DamageType.No)) {
+								{
+									Die();
+								}
+						;} else {
+								if(HasLeaves) {
+												{
+													Grow(SeedlingGrowthrate);
+												}
+										;} 
+							;};
+			}
+			return;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public void Juvenile() 
+		{
+			{
+				if(HasLeaves) {
+								{
+									if(!Object.ReferenceEquals(MyDamageType, DamageType.No)) {
+													{
+														Grow(ResproutGrowthrate);
+													}
+											;} else {
+													{
+														Grow(Growthrate);
+													}
+												;};
+								}
+						;} ;
+			}
+			return;
+		}
+		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		public void Adult() 
+		{
+			{
+				if(HasLeaves) {
+								{
+									if(Object.Equals(MyDamageType, DamageType.No)) {
+													{
+														Grow(Growthrate);
+													}
+											;} else {
+													if(Object.Equals(MyDamageType, DamageType.Light)) {
+																	{
+																		Grow(Reduce(Growthrate,90,100));
+																	}
+															;} else {
+																	if(Object.Equals(MyDamageType, DamageType.Moderate)) {
+																					{
+																						Grow(Reduce(Growthrate,70,90));
+																					}
+																			;} else {
+																					if(Object.Equals(MyDamageType, DamageType.Heavy)) {
+																									{
+																										Grow(Reduce(Growthrate,40,70));
+																									}
+																							;} else {
+																									if(Object.Equals(MyDamageType, DamageType.Extreme)) {
+																													{
+																														Grow(ResproutGrowthrate);
+																													}
+																											;} 
+																								;}
+																				;}
+																;}
+												;};
+								}
+						;} ;
+			}
 			return;
 		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public double TakeDeadWoodMass(
 		double mass) {
 			{
-				double result;	if(mass < DeadwoodMass) {
+				double result = default(double);;	if(mass < DeadwoodMass) {
 								{
 									result = mass;
 								}
@@ -152,35 +288,27 @@ namespace KruegerNationalPark {
 							;};	DeadwoodMass = DeadwoodMass - result;	return result;
 			}
 			
-			return default(double);
+			return default(double);;
 		}
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public double TakeLivingWoodMass(
 		double mass) {
 			{
-				double result;	if(mass < LivingWoodMass) {
+				double result = default(double);;	if(mass < LivingWoodMass) {
 								result = mass
 						;} else {
 								result = LivingWoodMass
 							;};	LivingWoodMass = LivingWoodMass - result;	return result;
 			}
 			
-			return default(double);
+			return default(double);;
 		}
 		
 		public KruegerNationalPark.SavannaLayer _SavannaLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterFenceLayer _KNPGISRasterFenceLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterFenceLayer rasterFence => _KNPGISRasterFenceLayer;
-		public KruegerNationalPark.KNPGISRasterPrecipitationLayer _KNPGISRasterPrecipitationLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterPrecipitationLayer rasterPrecipitation => _KNPGISRasterPrecipitationLayer;
-		public KruegerNationalPark.KNPGISRasterShadeLayer _KNPGISRasterShadeLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterShadeLayer rasterShade => _KNPGISRasterShadeLayer;
-		public KruegerNationalPark.KNPGISRasterTempLayer _KNPGISRasterTempLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterTempLayer rasterTemperature => _KNPGISRasterTempLayer;
-		public KruegerNationalPark.KNPGISRasterVegetationLayer _KNPGISRasterVegetationLayer { get; set; }
-		public KruegerNationalPark.KNPGISRasterVegetationLayer rasterVegetation => _KNPGISRasterVegetationLayer;
-		public KruegerNationalPark.KNPGISVectorWaterLayer _KNPGISVectorWaterLayer { get; set; }
-		public KruegerNationalPark.KNPGISVectorWaterLayer vectorWater => _KNPGISVectorWaterLayer;
+		public KruegerNationalPark.Precipitation _Precipitation { get; set; }
+		public KruegerNationalPark.Precipitation precipitation => _Precipitation;
+		public KruegerNationalPark.Temperature _Temperature { get; set; }
+		public KruegerNationalPark.Temperature temperature => _Temperature;
 		
 		[Mars.Interfaces.LIFECapabilities.PublishForMappingInMars]
 		public Tree (
@@ -189,35 +317,19 @@ namespace KruegerNationalPark {
 		Mars.Interfaces.Layer.RegisterAgent _register,
 		Mars.Interfaces.Layer.UnregisterAgent _unregister,
 		Mars.Components.Environments.GeoGridHashEnvironment<Tree> _TreeEnvironment,
-		KruegerNationalPark.KNPGISRasterFenceLayer _KNPGISRasterFenceLayer,
-		KruegerNationalPark.KNPGISRasterPrecipitationLayer _KNPGISRasterPrecipitationLayer,
-		KruegerNationalPark.KNPGISRasterShadeLayer _KNPGISRasterShadeLayer,
-		KruegerNationalPark.KNPGISRasterTempLayer _KNPGISRasterTempLayer,
-		KruegerNationalPark.KNPGISRasterVegetationLayer _KNPGISRasterVegetationLayer,
-		KruegerNationalPark.KNPGISVectorWaterLayer _KNPGISVectorWaterLayer
-	,	double StemDiameter,
-		double Height,
-		double LivingWoodMass,
-		double WoodMass,
-		double DeadwoodMass,
-		double Growthrate
+		KruegerNationalPark.Precipitation _Precipitation,
+		KruegerNationalPark.Temperature _Temperature
+	,	string TreeType,
+		double StemDiameter
 	,	double xcor = 0, double ycor = 0, int freq = 1)
 		 : base (xcor, ycor)
 		{
 			_SavannaLayer = _layer;
 			ID = _id;
+			this.TreeType = TreeType;
 			this.StemDiameter = StemDiameter;
-			this.Height = Height;
-			this.LivingWoodMass = LivingWoodMass;
-			this.WoodMass = WoodMass;
-			this.DeadwoodMass = DeadwoodMass;
-			this.Growthrate = Growthrate;
-			this._KNPGISRasterFenceLayer = _KNPGISRasterFenceLayer;
-			this._KNPGISRasterPrecipitationLayer = _KNPGISRasterPrecipitationLayer;
-			this._KNPGISRasterShadeLayer = _KNPGISRasterShadeLayer;
-			this._KNPGISRasterTempLayer = _KNPGISRasterTempLayer;
-			this._KNPGISRasterVegetationLayer = _KNPGISRasterVegetationLayer;
-			this._KNPGISVectorWaterLayer = _KNPGISVectorWaterLayer;
+			this._Precipitation = _Precipitation;
+			this._Temperature = _Temperature;
 			_SavannaLayer._TreeEnvironment.Insert(this);
 			_register(_layer, this, freq);
 		}
@@ -225,33 +337,23 @@ namespace KruegerNationalPark {
 		public void Tick()
 		{
 			{
-				if(Object.Equals(Mars.Components.Common.Time.Month((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				, 10) && Object.Equals(Mars.Components.Common.Time.Day((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				, 15)) {
-								HasLeaves = true
-						;} ;	if(Object.Equals(Mars.Components.Common.Time.Month((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				, 6) && Object.Equals(Mars.Components.Common.Time.Day((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				, 15)) {
-								HasLeaves = false
-						;} ;	double rate = 0.0;	Console.WriteLine(Mars.Components.Common.Time.Month((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				);;	Console.WriteLine(Mars.Components.Common.Time.Day((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep)
-				);;	Console.WriteLine((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep);;	if(Object.Equals(HasLeaves, true)) {
+				UpdateTreeStateType();	UpdatePhotosyntheseActive();	if(Object.Equals(TreeStateType.Seedling, MyTreeStateType)) {
 								{
-									rate = Growthrate;
+									Seedling();
 								}
 						;} else {
-								{
-									rate = 0;
-								}
-							;};	if(Height >= KruegerNationalPark.MyConstants.MaxHeight()
-				) {
-								Height = KruegerNationalPark.MyConstants.MaxHeight()
-						;} else {
-								{
-									Height = Height + rate * Height;	StemDiameter = (Height - 88.326) / 11.043;	LivingWoodMass = (Height * (3.141 * Mars.Components.Common.Math.Pow((StemDiameter / 2), 2)) * KruegerNationalPark.MyConstants.CarbonDensity()
-									) / 1000;	DeadwoodMass = DeadwoodMass + LivingWoodMass * 0.01;	WoodMass = DeadwoodMass + LivingWoodMass;
-								}
-							;};
+								if(Object.Equals(TreeStateType.Juvenile, MyTreeStateType)) {
+												{
+													Juvenile();
+												}
+										;} else {
+												if(Object.Equals(TreeStateType.Adult, MyTreeStateType)) {
+																{
+																	Adult();
+																}
+														;} 
+											;}
+							;};	MyDamageType = DamageType.No;	Console.WriteLine((int) Mars.Core.SimulationManager.Entities.SimulationClock.CurrentStep + " " + StemDiameter);;
 			}
 		}
 		

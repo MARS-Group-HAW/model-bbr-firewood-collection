@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mars.Life.Simulations" Version="3.0.7-preview" />
+    <PackageReference Include="Mars.Life.Simulations" Version="3.0.352-preview" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src-gen\KruegerNationalPark.csproj" />
   </ItemGroup>
 </Project>
