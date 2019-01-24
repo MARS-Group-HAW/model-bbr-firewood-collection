@@ -133,7 +133,7 @@ namespace Bushbuckridge.Agents.Collector
             var trees = _treeLayer._TreeEnvironment.Explore(Latitude, Longitude, 100);
             foreach (var tree in trees)
             {
-                if (tree.DeadwoodMass > deadMassWorthExploiting)
+                if (tree.DeadWoodMass > deadMassWorthExploiting)
                 {
                     _currentTreeWithDeadwood = tree;
                     AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, true);
@@ -157,16 +157,16 @@ namespace Bushbuckridge.Agents.Collector
         public bool IsAtExploitableTree()
         {
             if (_currentTreeWithDeadwood == null) return false;
-            return _currentTreeWithDeadwood.DeadwoodMass >
+            return _currentTreeWithDeadwood.DeadWoodMass >
                    deadMassWorthExploiting; //|| _currentTreeWithDeadwood.AliveMass > aliveMassWorthExploiting;
         }
 
         public double MeasureDistanceAndStockForDeadwood()
         {
             if (_currentTreeWithDeadwood == null) return 0;
-            Console.WriteLine(PerCent(_currentTreeWithDeadwood.DeadwoodMass,
+            Console.WriteLine(PerCent(_currentTreeWithDeadwood.DeadWoodMass,
                 woodAmountToReach - woodAmountCollectedThisTick));
-            return PerCent(_currentTreeWithDeadwood.DeadwoodMass, woodAmountToReach - woodAmountCollectedThisTick);
+            return PerCent(_currentTreeWithDeadwood.DeadWoodMass, woodAmountToReach - woodAmountCollectedThisTick);
         }
 
         public double MeasureDistanceAndStockForAlivewood()
