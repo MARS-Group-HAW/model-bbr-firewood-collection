@@ -13,12 +13,6 @@ enum GenderType { Male Female }
 
 enum DamageType { No Light Moderate Heavy Extreme }
 
-class MyConstants {
-	static def CarbonDensity() => return 3.51
-
-	static def MaxHeight() => return 15
-}
-
 agent Tree on SavannaLayer {
 	var IsAlive : bool
 	
@@ -33,6 +27,8 @@ agent Tree on SavannaLayer {
 	static var DaysPerYear = 365
 	static var DaysWithLeaves = 228
 	static var E = 2.718281828459045
+	static var PI : real = 3.172
+    static var EarthRadiusInMeters = 6378100.0;
 	
 	static var SeedlingsSpawnRatePerYear = 50
 	
@@ -103,20 +99,6 @@ agent Tree on SavannaLayer {
 			HasLeaves = false
 	}
 
-	def Grow(growthrate : real, growthrateOffset : real) {
-		//TODO Umwelteinflüsse verkleinern growthrate
-		var mytemp = temperature.GetNumberValue(ycor, xcor)	
-		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
-		
-		StemDiameter = StemDiameter + (growthrate * StemDiameter + growthrateOffset) / DaysWithLeaves
-		
-		GenerateAndIncrementDeadwooMass()
-	}
-
-	def GenerateAndIncrementDeadwooMass() {
-		DeadWoodMass = DeadWoodMass + 0.017 * LivingWoodMass / DaysPerYear
-	}
-
 	def UpdateTreeStateType() {
 		if (StemDiameter > 1 and StemDiameter < 10) {
 			MyTreeStateType = TreeStateType.Juvenile;
@@ -125,47 +107,37 @@ agent Tree on SavannaLayer {
 		}
 	}
 
-	def Reduce(growthrate : real, min : integer, max : integer) {
-		return growthrate * (min + random(max - min)) / 100 
-	}
-
-	def Die() {
-		MyTreeStateType = TreeStateType.Death
-		IsAlive = false
-	}
-
 	tick {
-		UpdateTreeStateType()
-		UpdatePhotosyntheseActive()
+		UpdateTreeStateType
+		UpdatePhotosyntheseActive
 		
 		if (TreeStateType.Seedling === MyTreeStateType) {
-			Seedling()
+			Seedling
 		} else if (TreeStateType.Juvenile === MyTreeStateType) {
-			Juvenile()
+			Juvenile
 		} else if (TreeStateType.Adult === MyTreeStateType) {
-			Adult()
+			Adult
 		}
-		MyDamageType = DamageType.No	 
-				 	
-		println simtime + " " + StemDiameter + " " + CalculateLivingWoodMass() 
+		ResetDamageType
+		
+		println simtime + "," + xcor + "," + ycor
+		spawn Tree at GetNewPositionBy(ycor, xcor, 50, 0)	    
 	}
-
+	
 	def Seedling() {
 		println "Seedling"
 		
 		var tempToday = temperature.GetNumberValue(ycor, xcor)	
-		if(tempToday < 0 and ProbabilityInPerCent(80)) {
+		if(tempToday < 0 and RandomPropabilitySmallenThan(80)) {
 			Die() //TODO arten unterschiedlich
-		}
-		 		
-		if (MyDamageType !== DamageType.No) {
+		} else if (MyDamageType !== DamageType.No) {
 			Die()
 		} else if (HasLeaves) {
 			Grow(SeedlingGrowthrate, SeedlingGrowthrateOffset)
 		} 		
 	}
 	
-	def ProbabilityInPerCent(percent : real) : bool {
+	def RandomPropabilitySmallenThan(percent : real) : bool {
 		return random(100) < percent
 	}
 
@@ -202,7 +174,61 @@ agent Tree on SavannaLayer {
 	
 	def SpawnSeedlings() {
 		for (var i = 0; i < SeedlingsSpawnRatePerYear; i++) {
-			spawn Tree at #(random(100), random(100))
-		} //TODO wo ist das?
+			spawn Tree at GetNewPositionBy(ycor, xcor, 50, 0)
+		} //TODO testen: wo ist das?
 	}
+	
+	def Grow(growthrate : real, growthrateOffset : real) {
+		//TODO Umwelteinflüsse verkleinern growthrate
+		var mytemp = temperature.GetNumberValue(ycor, xcor)	
+		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
+		
+		StemDiameter = StemDiameter + (growthrate * StemDiameter + growthrateOffset) / DaysWithLeaves
+		
+		DeadWoodMass = DeadWoodMass + GenerateDeadwoodMass
+	}	
+	
+	def GenerateDeadwoodMass() {
+		return 0.017 * LivingWoodMass / DaysPerYear
+	}
+	
+	def Die() {
+		MyTreeStateType = TreeStateType.Death
+		IsAlive = false
+		//TODO ist auch aus environment desubscribed?
+	}
+		
+	def ResetDamageType() {
+		MyDamageType = DamageType.No	 
+	}	
+	
+	static def Reduce(growthrate : real, min : integer, max : integer) {
+		return growthrate * (min + random(max - min)) / 100 
+	}
+	
+	def GetNewPositionBy(lat : real, lon : real, distanceInM : real, bearing : real) {
+		var radian = bearing * PI / 180
+        var angularDistance = distanceInM / EarthRadiusInMeters
+            
+        var sinLat : real = Math.Sin(lat)
+        var cosLat : real =  Math.Cos(lat)
+        var cosAngularDistance : real = Math.Cos(angularDistance)
+        var sinAngularDistance : real = Math.Sin(angularDistance)
+        var cosRadian : real = Math.Cos(radian)
+        var firstPart : real = sinLat * cosAngularDistance;
+        var secondPart : real = cosLat * sinAngularDistance * cosRadian
+        var temp = firstPart + secondPart
+        var destLat : real = Math.Asin(temp);
+            
+        var sinRadian : real = Math.Sin(radian) 
+        var sinDestLat : real = Math.Sin(destLat)
+        var thirdPart : real = sinLat * sinDestLat
+
+        var destLon : real = lon 
+//            var destLon : real = lon + Math.Atan2(sinRadian * sinAngularDistance * Math.Cos(lat), Math.Cos(angularDistance) - thirdPart)
+
+        destLon = (destLon + 3 * PI) % (2 * PI) - PI; // Normalisierung zu -180..+180º
+
+        return #(destLat, destLon);
+    }
 }
