@@ -28,11 +28,21 @@ agent Tree on SavannaLayer {
 	observe var HasLeaves : bool
 
 	observe var LivingWoodMass : real
-	observe var DeadwoodMass : real
+	observe var DeadWoodMass : real
 	
-	var Growthrate : real = 0.5
-	var SeedlingGrowthrate : real = 0.5
-	var ResproutGrowthrate : real = 0.5
+	static var DaysPerYear = 365
+	static var DaysWithLeaves = 228
+	static var E = 2.718281828459045
+	
+	static var SeedlingsSpawnRatePerYear = 50
+	
+	var SeedlingGrowthrate : real = 0
+	var SeedlingGrowthrateOffset : real = 1 
+	
+	var Growthrate : real = 0// -0.068//0.08
+	var GrowthrateOffset : real = 0// 34.54//0.089856
+	
+	var ResproutGrowthrate : real = 5
 
 	observe var MyDamageType : DamageType = DamageType.No
 	var MyTreeStateType : TreeStateType = TreeStateType.Seedling;
@@ -42,47 +52,75 @@ agent Tree on SavannaLayer {
 	var ResproutCapacity : real
 
 	def TreePosition() => return #(xcor, ycor)
+	
+	def Heigth() => return 11.043 * StemDiameter + 88.326
+	
+//	def CalculateLivingWoodMass() => return Math.exp(-3.39 + 2.883 * Math.Log(StemDiameter, E), E) / 60 * 100 
+//   def CalculateDiameterBy(woodMass : real) => return Math.exp((100/60* Math.Log(woodmass, E) + 3.39 )/ 2.83, E)
+//TODO testen
+
+   def CalculateLivingWoodMass() => return (-3.39 + 2.883 * Math.Log(StemDiameter, E)) / 60 * 100 
 
 	passive TakeDeadWoodMass(mass : real) {
-		var result : real if (mass < DeadwoodMass) {
+		var result : real if (mass < DeadWoodMass) {
 			result = mass
 		} else {
-			result = DeadwoodMass
+			result = DeadWoodMass
 		}
-		DeadwoodMass = DeadwoodMass - result
+		DeadWoodMass = DeadWoodMass - result
 		return result
 	}
 
 	passive TakeLivingWoodMass(mass : real) {
-		// TODO: damage class?
+		var currentLinvingWoodMass = CalculateLivingWoodMass()
 		var result : real
-		if (mass < LivingWoodMass) 
+		
+		if (mass < currentLinvingWoodMass) {
 			result = mass
-		else 
-			result = LivingWoodMass
+		} else {
+			result = currentLinvingWoodMass
+		}
+		MyDamageType = CalculateDamageType(result)
 		LivingWoodMass = LivingWoodMass - result
+		
+//TODO		StemDiameter = CalculateDiameterBy(LivingWoodMass)
 		return result
 	}
+	
+	def CalculateDamageType (result : real) {
+		if (result / LivingWoodMass > 0.9) {
+			return DamageType.Extreme
+		} else if (result / LivingWoodMass > 0.1) {
+			return DamageType.Moderate
+		}
+		return DamageType.No
+	}
 
-	def UpdatePhotosyntheseActive() {
+	def UpdatePhotosyntheseActive() { // SUM: 228 days with leaves
 		if (Time::Month(simtime) === 10 and Time::Day(simtime) === 15)
 			HasLeaves = true
 		else if (Time::Month(simtime) === 6 and Time::Day(simtime) === 15)
 			HasLeaves = false
 	}
 
-	def Grow(growthrate : real) {
+	def Grow(growthrate : real, growthrateOffset : real) {
 		//TODO Umwelteinflüsse verkleinern growthrate
 		var mytemp = temperature.GetNumberValue(ycor, xcor)	
 		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
 		
-		StemDiameter =  StemDiameter + StemDiameter * growthrate
+		StemDiameter = StemDiameter + (growthrate * StemDiameter + growthrateOffset) / DaysWithLeaves
+		
+		GenerateAndIncrementDeadwooMass()
+	}
+
+	def GenerateAndIncrementDeadwooMass() {
+		DeadWoodMass = DeadWoodMass + 0.017 * LivingWoodMass / DaysPerYear
 	}
 
 	def UpdateTreeStateType() {
-		if (StemDiameter < 10) {
+		if (StemDiameter > 1 and StemDiameter < 10) {
 			MyTreeStateType = TreeStateType.Juvenile;
-		} else {
+		} else if  (StemDiameter >= 10) {
 			MyTreeStateType = TreeStateType.Adult;
 		}
 	}
@@ -100,11 +138,6 @@ agent Tree on SavannaLayer {
 		UpdateTreeStateType()
 		UpdatePhotosyntheseActive()
 		
-//		switch(MyTreeStateType) {
-//			case Seedling: { Seedling() } 
-//			case Juvenile: { Juvenile() } 
-//			case Adult: { Adult() } 
-//		}
 		if (TreeStateType.Seedling === MyTreeStateType) {
 			Seedling()
 		} else if (TreeStateType.Juvenile === MyTreeStateType) {
@@ -114,40 +147,62 @@ agent Tree on SavannaLayer {
 		}
 		MyDamageType = DamageType.No	 
 				 	
-		println simtime + " " + StemDiameter 
+		println simtime + " " + StemDiameter + " " + CalculateLivingWoodMass() 
 	}
 
 	def Seedling() {
-		if (MyDamageType != DamageType.No) {
+		println "Seedling"
+		
+		var tempToday = temperature.GetNumberValue(ycor, xcor)	
+		if(tempToday < 0 and ProbabilityInPerCent(80)) {
+			Die() //TODO arten unterschiedlich
+		}
+		 		
+		if (MyDamageType !== DamageType.No) {
 			Die()
 		} else if (HasLeaves) {
-			Grow(SeedlingGrowthrate)
-		} 
+			Grow(SeedlingGrowthrate, SeedlingGrowthrateOffset)
+		} 		
+	}
+	
+	def ProbabilityInPerCent(percent : real) : bool {
+		return random(100) < percent
 	}
 
 	def Juvenile() {
+		println "Juvenile"
 		if (HasLeaves) {
-			if (MyDamageType != DamageType.No) {
-				Grow(ResproutGrowthrate)
+			if (MyDamageType !== DamageType.No) {
+				Grow(ResproutGrowthrate, GrowthrateOffset)
 			} else {
-				Grow(Growthrate)
+				Grow(Growthrate, GrowthrateOffset)
 			}
 		} 
 	}
 
 	def Adult() {
+		println "Adult"
 		if (HasLeaves) {
 			if (MyDamageType === DamageType.No) {
-				Grow(Growthrate)
+				Grow(Growthrate, GrowthrateOffset)
 			} else if (MyDamageType === DamageType.Light) {
-				Grow(Reduce(Growthrate, 90, 100))
+				Grow(Reduce(Growthrate, 90, 100), GrowthrateOffset)
 			} else if (MyDamageType === DamageType.Moderate) {
-				Grow(Reduce(Growthrate, 70, 90))
+				Grow(Reduce(Growthrate, 70, 90), GrowthrateOffset)
 			} else if (MyDamageType === DamageType.Heavy) {
-				Grow(Reduce(Growthrate, 40, 70))
+				Grow(Reduce(Growthrate, 40, 70), GrowthrateOffset)
 			} else if (MyDamageType === DamageType.Extreme) {
-				Grow(ResproutGrowthrate)
+				Grow(ResproutGrowthrate, GrowthrateOffset)
 			}
 		} 
+		if (Time::Month(simtime) === 3 and Time::Day(simtime) === 15) {
+			SpawnSeedlings()
+		}
+	}
+	
+	def SpawnSeedlings() {
+		for (var i = 0; i < SeedlingsSpawnRatePerYear; i++) {
+			spawn Tree at #(random(100), random(100))
+		} //TODO wo ist das?
 	}
 }
