@@ -10,12 +10,14 @@
         public readonly  double WidthInMeter;
         public readonly  double LengthInMeter;
 
+        public readonly double LatOffsetWithoutAgentsFromNorth;
+
         public double OneMeterLat => (South - North) / LengthInMeter;
 
         public double OneMeterLon => (East - West) / WidthInMeter ;
 
         public AreaDefinition(double west, double east, double north, double south, double widthInMeter,
-            double lengthInMeter)
+            double lengthInMeter, double offsetWithoutAgentsFromNorthInM)
         {
             West = west;
             East = east;
@@ -23,6 +25,7 @@
             South = south;
             WidthInMeter = widthInMeter;
             LengthInMeter = lengthInMeter;
+            LatOffsetWithoutAgentsFromNorth = offsetWithoutAgentsFromNorthInM * OneMeterLat;;
         }
     }
 }

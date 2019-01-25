@@ -15,6 +15,7 @@ namespace AgentCsvGenerator
         {
             BushbuckridgeSite();
             SkukuzaSite();
+            
 
             Console.WriteLine("Files are generated :)");
         }
@@ -28,7 +29,8 @@ namespace AgentCsvGenerator
                 north: -24.824,
                 south: -24.870,
                 widthInMeter: 5000,
-                lengthInMeter: 5000
+                lengthInMeter: 5000,
+                offsetWithoutAgentsFromNorthInM: 1500
             );
 
             var households = new HouseholdGenerator(area).Generate(684);
@@ -39,7 +41,7 @@ namespace AgentCsvGenerator
             treeTypes.Add(new TreeType("ca", 31, 131, 3));
             treeTypes.Add(new TreeType("an", 8, 2, 0));
             treeTypes.Add(new TreeType("tt", 3546, 638, 38));
-
+            
             var trees = new TreeGenerator(area).Generate(treeTypes);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge.csv"), trees);
         }
@@ -53,7 +55,8 @@ namespace AgentCsvGenerator
                 north: -24.986,
                 south: -25.031,
                 widthInMeter: 4000,
-                lengthInMeter: 4000
+                lengthInMeter: 4000,
+                offsetWithoutAgentsFromNorthInM: 0
             );
 
             var treeTypes = new List<TreeType>();

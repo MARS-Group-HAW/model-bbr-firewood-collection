@@ -25,7 +25,7 @@ namespace AgentCsvGenerator.Generators
     public class TreeGenerator
     {
         private readonly AreaDefinition _area;
-        private static readonly string Delmiter = ";";
+        private const string Delmiter = ";";
 
         private static readonly Random Random = new Random();
 
@@ -39,8 +39,6 @@ namespace AgentCsvGenerator.Generators
             var result = new StringBuilder();
             result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "type" + Delmiter + "diameter");
 
-            //TODO irgendwie anders, damit in skukuza das ganze gebiet befüllt wird
-            var latDistanceToHouseholds = 1500 * _area.OneMeterLat;
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
             var rasterCountLon = _area.WidthInMeter / rasterMeterLength;
@@ -55,19 +53,19 @@ namespace AgentCsvGenerator.Generators
                     {
                         for (int i = 0; i < type.SeedlingsHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(0, 0)));
                         }
 
                         for (int i = 0; i < type.JuvenilesHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(1, 9)));
                         }
 
                         for (int i = 0; i < type.SeedlingsHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, latDistanceToHouseholds, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(10, 100)));
                         }
                     }
@@ -77,11 +75,10 @@ namespace AgentCsvGenerator.Generators
             return result.ToString();
         }
 
-        private string GenerateTree(TreeType type, double latDistanceToHouseholds, int rasterLatIndex, double offsetLon,
+        private string GenerateTree(TreeType type, int rasterLatIndex, double offsetLon,
             float diameter)
         {
-            //TODO noch prüfen, ob was in der nähe, sonst neu
-            var offsetLat = _area.North + latDistanceToHouseholds + rasterLatIndex * 100 * _area.OneMeterLat;
+            var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth + rasterLatIndex * 100 * _area.OneMeterLat;
             var posLon = offsetLon + _area.OneMeterLon * Random.NextDouble() * 100;
             var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
 
