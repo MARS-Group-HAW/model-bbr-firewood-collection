@@ -16,6 +16,10 @@ enum DamageType { No Light Moderate Heavy Extreme }
 agent Tree on SavannaLayer {
 	var IsAlive : bool
 	
+	static var AN = "an"
+	static var CA = "ca"
+	static var SB = "sb"
+	static var TT = "tt"
 	external var TreeType : string
 	external var StemDiameter : real
 
@@ -51,11 +55,11 @@ agent Tree on SavannaLayer {
 	
 	def Heigth() => return 11.043 * StemDiameter + 88.326
 	
-//	def CalculateLivingWoodMass() => return Math.exp(-3.39 + 2.883 * Math.Log(StemDiameter, E), E) / 60 * 100 
-//   def CalculateDiameterBy(woodMass : real) => return Math.exp((100/60* Math.Log(woodmass, E) + 3.39 )/ 2.83, E)
+//	def CalculateLivingWoodMass() : real => return Math.Exp(intermediate = -3.39 + 2.883 * Math.Log(StemDiameter, E), E) / 60 * 100 
+ // def CalculateDiameterBy(woodMass : real) => return Math.exp((100/60* Math.Log(woodmass, E) + 3.39 )/ 2.83, E)
 //TODO testen
 
-   def CalculateLivingWoodMass() => return (-3.39 + 2.883 * Math.Log(StemDiameter, E)) / 60 * 100 
+ 	def CalculateLivingWoodMass() => return  E * E * (-3.39 + 2.883 * Math.Log(StemDiameter, E)) / 60 * 100 
 
 	passive TakeDeadWoodMass(mass : real) {
 		var result : real if (mass < DeadWoodMass) {
@@ -68,13 +72,13 @@ agent Tree on SavannaLayer {
 	}
 
 	passive TakeLivingWoodMass(mass : real) {
-		var currentLinvingWoodMass = CalculateLivingWoodMass()
+		var currentLivingWoodMass = CalculateLivingWoodMass
 		var result : real
 		
-		if (mass < currentLinvingWoodMass) {
+		if (mass < currentLivingWoodMass) {
 			result = mass
 		} else {
-			result = currentLinvingWoodMass
+			result = currentLivingWoodMass
 		}
 		MyDamageType = CalculateDamageType(result)
 		LivingWoodMass = LivingWoodMass - result
@@ -129,16 +133,16 @@ agent Tree on SavannaLayer {
 		
 		var tempToday = temperature.GetNumberValue(ycor, xcor)	
 		if(tempToday < 0 and RandomPropabilitySmallenThan(80)) {
-			Die() //TODO arten unterschiedlich
+			Die //TODO Ausdiffernziertes Baummodell: Arten unterschiedlich
 		} else if (MyDamageType !== DamageType.No) {
-			Die()
+			Die
 		} else if (HasLeaves) {
 			Grow(SeedlingGrowthrate, SeedlingGrowthrateOffset)
 		} 		
 	}
 	
-	def RandomPropabilitySmallenThan(percent : real) : bool {
-		return random(100) < percent
+	def RandomPropabilitySmallenThan(percentage : integer) {
+		return random(100) < percentage
 	}
 
 	def Juvenile() {
@@ -168,7 +172,7 @@ agent Tree on SavannaLayer {
 			}
 		} 
 		if (Time::Month(simtime) === 3 and Time::Day(simtime) === 15) {
-			SpawnSeedlings()
+			SpawnSeedlings
 		}
 	}
 	
@@ -179,9 +183,12 @@ agent Tree on SavannaLayer {
 	}
 	
 	def Grow(growthrate : real, growthrateOffset : real) {
-		//TODO Umwelteinflüsse verkleinern growthrate
+		//TODO Ausdiffernziertes Baummodell: Umwelteinflüsse verkleinern growthrate
 		var mytemp = temperature.GetNumberValue(ycor, xcor)	
 		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
+		
+		//TODO Juvenils: nur diameter bildet Wachstum ab, Höhe lässt sich daraus direkt berechnen
+		//TODO Adults: diamter und heigth sind unabhängige Variablen (siehe Mail-Formeln)
 		
 		StemDiameter = StemDiameter + (growthrate * StemDiameter + growthrateOffset) / DaysWithLeaves
 		
@@ -195,7 +202,6 @@ agent Tree on SavannaLayer {
 	def Die() {
 		MyTreeStateType = TreeStateType.Death
 		IsAlive = false
-		//TODO ist auch aus environment desubscribed?
 	}
 		
 	def ResetDamageType() {
