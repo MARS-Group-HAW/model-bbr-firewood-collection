@@ -13,11 +13,35 @@ namespace AgentCsvGenerator
     {
         private static void Main()
         {
-            BushbuckridgeSite();
-            SkukuzaSite();
+            TestSide();
+//            BushbuckridgeSite();
+//            SkukuzaSite();
             
 
             Console.WriteLine("Files are generated :)");
+        }
+
+        private static void TestSide()
+        {
+            var area = new AreaDefinition
+            ( // 0,1km x 0,1km (1ha)
+                west: 31.472,
+                east: 31.47298,
+                north: -25.0301,
+                south: -25.031,
+                widthInMeter: 100,
+                lengthInMeter: 100,
+                offsetWithoutAgentsFromNorthInM: 0
+            );
+
+            var treeTypes = new List<TreeType>();
+            treeTypes.Add(new TreeType("sb", 89, 17, 1));
+            treeTypes.Add(new TreeType("ca", 2888, 550, 26));
+            treeTypes.Add(new TreeType("an", 683, 130, 7));
+            treeTypes.Add(new TreeType("tt", 1817, 300, 46));
+
+            var trees = new TreeGenerator(area).Generate(treeTypes);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_test_ha.csv"), trees);
         }
 
         private static void BushbuckridgeSite()

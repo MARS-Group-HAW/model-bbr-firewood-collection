@@ -2,3 +2,7 @@ logs/
 obj/
 src.gen/tmp/
 tmp/
+*/bin/*
+bin/
+*.dll
+*.pdb

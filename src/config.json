@@ -2,15 +2,14 @@
 	"globals": {
 		"deltaT": 1,
 		"deltaTUnit": "days",
-		"startTime": "31.12.2017",
-		"endTime": "31.12.2027",
+		"startTime": "10/14/2017",
+		"endTime": "10/16/2047",
 		"output" : "csv",
 		"options" : {
 			"delimiter" : ";"
 		}
 	},
 	"layers": [
-	
 		{ "name": "Temperature", "file": "model_input/RCP4.5_2018_temp.zip" },
 		{ "name": "Precipitation", "file": "model_input/RCP4.5_2018_pre.zip" },
 	],
@@ -26,12 +25,12 @@
 		},
 				{
 			"name": "Tree",
-			"count": 1,
-			"file": "model_input/tree.csv",
+			"count": 4,
+			"file": "model_input/tree_test_ha.csv",
 			"frequency": 1,
 			"individuals": [
-				{ "name": "xcor", "field": "lon" },
 				{ "name": "ycor", "field": "lat" },
+				{ "name": "xcor", "field": "lon" },
 				{ "name": "StemDiameter", "field": "diameter" },
 				{ "name": "TreeType", "field": "type" }
 			]

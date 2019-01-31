@@ -42,7 +42,7 @@ namespace AgentCsvGenerator.Generators
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
             var rasterCountLon = _area.WidthInMeter / rasterMeterLength;
-            var rasterCountLat = (_area.LengthInMeter - 1500) / rasterMeterLength;
+            var rasterCountLat = _area.LengthInMeter / rasterMeterLength;
 
             for (var rasterLonIndex = 0; rasterLonIndex < rasterCountLon; rasterLonIndex++)
             {
@@ -87,7 +87,8 @@ namespace AgentCsvGenerator.Generators
 
         private static float GenerateRandomDiameter(int min, int max)
         {
-            return Random.Next(min, max) + Random.Next();
+            Console.WriteLine((float) (Random.Next(min, max) + Random.NextDouble()));
+            return (float) (Random.Next(min, max) + Random.NextDouble());
         }
     }
 }
