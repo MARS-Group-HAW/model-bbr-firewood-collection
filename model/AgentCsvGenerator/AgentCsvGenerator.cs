@@ -34,14 +34,14 @@ namespace AgentCsvGenerator
                 offsetWithoutAgentsFromNorthInM: 0
             );
 
-            var treeTypes = new List<TreeType>();
-            treeTypes.Add(new TreeType("sb", 89, 17, 1));
-            treeTypes.Add(new TreeType("ca", 2888, 550, 26));
-            treeTypes.Add(new TreeType("an", 683, 130, 7));
-            treeTypes.Add(new TreeType("tt", 1817, 300, 46));
+            var species = new List<Species>();
+            species.Add(new Species("sb", 31, 73, 7));
+            species.Add(new Species("ca", 31, 131, 3));
+            species.Add(new Species("an", 8, 2, 0));
+            species.Add(new Species("tt", 3546, 638, 38));
 
-            var trees = new TreeGenerator(area).Generate(treeTypes);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_test_ha.csv"), trees);
+            var trees = new TreeGenerator(area).Generate(species);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bbr_test_ha.csv"), trees);
         }
 
         private static void BushbuckridgeSite()
@@ -60,13 +60,13 @@ namespace AgentCsvGenerator
             var households = new HouseholdGenerator(area).Generate(684);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "household.csv"), households);
 
-            var treeTypes = new List<TreeType>();
-            treeTypes.Add(new TreeType("sb", 31, 73, 7));
-            treeTypes.Add(new TreeType("ca", 31, 131, 3));
-            treeTypes.Add(new TreeType("an", 8, 2, 0));
-            treeTypes.Add(new TreeType("tt", 3546, 638, 38));
+            var species = new List<Species>();
+            species.Add(new Species("sb", 31, 73, 7));
+            species.Add(new Species("ca", 31, 131, 3));
+            species.Add(new Species("an", 8, 2, 0));
+            species.Add(new Species("tt", 3546, 638, 38));
             
-            var trees = new TreeGenerator(area).Generate(treeTypes);
+            var trees = new TreeGenerator(area).Generate(species);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge.csv"), trees);
         }
 
@@ -83,13 +83,13 @@ namespace AgentCsvGenerator
                 offsetWithoutAgentsFromNorthInM: 0
             );
 
-            var treeTypes = new List<TreeType>();
-            treeTypes.Add(new TreeType("sb", 89, 17, 1));
-            treeTypes.Add(new TreeType("ca", 2888, 550, 26));
-            treeTypes.Add(new TreeType("an", 683, 130, 7));
-            treeTypes.Add(new TreeType("tt", 1817, 300, 46));
+            var species = new List<Species>();
+            species.Add(new Species("sb", 89, 17, 1));
+            species.Add(new Species("ca", 2888, 550, 26));
+            species.Add(new Species("an", 683, 130, 7));
+            species.Add(new Species("tt", 1817, 300, 46));
 
-            var trees = new TreeGenerator(area).Generate(treeTypes);
+            var trees = new TreeGenerator(area).Generate(species);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza.csv"), trees);
         }
 

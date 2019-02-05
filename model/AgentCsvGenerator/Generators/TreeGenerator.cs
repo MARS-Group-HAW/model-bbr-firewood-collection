@@ -5,20 +5,20 @@ using AgentCsvGenerator.Config;
 
 namespace AgentCsvGenerator.Generators
 {
-    public class TreeType
+    public class Species
     {
         public string Name { get; }
 
-        public float SeedlingsHa { get; }
-        public float JuvenilesHa { get; }
-        public float AdultHa { get; }
+        public float SeedlingsPerHa { get; }
+        public float JuvenilesPerHa { get; }
+        public float AdultPerHa { get; }
 
-        public TreeType(string name, float seedlingsHa, float juvenilesHa, float adultHa)
+        public Species(string name, float seedlingsPerHa, float juvenilesPerHa, float adultPerHa)
         {
             Name = name;
-            SeedlingsHa = seedlingsHa;
-            JuvenilesHa = juvenilesHa;
-            AdultHa = adultHa;
+            SeedlingsPerHa = seedlingsPerHa;
+            JuvenilesPerHa = juvenilesPerHa;
+            AdultPerHa = adultPerHa;
         }
     }
 
@@ -34,10 +34,10 @@ namespace AgentCsvGenerator.Generators
             _area = area;
         }
 
-        public string Generate(List<TreeType> types)
+        public string Generate(List<Species> species)
         {
             var result = new StringBuilder();
-            result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "type" + Delmiter + "diameter");
+            result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "species" + Delmiter + "diameter");
 
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
@@ -49,23 +49,23 @@ namespace AgentCsvGenerator.Generators
                 var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
                 for (var rasterLatIndex = 0; rasterLatIndex < rasterCountLat; rasterLatIndex++)
                 {
-                    foreach (var type in types)
+                    foreach (var aSpecies in species)
                     {
-                        for (int i = 0; i < type.SeedlingsHa; i++)
+                        for (int i = 0; i < aSpecies.SeedlingsPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(0, 0)));
                         }
 
-                        for (int i = 0; i < type.JuvenilesHa; i++)
+                        for (int i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(1, 9)));
                         }
 
-                        for (int i = 0; i < type.SeedlingsHa; i++)
+                        for (int i = 0; i < aSpecies.SeedlingsPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(type, rasterLatIndex, offsetLon,
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
                                 GenerateRandomDiameter(10, 100)));
                         }
                     }
@@ -75,7 +75,7 @@ namespace AgentCsvGenerator.Generators
             return result.ToString();
         }
 
-        private string GenerateTree(TreeType type, int rasterLatIndex, double offsetLon,
+        private string GenerateTree(Species type, int rasterLatIndex, double offsetLon,
             float diameter)
         {
             var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth + rasterLatIndex * 100 * _area.OneMeterLat;
