@@ -1,8 +1,9 @@
 logs/
 obj/
 src.gen/tmp/
-tmp/
-*/bin/*
-bin/
+**/tmp
+**/bin
+**/Debug
 *.dll
 *.pdb
+*.log
