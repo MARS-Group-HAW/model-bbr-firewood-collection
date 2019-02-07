@@ -12,13 +12,15 @@ namespace AgentCsvGenerator.Generators
         public float SeedlingsPerHa { get; }
         public float JuvenilesPerHa { get; }
         public float AdultPerHa { get; }
+        public int MinAdultDiameter { get; }
 
-        public Species(string name, float seedlingsPerHa, float juvenilesPerHa, float adultPerHa)
+        public Species(string name, float seedlingsPerHa, float juvenilesPerHa, float adultPerHa, int minAdultDiameter)
         {
             Name = name;
             SeedlingsPerHa = seedlingsPerHa;
             JuvenilesPerHa = juvenilesPerHa;
             AdultPerHa = adultPerHa;
+            MinAdultDiameter = minAdultDiameter;
         }
     }
 
@@ -49,6 +51,7 @@ namespace AgentCsvGenerator.Generators
                 var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
                 for (var rasterLatIndex = 0; rasterLatIndex < rasterCountLat; rasterLatIndex++)
                 {
+                    Console.WriteLine(rasterLatIndex);
                     foreach (var aSpecies in species)
                     {
                         for (int i = 0; i < aSpecies.SeedlingsPerHa; i++)
@@ -60,13 +63,13 @@ namespace AgentCsvGenerator.Generators
                         for (int i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
                             result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
-                                GenerateRandomDiameter(1, 9)));
+                                GenerateRandomDiameter(1, 6)));
                         }
 
-                        for (int i = 0; i < aSpecies.SeedlingsPerHa; i++)
+                        for (int i = 0; i < aSpecies.AdultPerHa; i++)
                         {
                             result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
-                                GenerateRandomDiameter(10, 100)));
+                                GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
                         }
                     }
                 }
@@ -87,7 +90,6 @@ namespace AgentCsvGenerator.Generators
 
         private static float GenerateRandomDiameter(int min, int max)
         {
-            Console.WriteLine((float) (Random.Next(min, max) + Random.NextDouble()));
             return (float) (Random.Next(min, max) + Random.NextDouble());
         }
     }
