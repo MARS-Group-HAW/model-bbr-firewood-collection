@@ -13,7 +13,7 @@ namespace Bushbuckridge.Actions
             _agent = agent;
             
             AddOrUpdatePrecondition(FirewoodState.IsNearAlivewoodTree, true);
-            AddOrUpdatePrecondition(FirewoodState.IsShootAvailable, true);
+//            AddOrUpdatePrecondition(FirewoodState.IsShootAvailable, true);
             AddOrUpdatePrecondition(FirewoodState.HasAxe, true);
             
             AddOrUpdatePrecondition(FirewoodState.Orientated, true);

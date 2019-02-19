@@ -9,11 +9,12 @@ namespace Bushbuckridge.Actions
     {
         private readonly FirewoodCollector _agent;
 
-        public Explore(FirewoodCollector agent) : base(agent.AgentStates, 0)
+        public Explore(FirewoodCollector agent) : base(agent.AgentStates)
         {
             _agent = agent;
             
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, false);
+            AddOrUpdateEffect(FirewoodState.Home, false);
             AddOrUpdateEffect(FirewoodState.Orientated, true);
         }
 

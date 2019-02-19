@@ -18,8 +18,10 @@ public static class Program {
         var description = new ModelDescription();
         description.AddLayer<Precipitation>();
         description.AddLayer<Temperature>();
+        
         description.AddLayer<SavannaLayer>();
         description.AddLayer<FirewoodCollectorLayer>();
+        
         description.AddAgent<Tree, SavannaLayer>();
         description.AddAgent<FirewoodCollector, FirewoodCollectorLayer>();
         var stopwatch = Stopwatch.StartNew();

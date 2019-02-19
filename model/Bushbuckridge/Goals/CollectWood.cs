@@ -8,7 +8,7 @@ namespace Bushbuckridge.Goals
     {
         private readonly FirewoodCollector _agent;
 
-        public CollectWood(FirewoodCollector agent) : base(agent.AgentStates)
+        public CollectWood(FirewoodCollector agent) : base(agent.AgentStates, 0.5f)
         {
             _agent = agent;
             

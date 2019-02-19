@@ -3,11 +3,11 @@
 		"deltaT": 1,
 		"deltaTUnit": "days",
 		"startTime": "10/14/2017",
-		"endTime": "10/16/2018",
-		"output": "csv",
-		"options": {
-			"delimiter": ";"
-		}
+		"endTime": "10/17/2017",
+		//"output": "csv",
+		//"options": {
+		//	"delimiter": ";"
+		//}
 	},
 	"layers": [{
 			"name": "Temperature",
@@ -25,8 +25,8 @@
 		},
 		{
 			"name": "Tree",
-			"count": 8000,
-			"file": "model_input/tree_bbr_test_ha.csv",
+			"count": 12000,
+			"file": "model_input/tree_bushbackridge_test_ha.csv",
 			"frequency": 1,
 			"individuals": [{
 					"name": "ycor",

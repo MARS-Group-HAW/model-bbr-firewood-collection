@@ -30,11 +30,11 @@ agent Tree on SavannaLayer {
 	
 	external observe var Species : string
 	external observe var StemDiameter : real
-	observe var StemHeight : real
-	observe var HasLeaves : bool
+	var StemHeight : real
+	var HasLeaves : bool
 	observe var LivingWoodMass : real
 	observe var DeadWoodMass : real
-	observe var MyDamageType : DamageType
+	var MyDamageType : DamageType
 	observe var MyTreeAgeGroup : TreeAgeGroup
 	
 	def TreePosition() => return #(xcor, ycor)
@@ -254,7 +254,10 @@ agent Tree on SavannaLayer {
 		StemHeight = StemHeight + (1 - StemHeight/10) * RandomBetween(1, 150) / DaysWithLeaves * reduceFactor		
 	}	
 	
- 	def CalculateLivingWoodMassByDiameter() : real { 				
+ 	def CalculateLivingWoodMassByDiameter() : real { 		
+ 		if(MyTreeAgeGroup === TreeAgeGroup.Seedling) {
+ 			return 0
+ 		}		
 		switch (Species) {
 			case AN: { return E ** (-3.55 + 3.060 * Math.Log(StemDiameter)) / 0.6 }
 			case CA: { return E ** (-3.27 + 2.800 * Math.Log(StemDiameter)) / 0.6 }
@@ -277,8 +280,8 @@ agent Tree on SavannaLayer {
 	}
 	
 	def Die() {
-		MyTreeAgeGroup = TreeAgeGroup.Death
-		IsAlive = false
+		MyTreeAgeGroup = TreeAgeGroup.Death	
+		IsAlive = false 
 	}
 		
 	def ResetDamageType() {

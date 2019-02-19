@@ -25,27 +25,40 @@ namespace Bushbuckridge.Agents
             IList<IGoapAction> goapActions = new List<IGoapAction>();
             do
             {
+                Print(_states.States.Values);
                 goapActions = _goapPlanner.Plan();
                 var goal = _goapPlanner.SelectedGoal;
-                Console.WriteLine(goal + " " + goal.Relevance); //TODO delete
-                Print(_states.States.Values);
-
+                Console.WriteLine("SELECTED GOAL: " + goal + " with relevance " + goal.Relevance );
+                Print(goapActions);
                 foreach (var action in goapActions)
                 {
                     action.Execute();
                 }
-            } while (goapActions.Any() && !goapActions.First().Equals(AllGoalsSatisfiedAction.Instance));
+            } while (goapActions.Any() && !(goapActions.First().Equals(AllGoalsSatisfiedAction.Instance) ||
+                                           goapActions.First().Equals(NoGoalReachableAction.Instance)));
+        }
+
+        private void Print(IList<IGoapAction> goapActions)
+        {
+            foreach (var item in goapActions)
+            {
+                Console.Write(item + ", ");
+            }
+
+            Console.WriteLine("--");
         }
 
         private void Print(Dictionary<IGoapStateKey, GoapStateProperty>.ValueCollection items)
         {
             if (items != null)
             {
+                Console.Write("STATES: ");
                 foreach (var item in items)
                 {
                     Console.Write(item + ", ");
                 }
-                Console.WriteLine("--");
+
+                Console.WriteLine(";");
             }
         }
     }
