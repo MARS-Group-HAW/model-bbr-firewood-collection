@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "070304d9701f33f3885813dd97583fa61b95c440"
+    "signature": "4ee7e1cf4825953a404a48c9bffb5e5cadc3b206"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,7 +9,7 @@
       "Bushbuckridge/1.0.0": {
         "dependencies": {
           "KruegerNationalPark": "1.0.0",
-          "Mars.Life.Simulations": "3.0.352-preview"
+          "Mars.Life.Simulations": "3.0.2-preview"
         },
         "runtime": {
           "Bushbuckridge.dll": {}
@@ -150,7 +150,7 @@
           "lib/netstandard1.6/mars-cloo.dll": {}
         }
       },
-      "Mars.Life.Simulations/3.0.352-preview": {
+      "Mars.Life.Simulations/3.0.2-preview": {
         "dependencies": {
           "Accord.MachineLearning": "3.8.0",
           "ArangoDB.Client": "0.7.70",
@@ -1734,7 +1734,7 @@
       },
       "KruegerNationalPark/1.0.0": {
         "dependencies": {
-          "Mars.Life.Simulations": "3.0.352-preview"
+          "Mars.Life.Simulations": "3.0.2-preview"
         },
         "runtime": {
           "KruegerNationalPark.dll": {}
@@ -1839,12 +1839,12 @@
       "path": "mars-cloo/1.0.0",
       "hashPath": "mars-cloo.1.0.0.nupkg.sha512"
     },
-    "Mars.Life.Simulations/3.0.352-preview": {
+    "Mars.Life.Simulations/3.0.2-preview": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-i89QNBqbZ/CjMUWeEgB+LVW+m/AJrUiOZBYkQQlw8S6XCiaOb+hAMlWnhPfeAdZTUfoaOt0Wj3dRRbgeJDl9Mg==",
-      "path": "mars.life.simulations/3.0.352-preview",
-      "hashPath": "mars.life.simulations.3.0.352-preview.nupkg.sha512"
+      "sha512": "sha512-7hsdADcWIk+6xTg4Lkzu7JGPHrMRlrC1bdMcBiL9JY62JsJaxMieBH3QSI7KBA0lyS05N2kB3vIaWtcfXAi3CQ==",
+      "path": "mars.life.simulations/3.0.2-preview",
+      "hashPath": "mars.life.simulations.3.0.2-preview.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.Analyzers/1.1.0": {
       "type": "package",
