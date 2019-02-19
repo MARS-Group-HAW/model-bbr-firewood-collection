@@ -25,11 +25,11 @@ namespace Bushbuckridge.Agents
             IList<IGoapAction> goapActions = new List<IGoapAction>();
             do
             {
-                Print(_states.States.Values);
+//                Print(_states.States.Values);
                 goapActions = _goapPlanner.Plan();
-                var goal = _goapPlanner.SelectedGoal;
-                Console.WriteLine("SELECTED GOAL: " + goal + " with relevance " + goal.Relevance );
-                Print(goapActions);
+//                var goal = _goapPlanner.SelectedGoal;
+//                Console.WriteLine("SELECTED GOAL: " + goal + " with relevance " + goal.Relevance );
+//                Print(goapActions);
                 foreach (var action in goapActions)
                 {
                     action.Execute();

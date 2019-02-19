@@ -1,5 +1,4 @@
-﻿using System;
-using Bushbuckridge.Agents.Collector;
+﻿using Bushbuckridge.Agents.Collector;
 using Bushbuckridge.States;
 using Mars.Components.Services.Planning.Implementation;
 
@@ -13,16 +12,15 @@ namespace Bushbuckridge.Actions
         {
             _agent = agent;
             
-            AddOrUpdateEffect(FirewoodState.WoodstockRaised, false);
+            AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, false);
+            
             AddOrUpdateEffect(FirewoodState.Home, false);
-            AddOrUpdateEffect(FirewoodState.Orientated, true);
+            AddOrUpdateEffect(FirewoodState.AtExploitablePosition, true);
         }
 
         protected override bool ExecuteAction()
         {
-            var explore = _agent.Explore();
-            Console.WriteLine("Explore -> "+explore);
-            return explore;
+            return _agent.Explore();
         }
     }
 }
