@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bushbuckridge.Goals;
 using Mars.Components.Services.Planning.Implementation;
 using Mars.Components.Services.Planning.Implementation.ActionCommons;
 using Mars.Components.Services.Planning.Interfaces;
@@ -22,20 +23,27 @@ namespace Bushbuckridge.Agents
 
         public void Execute()
         {
-            IList<IGoapAction> goapActions = new List<IGoapAction>();
+            IList<IGoapAction> actions = new List<IGoapAction>();
             do
             {
-//                Print(_states.States.Values);
-                goapActions = _goapPlanner.Plan();
-//                var goal = _goapPlanner.SelectedGoal;
-//                Console.WriteLine("SELECTED GOAL: " + goal + " with relevance " + goal.Relevance );
-//                Print(goapActions);
-                foreach (var action in goapActions)
+                actions = _goapPlanner.Plan();
+                var goal = _goapPlanner.SelectedGoal;
+                Console.WriteLine("SELECTED GOAL: " + goal);
+                Print(_states.States.Values);
+                Print(actions);
+                foreach (var action in actions)
                 {
-                    action.Execute();
+                    if (!action.Execute())
+                    {
+                        break;
+                    }
                 }
-            } while (goapActions.Any() && !(goapActions.First().Equals(AllGoalsSatisfiedAction.Instance) ||
-                                           goapActions.First().Equals(NoGoalReachableAction.Instance)));
+
+                if (goal is GoHomeGoal finishingGoal && finishingGoal.IsSatisfied())
+                {
+                    break;
+                }
+            } while (actions.Any() && !actions.First().Equals(NoGoalReachableAction.Instance));
         }
 
         private void Print(IList<IGoapAction> goapActions)

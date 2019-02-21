@@ -1,9 +1,12 @@
 logs/
 obj/
-src.gen/tmp/
+src-gen/tmp/
+src-gen/bin/
 **/tmp
 **/bin
 **/Debug
 *.dll
 *.pdb
 *.log
+*.cache
+model/Bushbuckridge/bin/Debug/

@@ -15,6 +15,7 @@ namespace Bushbuckridge.Actions
             AddOrUpdatePrecondition(FirewoodState.HasAxe, true);
             AddOrUpdatePrecondition(FirewoodState.AtExploitablePosition, true);
             
+            AddOrUpdateEffect(FirewoodState.AtExploitablePosition, false);
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, true);
         }
 

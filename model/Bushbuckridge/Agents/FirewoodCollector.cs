@@ -17,9 +17,9 @@ using Mars.Interfaces.LIFECapabilities;
 namespace Bushbuckridge.Agents.Collector
 {
 //TODO females sollen min 50 % Totholz sammeln
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class FirewoodCollector : GeoAgent<FirewoodCollector>
     {
-        private readonly Random random = new Random();
         public IGoapAgentStates AgentStates { get; set; }
 
         private readonly GoapPlanner _goapPlanner;
@@ -30,14 +30,15 @@ namespace Bushbuckridge.Agents.Collector
         private Tree _currentTreeWithAlivewood;
         public override FirewoodCollector AgentReference => this;
 
-        private const double deadMassWorthExploiting = 2;
+        private const double deadMassWorthExploiting = 1;
         private const double livingMassWorthExploiting = 4;
-        private const double woodAmountToReach = 25;
+        private const double treeDiameterWorthExploiting = 3;
+        private const double woodAmountToReach = 20;
 
-        private double woodAmountCollectedThisTick;
+        public double woodAmountCollectedThisTick { get; private set; }
 
         [PublishForMappingInMars]
-        public FirewoodCollector(FirewoodCollectorLayer layer, RegisterAgent register, UnregisterAgent unregister,
+        public FirewoodCollector(ILayer layer, RegisterAgent register, UnregisterAgent unregister,
             GeoGridEnvironment<GeoAgent<FirewoodCollector>> env, SavannaLayer treeLayer, Guid id,
             double lat, double lon) :
             base(layer, register, unregister, env, new GeoCoordinate(lat, lon), id.ToByteArray())
@@ -48,23 +49,34 @@ namespace Bushbuckridge.Agents.Collector
             AgentStates.AddOrUpdateState(FirewoodState.HasAxe, true);
 
             _goapPlanner = new GoapPlanner(AgentStates);
-            _goapPlanner.AddGoal(new SearchAndGatherWoodGoal(this));
-            _goapPlanner.AddGoal(new GoHomeGoal(this));
+            var searchAndGatherWoodGoal = new SearchAndGatherWoodGoal(this);
+            var evaluateSituationGoal = new EvaluateSituationGoal(this);
+            var goHomeGoal = new GoHomeGoal(this);
 
-            _goapPlanner.AddAction(new Explore(this));
-//            _goapPlanner.AddAction(new CollectDeadWood(this));
-            _goapPlanner.AddAction(new CutShoots(this));
-            _goapPlanner.AddAction(new PackWoodForTransport(this));
-//            _goapPlanner.AddAction(new CutBranchesCaAn(this));
-//            _goapPlanner.AddAction(new CutBranchesSb(this));
-//            _goapPlanner.AddAction(new CutStem(this));
-            _goapPlanner.AddAction(new CarryWoodHome(this));
+            _goapPlanner.AddGoal(searchAndGatherWoodGoal);
+            _goapPlanner.AddGoal(evaluateSituationGoal);
+            _goapPlanner.AddGoal(goHomeGoal);
+
+            searchAndGatherWoodGoal.AddAction(new Explore(this));
+            searchAndGatherWoodGoal.AddAction(new CutShoots(this));
+            // searchAndGatherWoodGoal.AddAction(new CollectDeadWood(this));
+
+            evaluateSituationGoal.AddAction(new EvaluateAndPackWoodForTransport(this));
+
+            goHomeGoal.AddAction(new CarryWoodHome(this));
+            goHomeGoal.AddAction(new AbortAndGoHome(this));
         }
 
         public SavannaLayer Savanna { get; set; }
 
         protected override IInteraction Reason()
         {
+//            if (_treeLayer.GetCurrentTick() % 7 != 0)
+//            {
+//                // only activate once a week
+//                return new NoActionInteraction();
+//            }
+
             Refresh();
 
             return new ReplaningGoapInteraction(_goapPlanner, AgentStates);
@@ -74,26 +86,26 @@ namespace Bushbuckridge.Agents.Collector
         {
             woodAmountCollectedThisTick = 0;
             AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, false);
+            AgentStates.AddOrUpdateState(FirewoodState.TimeIsUp, false);
 
             //TODO sollen die nicht durch die Ziele neu gesetzt werden?
             //zB neues Ziel bring Holz zurück, dort werden alle States umgesetzt
-         
         }
 
         public bool CollectDeadWood()
         {
-            if (_currentTreeWithDeadwood == null) return false;
-            woodAmountCollectedThisTick += _currentTreeWithDeadwood.TakeDeadWoodMass(woodAmountToReach);
+            if (_currentTreeWithDeadwood != null)
+                woodAmountCollectedThisTick += _currentTreeWithDeadwood.TakeDeadWoodMass(woodAmountToReach);
             return true;
         }
 
         public bool CollectAliveWood()
         {
-            if (_currentTreeWithAlivewood == null) return false;
-            woodAmountCollectedThisTick += _currentTreeWithAlivewood.TakeLivingWoodMass(woodAmountToReach);
+            if (_currentTreeWithAlivewood != null)
+                woodAmountCollectedThisTick += _currentTreeWithAlivewood.TakeLivingWoodMass(woodAmountToReach);
             return true;
         }
-        
+
         public bool CutShoots()
         {
             return CollectAliveWood();
@@ -108,8 +120,8 @@ namespace Bushbuckridge.Agents.Collector
         {
             AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, HasEnoughFirewood());
             //TODO check also time 
-//            Console.WriteLine("CarryWoodHome wood: " + woodAmountCollectedThisTick +"kg");
-            return HasEnoughFirewood();
+            Console.WriteLine("CarryWoodHome wood: " + woodAmountCollectedThisTick + "kg");
+            return true;
         }
 
         public bool Explore()
@@ -121,24 +133,19 @@ namespace Bushbuckridge.Agents.Collector
             //TODO wenn neuer Baum genutzt, dann auch Pos dahin verlagern.  
             //TODO ursprüngliche Position speichern.
 
-            _currentTreeWithDeadwood = _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1,
-                tree => tree.DeadWoodMass > deadMassWorthExploiting);
+            _currentTreeWithDeadwood = FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
             AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
 
-            _currentTreeWithAlivewood = _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1,
-                tree => tree.MyTreeAgeGroup.Equals(TreeAgeGroup.Juvenile) &&  tree.LivingWoodMass > livingMassWorthExploiting);
+            _currentTreeWithAlivewood = FindTree(tree => tree.MyTreeAgeGroup.Equals(TreeAgeGroup.Juvenile) &&
+                                                         tree.StemDiameter > treeDiameterWorthExploiting);
             AgentStates.AddOrUpdateState(FirewoodState.IsNearAlivewoodTree, _currentTreeWithAlivewood != null);
 
-            if (_currentTreeWithDeadwood != null)
-            {
-                Console.WriteLine("Deadwood found: " +_currentTreeWithDeadwood.DeadWoodMass);
-            }
-            if (_currentTreeWithAlivewood != null)
-            {
-                Console.WriteLine("Alivewood found: " +_currentTreeWithAlivewood.LivingWoodMass);
-            }
+            return true;
+        }
 
-            return _currentTreeWithDeadwood != null || _currentTreeWithAlivewood != null;
+        private Tree FindTree(Func<Tree, bool> func)
+        {
+            return _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1, func);
         }
 
         public bool IsAtExploitableTree()
@@ -169,7 +176,9 @@ namespace Bushbuckridge.Agents.Collector
 
         public bool PackWoodForTransport()
         {
-            AgentStates.AddOrUpdateState(FirewoodState.IsShootAvailable, HasEnoughFirewood());
+            AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, HasEnoughFirewood());
+            AgentStates.AddOrUpdateState(FirewoodState.TimeIsUp,
+                _currentTreeWithDeadwood == null && _currentTreeWithAlivewood == null);
             //TODO or no time anymore
             return true;
         }

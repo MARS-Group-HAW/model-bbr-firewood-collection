@@ -44,7 +44,7 @@ agent Tree on SavannaLayer {
 		MyDamageType = DamageType.No
 		StemHeight = CalculateHeightByDiameter(StemDiameter)
 		UpdateWoodMass
-		DeadWoodMass = 0.017 * LivingWoodMass
+		DeadWoodMass = LivingWoodMass / 5 //TODO nur um erst einmal Totholz zu haben
 	}
 	
 	passive TakeDeadWoodMass(mass : real) {
@@ -77,7 +77,7 @@ agent Tree on SavannaLayer {
 		MyDamageType = CalculateDamageType(result)
 		LivingWoodMass = LivingWoodMass - result
 		
-		println "TakeLivingWoodMass - reduced by:  "+result
+	//	println "TakeLivingWoodMass - reduced by:  "+result
 		
 		StemDiameter = CalculateDiameterByWoodMass
 		return result

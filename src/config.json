@@ -4,10 +4,10 @@
 		"deltaTUnit": "days",
 		"startTime": "10/14/2017",
 		"endTime": "10/17/2017",
-		//"output": "csv",
-		//"options": {
-		//	"delimiter": ";"
-		//}
+		"output": "csv",
+		"options": {
+			"delimiter": ";"
+		}
 	},
 	"layers": [{
 			"name": "Temperature",
@@ -20,7 +20,7 @@
 	],
 	"agents": [{
 			"name": "FirewoodCollector",
-			"count": 1,
+			"count": 4,
 			"file": "model_input/household.csv"
 		},
 		{

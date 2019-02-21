@@ -12,8 +12,10 @@ namespace Bushbuckridge.Actions
         {
             _agent = agent;
             
+            AddOrUpdatePrecondition(FirewoodState.TimeIsUp, false);
             AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, false);
             
+            AddOrUpdateEffect(FirewoodState.Evaluated, false);
             AddOrUpdateEffect(FirewoodState.Home, false);
             AddOrUpdateEffect(FirewoodState.AtExploitablePosition, true);
         }

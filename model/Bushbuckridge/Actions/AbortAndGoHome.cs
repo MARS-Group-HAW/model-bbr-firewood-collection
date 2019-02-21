@@ -4,17 +4,17 @@ using Mars.Components.Services.Planning.Implementation;
 
 namespace Bushbuckridge.Actions
 {
-    public class CarryWoodHome : GoapAction
+    public class AbortAndGoHome : GoapAction
     {
         private readonly FirewoodCollector _agent;
 
-        public CarryWoodHome(FirewoodCollector agent) : base(agent.AgentStates, 10)
+        public AbortAndGoHome(FirewoodCollector agent) : base(agent.AgentStates, 10)
         {
             _agent = agent;
-            
+
             AddOrUpdatePrecondition(FirewoodState.Evaluated, true);
-            AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, true);
-            
+            AddOrUpdatePrecondition(FirewoodState.TimeIsUp, true);
+
             AddOrUpdateEffect(FirewoodState.Home, true);
         }
 

@@ -4,22 +4,15 @@ using Mars.Components.Services.Planning.Implementation;
 
 namespace Bushbuckridge.Goals
 {
+    /// <summary>
+    /// 
+    /// //TODO erstmal in gebiet laufen, wo genug da ist (neues Ziel)
+    /// </summary>
     public class SearchAndGatherWoodGoal : GoapGoal
     {
-        private readonly FirewoodCollector _agent;
-
-        public SearchAndGatherWoodGoal(FirewoodCollector agent) : base(agent.AgentStates, 0.2f)
+        public SearchAndGatherWoodGoal(FirewoodCollector agent) : base(agent.AgentStates)
         {
-            _agent = agent;
-            
-            AddOrUpdateDesiredState(FirewoodState.HasEnoughFirewood, true);
-        }
-        
-        //TODO erstmal in gebiet laufen, wo genug da ist (neues Ziel)
-        
-        public new void UpdateRelevance()
-        {
-//           Relevance = _agent.IsAtExploitableTree() ? 0f : 0.9f;
+            AddOrUpdateDesiredState(FirewoodState.WoodstockRaised, true);
         }
     }
 }
