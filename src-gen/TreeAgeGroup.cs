@@ -1,5 +1,5 @@
 namespace KruegerNationalPark {
 	public enum TreeAgeGroup { 
-		Seedling, Juvenile, Adult, Death
+		Seed, Seedling, Juvenile, Adult, Death
 	}
 }

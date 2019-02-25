@@ -11,10 +11,10 @@ namespace Bushbuckridge.Actions
         public CutBranchesCaAn(FirewoodCollector agent) : base(agent.AgentStates, 50)
         {
             _agent = agent;
-            
+
             AddOrUpdatePrecondition(FirewoodState.IsNearAlivewoodTree, true);
             AddOrUpdatePrecondition(FirewoodState.HasAxe, true);
-            
+
             AddOrUpdatePrecondition(FirewoodState.Orientated, true);
             AddOrUpdatePrecondition(FirewoodState.WoodstockRaised, false);
             AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, false);
@@ -25,7 +25,7 @@ namespace Bushbuckridge.Actions
 
         protected override bool ExecuteAction()
         {
-            return _agent.CollectAliveWood();
+            return _agent.CutBranch();
         }
     }
 }

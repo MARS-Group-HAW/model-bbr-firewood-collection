@@ -7,7 +7,7 @@ raster-layer Precipitation as precipitation
 
 layer SavannaLayer
 
-enum TreeAgeGroup { Seedling Juvenile Adult Death }
+enum TreeAgeGroup { Seed Seedling Juvenile Adult Death }
 
 enum GenderType { Male Female }
 
@@ -16,11 +16,12 @@ enum DamageType { No Light Moderate Heavy Extreme }
 agent Tree on SavannaLayer {
 	var IsAlive : bool
 	
-	static var AN = "an"
-	static var CA = "ca"
-	static var SB = "sb"
-	static var TT = "tt"
+	static var AN = "an" // Arkazie
+	static var CA = "ca" // Combretum apiculatun
+	static var SB = "sb" // Marula
+	static var TT = "tt" // generic
 	
+	static var SeedlingSurvivalRate = 0.12
 	static var SeedlingsSpawnRatePerYear = 50
 	static var DaysPerYear = 365
 	static var DaysWithLeaves = 228
@@ -36,15 +37,17 @@ agent Tree on SavannaLayer {
 	observe var DeadWoodMass : real
 	var MyDamageType : DamageType
 	observe var MyTreeAgeGroup : TreeAgeGroup
+		
+	var LastTickWithPrecipitation : real
 	
 	def TreePosition() => return #(xcor, ycor)
 		
 	initialize {
 		MyTreeAgeGroup = TreeAgeGroup.Seedling
 		MyDamageType = DamageType.No
+		UpdateTreeAgeGroup
 		StemHeight = CalculateHeightByDiameter(StemDiameter)
-		UpdateWoodMass
-		DeadWoodMass = LivingWoodMass / 5 //TODO nur um erst einmal Totholz zu haben
+		InitWoodMass
 	}
 	
 	passive TakeDeadWoodMass(mass : real) {
@@ -57,6 +60,11 @@ agent Tree on SavannaLayer {
 		DeadWoodMass = DeadWoodMass - result
 		
 		return result
+	}
+
+	def InitWoodMass() {
+		LivingWoodMass = CalculateLivingWoodMassByDiameter
+		DeadWoodMass = 0.017 * LivingWoodMass
 	}
 
 	def UpdateWoodMass() {
@@ -103,9 +111,9 @@ agent Tree on SavannaLayer {
 	def UpdateTreeAgeGroup() {
 		if (StemDiameter >= 1) {
 			if (IsJuvenileByStemDiameter) {
-				MyTreeAgeGroup = TreeAgeGroup.Juvenile;
+				MyTreeAgeGroup = TreeAgeGroup.Juvenile
 			} else {
-				MyTreeAgeGroup = TreeAgeGroup.Adult;
+				MyTreeAgeGroup = TreeAgeGroup.Adult
 			}
 		}		
 	}
@@ -122,8 +130,10 @@ agent Tree on SavannaLayer {
 	tick {
 		UpdateTreeAgeGroup
 		UpdatePhotosyntheseActive
-
-		if (MyTreeAgeGroup === TreeAgeGroup.Seedling) {
+		
+		if (MyTreeAgeGroup === TreeAgeGroup.Seed) {
+			Seed
+		} else if (MyTreeAgeGroup === TreeAgeGroup.Seedling) {
 			Seedling
 		} else if (MyTreeAgeGroup === TreeAgeGroup.Juvenile) {
 			Juvenile
@@ -133,19 +143,44 @@ agent Tree on SavannaLayer {
 		
 		UpdateWoodMass
 		ResetDamageType
-		
-//		print simtime + ": " + xcor + "," + ycor + " diameter:" + StemDiameter 
+	}
+	
+	def Seed() {	
+		if (HasPrecipitation) {
+			MyTreeAgeGroup = TreeAgeGroup.Seedling 
+			if (RandomPropabilitySmallenThan(88 + random(12))) {
+				Die // 88% - 100% die eventually
+			}
+		} 	
 	}
 	
 	def Seedling() {	
-		var tempToday = temperature.GetNumberValue(ycor, xcor)	
-		if(tempToday < 0 and RandomPropabilitySmallenThan(80)) {
-			Die //TODO Ausdiffernziertes Baummodell: Arten unterschiedlich
+		if (IsFrozen or IsDried) {
+			Die 
 		} else if (MyDamageType !== DamageType.No) {
 			Die
 		} else if (HasLeaves) {
 			GrowSeedling
 		} 		
+	}
+	
+	def IsFrozen() : bool {
+		if (Species === AN) return false
+		
+		var tempToday = temperature.GetNumberValue(ycor, xcor)	
+		return tempToday < 0 and RandomPropabilitySmallenThan(80)
+	}
+			
+	def IsDried() {
+		if (HasPrecipitation) {
+			LastTickWithPrecipitation = simtime
+		}
+		return LastTickWithPrecipitation + 12 < simtime
+	}
+
+	def HasPrecipitation() {
+		var precipitationToday = precipitation.GetNumberValue(ycor, xcor)
+		return precipitationToday > 1
 	}
 
 	def Juvenile() {
@@ -173,19 +208,25 @@ agent Tree on SavannaLayer {
 			}
 		} 
 		if (Time::Month(simtime) === 3 and Time::Day(simtime) === 15) {
-//			SpawnSeedlings
+			SpawnSeedlings
 		}
 	}
 	
 	def SpawnSeedlings() {
+		println SeedlingsSpawnRatePerYear
 		for (var i = 0; i < SeedlingsSpawnRatePerYear; i++) {
-			var seedling = spawn Tree at GetRelativePosition(ycor, xcor, random(50), random(360))
-			seedling.SetSpecies(Species)		
+			var seed = spawn Tree at GetRelativePosition(xcor, ycor, random(50), random(360))
+			seed.SetSpecies(Species)		
+			seed.SetTreeAgeGroup(TreeAgeGroup.Seed)		
 		} 
 	}
 	
 	passive SetSpecies(species : string) {
 		Species = species	
+	}
+	
+	passive SetTreeAgeGroup(treeAgeGroup : TreeAgeGroup) {
+		MyTreeAgeGroup = treeAgeGroup
 	}
 		
 	def GrowSeedling() {
@@ -232,34 +273,38 @@ agent Tree on SavannaLayer {
 			case SB: { GrowAdultSb(reduceFactor) }
 			case TT: { GrowAdultTt(reduceFactor) }
 		}
-		
-		//TODO Ausdiffernziertes Baummodell: Umwelteinflüsse verkleinern growthrate
-		var mytemp = temperature.GetNumberValue(ycor, xcor)	
-		var myPrec = precipitation.GetNumberValue(ycor, xcor)	
 	}
 	
 	def GrowAdultAn(reduceFactor : real) {
-		StemDiameter = StemDiameter + 0.04 / DaysWithLeaves * reduceFactor
-		StemHeight = StemHeight + (1 - StemHeight/16) * RandomBetween(11, 32) / DaysWithLeaves * reduceFactor	 	
+		var maxStemDiameter = 20
+		var growthRate = 1
+		StemDiameter = StemDiameter + StemDiameterGrowthForAdult(maxStemDiameter, growthRate, reduceFactor)
 	}
 	
 	def GrowAdultCa(reduceFactor : real) {
-		StemDiameter = StemDiameter + 0.03 / DaysWithLeaves * reduceFactor
-		StemHeight = StemHeight + (1 - StemHeight/RandomBetween(3, 10)) * 0.5 / DaysWithLeaves * reduceFactor		
+		var maxStemDiameter = 20
+		var growthRate = 0.5
+		StemDiameter = StemDiameter + StemDiameterGrowthForAdult(maxStemDiameter, growthRate, reduceFactor)	
 	}
 	
 	def GrowAdultSb(reduceFactor : real) {
-		StemDiameter = StemDiameter + 0.05 / DaysWithLeaves * reduceFactor
-		StemHeight = StemHeight + (1 - StemHeight/18) * RandomBetween(50, 150) / DaysWithLeaves * reduceFactor		
+		var maxStemDiameter = 50
+		var growthRate = 1
+		StemDiameter = StemDiameter + StemDiameterGrowthForAdult(maxStemDiameter, growthRate, reduceFactor)	
 	}
 	
 	def GrowAdultTt(reduceFactor : real) {
-		StemDiameter = StemDiameter + (0.04 / DaysWithLeaves) * reduceFactor
-		StemHeight = StemHeight + (1 - StemHeight/10) * RandomBetween(1, 150) / DaysWithLeaves * reduceFactor		
+		var maxStemDiameter = 30
+		var growthRate = 1
+		StemDiameter = StemDiameter + StemDiameterGrowthForAdult(maxStemDiameter, growthRate, reduceFactor)		
 	}	
 	
+	def StemDiameterGrowthForAdult(maxStemDiameter : real, growthRate : real, reduceFactor : real) {
+		return ( 1 - StemDiameter / maxStemDiameter ) * growthRate / DaysWithLeaves * reduceFactor
+	}
+	
  	def CalculateLivingWoodMassByDiameter() : real { 		
- 		if(MyTreeAgeGroup === TreeAgeGroup.Seedling) {
+ 		if (MyTreeAgeGroup === TreeAgeGroup.Seed or MyTreeAgeGroup === TreeAgeGroup.Seedling) {
  			return 0
  		}		
 		switch (Species) {

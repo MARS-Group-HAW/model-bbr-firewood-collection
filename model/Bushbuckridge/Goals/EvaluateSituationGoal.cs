@@ -4,12 +4,9 @@ using Mars.Components.Services.Planning.Implementation;
 
 namespace Bushbuckridge.Goals
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class EvaluateSituationGoal : GoapGoal
     {
-        public EvaluateSituationGoal(FirewoodCollector agent) : base(agent.AgentStates)
+        public EvaluateSituationGoal(FirewoodCollector agent) : base(agent.AgentStates, 0.1f)
         {
             AddOrUpdateDesiredState(FirewoodState.Evaluated, true);
         }

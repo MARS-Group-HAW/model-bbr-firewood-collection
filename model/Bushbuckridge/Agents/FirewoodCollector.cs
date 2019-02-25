@@ -36,6 +36,7 @@ namespace Bushbuckridge.Agents.Collector
         private const double woodAmountToReach = 20;
 
         public double woodAmountCollectedThisTick { get; private set; }
+        public double woodAmountCollectedThisYear { get; private set; }
 
         [PublishForMappingInMars]
         public FirewoodCollector(ILayer layer, RegisterAgent register, UnregisterAgent unregister,
@@ -49,17 +50,20 @@ namespace Bushbuckridge.Agents.Collector
             AgentStates.AddOrUpdateState(FirewoodState.HasAxe, true);
 
             _goapPlanner = new GoapPlanner(AgentStates);
-            var searchAndGatherWoodGoal = new SearchAndGatherWoodGoal(this);
+            var exploreGoal = new ExploreGoal(this);
+            var searchAndGatherWoodGoal = new RaiseWoodStockGoal(this);
             var evaluateSituationGoal = new EvaluateSituationGoal(this);
-            var goHomeGoal = new GoHomeGoal(this);
+            var goHomeGoal = new ReturnHomeGoal(this);
 
+            _goapPlanner.AddGoal(exploreGoal);
             _goapPlanner.AddGoal(searchAndGatherWoodGoal);
             _goapPlanner.AddGoal(evaluateSituationGoal);
             _goapPlanner.AddGoal(goHomeGoal);
 
-            searchAndGatherWoodGoal.AddAction(new Explore(this));
+            exploreGoal.AddAction(new Explore(this));
+
             searchAndGatherWoodGoal.AddAction(new CutShoots(this));
-            // searchAndGatherWoodGoal.AddAction(new CollectDeadWood(this));
+            searchAndGatherWoodGoal.AddAction(new CollectDeadWood(this));
 
             evaluateSituationGoal.AddAction(new EvaluateAndPackWoodForTransport(this));
 
@@ -71,11 +75,17 @@ namespace Bushbuckridge.Agents.Collector
 
         protected override IInteraction Reason()
         {
-//            if (_treeLayer.GetCurrentTick() % 7 != 0)
-//            {
-//                // only activate once a week
-//                return new NoActionInteraction();
-//            }
+            woodAmountCollectedThisYear += woodAmountCollectedThisTick;
+            Console.WriteLine(woodAmountCollectedThisYear);
+            if (_treeLayer.GetCurrentTick() % 366 == 0)
+            {
+                woodAmountCollectedThisYear = 0;
+            }
+            if (_treeLayer.GetCurrentTick() % 7 != 0)
+            {
+                // only activate once a week
+                return new NoActionInteraction();
+            }
 
             Refresh();
 
@@ -85,6 +95,7 @@ namespace Bushbuckridge.Agents.Collector
         private void Refresh()
         {
             woodAmountCollectedThisTick = 0;
+            AgentStates.AddOrUpdateState(FirewoodState.Home, false);
             AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, false);
             AgentStates.AddOrUpdateState(FirewoodState.TimeIsUp, false);
 
@@ -95,20 +106,25 @@ namespace Bushbuckridge.Agents.Collector
         public bool CollectDeadWood()
         {
             if (_currentTreeWithDeadwood != null)
-                woodAmountCollectedThisTick += _currentTreeWithDeadwood.TakeDeadWoodMass(woodAmountToReach);
+                woodAmountCollectedThisTick +=
+                    _currentTreeWithDeadwood.TakeDeadWoodMass(woodAmountToReach - woodAmountCollectedThisTick);
             return true;
         }
 
-        public bool CollectAliveWood()
+        public bool CutBranch()
         {
             if (_currentTreeWithAlivewood != null)
-                woodAmountCollectedThisTick += _currentTreeWithAlivewood.TakeLivingWoodMass(woodAmountToReach);
+                woodAmountCollectedThisTick +=
+                    _currentTreeWithAlivewood.TakeLivingWoodMass(woodAmountToReach - woodAmountCollectedThisTick);
             return true;
         }
 
         public bool CutShoots()
         {
-            return CollectAliveWood();
+            if (_currentTreeWithAlivewood != null)
+                woodAmountCollectedThisTick +=
+                    _currentTreeWithAlivewood.TakeLivingWoodMass(_currentTreeWithAlivewood.LivingWoodMass);
+            return true;
         }
 
         public bool HasEnoughFirewood()
@@ -152,7 +168,7 @@ namespace Bushbuckridge.Agents.Collector
         {
             if (_currentTreeWithDeadwood == null) return false;
             return _currentTreeWithDeadwood.DeadWoodMass >
-                   deadMassWorthExploiting; //|| _currentTreeWithDeadwood.AliveMass > livingMassWorthExploiting;
+                   deadMassWorthExploiting || _currentTreeWithDeadwood.LivingWoodMass > livingMassWorthExploiting;
         }
 
         public double MeasureDistanceAndStockForDeadwood()

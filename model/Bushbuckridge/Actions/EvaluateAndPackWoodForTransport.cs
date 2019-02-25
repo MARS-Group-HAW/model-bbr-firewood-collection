@@ -11,10 +11,10 @@ namespace Bushbuckridge.Actions
         public EvaluateAndPackWoodForTransport(FirewoodCollector agent) : base(agent.AgentStates, 10)
         {
             _agent = agent;
-            
-            AddOrUpdatePrecondition(FirewoodState.WoodstockRaised, true);
+
+//            AddOrUpdatePrecondition(FirewoodState.WoodstockRaised, true);
             AddOrUpdatePrecondition(FirewoodState.Evaluated, false);
-            
+
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, false);
             AddOrUpdateEffect(FirewoodState.Evaluated, true);
         }

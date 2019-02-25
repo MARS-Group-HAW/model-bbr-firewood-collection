@@ -11,10 +11,11 @@ namespace Bushbuckridge.Actions
         public CarryWoodHome(FirewoodCollector agent) : base(agent.AgentStates, 10)
         {
             _agent = agent;
-            
+
             AddOrUpdatePrecondition(FirewoodState.Evaluated, true);
             AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, true);
-            
+
+            AddOrUpdateEffect(FirewoodState.AtExploitablePosition, false);
             AddOrUpdateEffect(FirewoodState.Home, true);
         }
 

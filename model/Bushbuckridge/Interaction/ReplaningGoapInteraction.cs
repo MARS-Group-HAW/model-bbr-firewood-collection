@@ -28,9 +28,9 @@ namespace Bushbuckridge.Agents
             {
                 actions = _goapPlanner.Plan();
                 var goal = _goapPlanner.SelectedGoal;
-                Console.WriteLine("SELECTED GOAL: " + goal);
-                Print(_states.States.Values);
-                Print(actions);
+//                Console.WriteLine("SELECTED GOAL: " + goal);
+//                Print(_states.States.Values);
+//                Print(actions);
                 foreach (var action in actions)
                 {
                     if (!action.Execute())
@@ -39,7 +39,7 @@ namespace Bushbuckridge.Agents
                     }
                 }
 
-                if (goal is GoHomeGoal finishingGoal && finishingGoal.IsSatisfied())
+                if (goal is ReturnHomeGoal finishingGoal && finishingGoal.IsSatisfied())
                 {
                     break;
                 }

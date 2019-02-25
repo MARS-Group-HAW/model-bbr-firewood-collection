@@ -63,7 +63,7 @@ namespace KruegerNationalPark {
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public KruegerNationalPark.Tree _SpawnTree(double xcor = 0, double ycor = 0, int freq = 1) {
 			var id = System.Guid.NewGuid();
-			var agent = new KruegerNationalPark.Tree(id, this, _registerAgent, _unregisterAgent,
+			var agent = new KruegerNationalPark.Tree(id, this, RegisterAgent, UnregisterAgent,
 			_TreeEnvironment,
 			_Precipitation, 
 			_Temperature

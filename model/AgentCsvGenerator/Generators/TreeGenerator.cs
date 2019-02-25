@@ -81,7 +81,8 @@ namespace AgentCsvGenerator.Generators
         private string GenerateTree(Species type, int rasterLatIndex, double offsetLon,
             float diameter)
         {
-            var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth + rasterLatIndex * 100 * _area.OneMeterLat;
+            var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth +
+                            rasterLatIndex * 100 * _area.OneMeterLat;
             var posLon = offsetLon + _area.OneMeterLon * Random.NextDouble() * 100;
             var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
 
