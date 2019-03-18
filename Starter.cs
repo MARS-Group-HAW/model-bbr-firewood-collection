@@ -23,6 +23,7 @@ public static class Program
         description.AddLayer<Temperature>();
 
         description.AddLayer<SavannaLayer>();
+        description.AddLayer<DroughtLayer>();
         description.AddLayer<FirewoodCollectorLayer>();
 
         description.AddAgent<Tree, SavannaLayer>();

@@ -100,6 +100,12 @@ agent Tree on SavannaLayer {
 		}
 		return DamageType.No
 	}
+	
+	passive SufferDrought() {
+		if (MyTreeAgeGroup !== TreeAgeGroup.Adult and RandomPropabilitySmallenThan(30)) {
+			Die
+		}
+	}
 
 	def UpdatePhotosyntheseActive() { // SUM: 228 days with leaves
 		if      (Time::Month(simtime) === 10 and Time::Day(simtime) === 15)
@@ -213,7 +219,6 @@ agent Tree on SavannaLayer {
 	}
 	
 	def SpawnSeedlings() {
-		println SeedlingsSpawnRatePerYear
 		for (var i = 0; i < SeedlingsSpawnRatePerYear; i++) {
 			var seed = spawn Tree at GetRelativePosition(xcor, ycor, random(50), random(360))
 			seed.SetSpecies(Species)		

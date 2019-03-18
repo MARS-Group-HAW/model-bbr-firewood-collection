@@ -3,7 +3,7 @@
 		"deltaT": 1,
 		"deltaTUnit": "days",
 		"startTime": "10/14/2017",
-		"endTime": "10/19/2027",
+		"endTime": "10/19/2019",
 		"output": "csv",
 		"options": {
 			"delimiter": ";",

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using Bushbuckridge.Config;
 using KruegerNationalPark;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
@@ -23,7 +24,8 @@ namespace Bushbuckridge.Agents.Collector
         {
             _savannaLayer = savannaLayer;
             _environment =
-                new GeoGridEnvironment<GeoAgent<FirewoodCollector>>(-24.8239, -24.8690, 31.1944, 31.2436, 1000);
+                new GeoGridEnvironment<GeoAgent<FirewoodCollector>>(Territory.TOP_LAT, Territory.BOTTOM_LAT,
+                    Territory.LEFT_LONG, Territory.RIGHT_LONG, 1000);
         }
 
         public bool InitLayer(TInitData layerInitData, RegisterAgent registerAgentHandle,
