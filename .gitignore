@@ -9,4 +9,6 @@ src-gen/bin/
 *.pdb
 *.log
 *.cache
-model/Bushbuckridge/bin/Debug/
+model/Bushbuckridge/bin/
+model/Bushbuckridge/obj/
+model/.idea/
