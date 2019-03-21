@@ -16,7 +16,7 @@
 		},
 		{
 			"name": "Precipitation",
-			"file": "model_input/RCP4.5_2019_pre.zip"
+			"file": "model_input/RCP4.5_2018_pre.zip"
 		}
 	],
 	"agents": [{

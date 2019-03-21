@@ -12,3 +12,5 @@ src-gen/bin/
 model/Bushbuckridge/bin/
 model/Bushbuckridge/obj/
 model/.idea/
+FirewoodCollector.csv
+Tree.csv
