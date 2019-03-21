@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Bushbuckridge.Config;
 using KruegerNationalPark;
@@ -17,6 +18,7 @@ namespace Bushbuckridge.Agents.Collector
         private readonly Precipitation _precipitation;
         private double precipitationWithinYear;
         private double daysSinceLastDroughtTest;
+        private Stopwatch stopwatch;
 
         private long CurrentTick { get; set; }
 
@@ -24,6 +26,7 @@ namespace Bushbuckridge.Agents.Collector
         {
             _savannaLayer = savannaLayer;
             _precipitation = precipitation;
+             stopwatch = Stopwatch.StartNew();
         }
 
         public bool InitLayer(TInitData layerInitData, RegisterAgent registerAgentHandle,
@@ -44,7 +47,7 @@ namespace Bushbuckridge.Agents.Collector
 
         private bool IsDroughtSituationReached()
         {
-            return precipitationWithinYear < 200;
+            return precipitationWithinYear < 435;
         }
 
         public void Tick()
@@ -52,6 +55,9 @@ namespace Bushbuckridge.Agents.Collector
             if (SimulationClock.CurrentTimePoint.Value.Month == 9 && SimulationClock.CurrentTimePoint.Value.Day == 1 &&
                 daysSinceLastDroughtTest >= 365)
             {
+                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + stopwatch.Elapsed.Seconds);
+                stopwatch.Restart();
+//                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + precipitationWithinYear);
                 if (IsDroughtSituationReached())
                 {
                     // fire drought event
@@ -62,6 +68,7 @@ namespace Bushbuckridge.Agents.Collector
                 daysSinceLastDroughtTest = 0;
             }
 
+//            Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Day + "." +SimulationClock.CurrentTimePoint.Value.Month + " -> " +  _precipitation.GetNumberValue(Territory.TOP_LAT, Territory.LEFT_LONG));
             precipitationWithinYear += _precipitation.GetNumberValue(Territory.TOP_LAT, Territory.LEFT_LONG);
             daysSinceLastDroughtTest++;
         }

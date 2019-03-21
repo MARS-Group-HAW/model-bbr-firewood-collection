@@ -102,7 +102,7 @@ agent Tree on SavannaLayer {
 	}
 	
 	passive SufferDrought() {
-		if (MyTreeAgeGroup !== TreeAgeGroup.Adult and RandomPropabilitySmallenThan(30)) {
+		if (MyTreeAgeGroup !== TreeAgeGroup.Adult and RandomPropabilitySmallenThan(7)) {
 			Die
 		}
 	}
@@ -129,7 +129,7 @@ agent Tree on SavannaLayer {
 			case AN: { return StemDiameter <  8 }
 			case CA: { return StemDiameter < 10 }
 			case SB: { return StemDiameter < 20 }
-			case TT: { return StemDiameter < 13 }
+			case TT: { return StemDiameter < 13 } 
 		}
 	}
 
@@ -267,7 +267,7 @@ agent Tree on SavannaLayer {
 	}
 	
 	def GrowJuvenileTt() {
-		StemDiameter = StemDiameter + 1 / DaysWithLeaves
+		StemDiameter = StemDiameter + 0.2 / DaysWithLeaves // Personal command Sally Archibald SSNM 2019
 		StemHeight = CalculateHeightByDiameter(StemDiameter)
 	}
 		

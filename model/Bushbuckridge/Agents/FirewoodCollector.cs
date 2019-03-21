@@ -76,7 +76,7 @@ namespace Bushbuckridge.Agents.Collector
         protected override IInteraction Reason()
         {
             woodAmountCollectedThisYear += woodAmountCollectedThisTick;
-            Console.WriteLine(woodAmountCollectedThisYear);
+//            Console.WriteLine(woodAmountCollectedThisYear);
             if (_treeLayer.GetCurrentTick() % 366 == 0)
             {
                 woodAmountCollectedThisYear = 0;
@@ -136,7 +136,7 @@ namespace Bushbuckridge.Agents.Collector
         {
             AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, HasEnoughFirewood());
             //TODO check also time 
-            Console.WriteLine("CarryWoodHome wood: " + woodAmountCollectedThisTick + "kg");
+//            Console.WriteLine("CarryWoodHome wood: " + woodAmountCollectedThisTick + "kg");
             return true;
         }
 

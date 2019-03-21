@@ -52,7 +52,7 @@ namespace Bushbuckridge.Agents.Collector
         public void SetCurrentTick(long currentStep)
         {
             CurrentTick = currentStep;
-            Console.WriteLine("-------------- " + currentStep + " --------------");
+//            Console.WriteLine("-------------- " + currentStep + " --------------");
         }
 
         public void Tick()
