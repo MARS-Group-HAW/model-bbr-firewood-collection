@@ -13,8 +13,8 @@ namespace AgentCsvGenerator
     {
         private static void Main()
         {
-            TestSide();
-//            BushbuckridgeSite();
+          TestSide();
+     //        BushbuckridgeSite();
 //            SkukuzaSite();
 
 
@@ -36,18 +36,18 @@ namespace AgentCsvGenerator
 
             var species = new List<Species>();
             // Bushbackridge
-//            species.Add(new Species("sb", 31, 73, 7, 20));
-//            species.Add(new Species("ca", 31, 131, 3, 10));
-//            species.Add(new Species("an", 8, 2, 0, 8));
-//            species.Add(new Species("tt", 3546, 638, 38, 13));
+            species.Add(new Species("sb", 31, 73, 7, 20));
+            species.Add(new Species("ca", 31, 131, 3, 10));
+            species.Add(new Species("an", 8, 2, 0, 8));
+            species.Add(new Species("tt", 3546, 638, 38, 13));
             // Skukuza
-            species.Add(new Species("sb", 89, 17, 1, 50));
-            species.Add(new Species("ca", 2888, 550, 26, 10));
-            species.Add(new Species("an", 683, 130, 7, 15));
-            species.Add(new Species("tt", 1817, 300, 46, 18));
+//            species.Add(new Species("sb", 89, 17, 1, 50));
+//            species.Add(new Species("ca", 2888, 550, 26, 10));
+//            species.Add(new Species("an", 683, 130, 7, 15));
+//            species.Add(new Species("tt", 1817, 300, 46, 18));
 
             var trees = new TreeGenerator(area).Generate(species);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_test_ha.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbackridge_test_ha.csv"), trees);
         }
 
         private static void BushbuckridgeSite()

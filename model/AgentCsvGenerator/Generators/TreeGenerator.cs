@@ -27,7 +27,7 @@ namespace AgentCsvGenerator.Generators
     public class TreeGenerator
     {
         private readonly AreaDefinition _area;
-        private const string Delmiter = ";";
+        private const string Delimiter = ";";
 
         private static readonly Random Random = new Random();
 
@@ -39,7 +39,7 @@ namespace AgentCsvGenerator.Generators
         public string Generate(List<Species> species)
         {
             var result = new StringBuilder();
-            result.AppendLine("lat" + Delmiter + "lon" + Delmiter + "species" + Delmiter + "diameter");
+            result.AppendLine(string.Join(Delimiter, "lat", "lon", "species", "diameter", "raster"));
 
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
@@ -51,25 +51,27 @@ namespace AgentCsvGenerator.Generators
                 var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
                 for (var rasterLatIndex = 0; rasterLatIndex < rasterCountLat; rasterLatIndex++)
                 {
+                    var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth +
+                                    rasterLatIndex * 100 * _area.OneMeterLat;
                     Console.WriteLine(rasterLatIndex);
                     foreach (var aSpecies in species)
                     {
-                        for (int i = 0; i < aSpecies.SeedlingsPerHa; i++)
+                        for (var i = 0; i < aSpecies.SeedlingsPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
-                                GenerateRandomDiameter(0, 0)));
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon, GenerateRandomDiameter(0, 0)));
                         }
 
-                        for (int i = 0; i < aSpecies.JuvenilesPerHa; i++)
+                        for (var i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
-                                GenerateRandomDiameter(1, 6)));
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon, GenerateRandomDiameter(1, 6)));
                         }
 
-                        for (int i = 0; i < aSpecies.AdultPerHa; i++)
+                        for (var i = 0; i < aSpecies.AdultPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, offsetLon,
-                                GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon, GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
                         }
                     }
                 }
@@ -78,15 +80,19 @@ namespace AgentCsvGenerator.Generators
             return result.ToString();
         }
 
-        private string GenerateTree(Species type, int rasterLatIndex, double offsetLon,
-            float diameter)
+        private string GenerateTree(Species type, int rasterLatIndex, int rasterLonIndex, double offsetLat,
+            double offsetLon, float diameter)
         {
-            var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth +
-                            rasterLatIndex * 100 * _area.OneMeterLat;
             var posLon = offsetLon + _area.OneMeterLon * Random.NextDouble() * 100;
             var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
+            var raster = GenRasterId(rasterLatIndex, rasterLonIndex);
 
-            return posLat + Delmiter + posLon + Delmiter + type.Name + Delmiter + diameter;
+            return string.Join(Delimiter, posLat, posLon, type.Name, diameter, raster);
+        }
+
+        private static string GenRasterId(int rasterLatIndex, int rasterLonIndex)
+        {
+            return rasterLonIndex.ToString("D2") + "_" + rasterLatIndex.ToString("D2");
         }
 
         private static float GenerateRandomDiameter(int min, int max)
