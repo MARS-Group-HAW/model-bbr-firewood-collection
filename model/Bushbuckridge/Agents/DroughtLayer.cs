@@ -57,7 +57,7 @@ namespace Bushbuckridge.Agents.Collector
             {
                 Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + stopwatch.Elapsed.Seconds);
                 stopwatch.Restart();
-//                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + precipitationWithinYear);
+//                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + (int)precipitationWithinYear);
                 if (IsDroughtSituationReached())
                 {
                     // fire drought event

@@ -68,7 +68,8 @@ namespace KruegerNationalPark {
 			_Precipitation, 
 			_Temperature
 		, 	default(string), 
-			default(double)
+			default(double), 
+			default(string)
 		, 	xcor, ycor, freq);
 			_TreeAgents.Add(id, agent);
 			return agent;

@@ -26,6 +26,7 @@ namespace Bushbuckridge.Agents.Collector
 
         private readonly FirewoodCollectorLayer _layer;
         private readonly SavannaLayer _treeLayer;
+
         private Tree _currentTreeWithDeadwood;
         private Tree _currentTreeWithAlivewood;
         public override FirewoodCollector AgentReference => this;
@@ -71,8 +72,6 @@ namespace Bushbuckridge.Agents.Collector
             goHomeGoal.AddAction(new AbortAndGoHome(this));
         }
 
-        public SavannaLayer Savanna { get; set; }
-
         protected override IInteraction Reason()
         {
             woodAmountCollectedThisYear += woodAmountCollectedThisTick;
@@ -81,6 +80,7 @@ namespace Bushbuckridge.Agents.Collector
             {
                 woodAmountCollectedThisYear = 0;
             }
+
             if (_treeLayer.GetCurrentTick() % 7 != 0)
             {
                 // only activate once a week
@@ -106,24 +106,37 @@ namespace Bushbuckridge.Agents.Collector
         public bool CollectDeadWood()
         {
             if (_currentTreeWithDeadwood != null)
+            {
                 woodAmountCollectedThisTick +=
                     _currentTreeWithDeadwood.TakeDeadWoodMass(woodAmountToReach - woodAmountCollectedThisTick);
+                
+                Mover.SetToPosition(_currentTreeWithDeadwood.Latitude, _currentTreeWithDeadwood.Longitude,0);
+            }
             return true;
         }
 
         public bool CutBranch()
         {
             if (_currentTreeWithAlivewood != null)
+            {
                 woodAmountCollectedThisTick +=
                     _currentTreeWithAlivewood.TakeLivingWoodMass(woodAmountToReach - woodAmountCollectedThisTick);
+                
+                Mover.SetToPosition(_currentTreeWithAlivewood.Latitude, _currentTreeWithAlivewood.Longitude,0);
+            }
             return true;
         }
 
         public bool CutShoots()
         {
             if (_currentTreeWithAlivewood != null)
+            {
                 woodAmountCollectedThisTick +=
                     _currentTreeWithAlivewood.TakeLivingWoodMass(_currentTreeWithAlivewood.LivingWoodMass);
+                
+                Mover.SetToPosition(_currentTreeWithAlivewood.Latitude, _currentTreeWithAlivewood.Longitude,0);
+            }
+
             return true;
         }
 
@@ -162,32 +175,6 @@ namespace Bushbuckridge.Agents.Collector
         private Tree FindTree(Func<Tree, bool> func)
         {
             return _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1, func);
-        }
-
-        public bool IsAtExploitableTree()
-        {
-            if (_currentTreeWithDeadwood == null) return false;
-            return _currentTreeWithDeadwood.DeadWoodMass >
-                   deadMassWorthExploiting || _currentTreeWithDeadwood.LivingWoodMass > livingMassWorthExploiting;
-        }
-
-        public double MeasureDistanceAndStockForDeadwood()
-        {
-            if (_currentTreeWithDeadwood == null) return 0;
-            Console.WriteLine(PerCent(_currentTreeWithDeadwood.DeadWoodMass,
-                woodAmountToReach - woodAmountCollectedThisTick));
-            return PerCent(_currentTreeWithDeadwood.DeadWoodMass, woodAmountToReach - woodAmountCollectedThisTick);
-        }
-
-        public double MeasureDistanceAndStockForAlivewood()
-        {
-            if (_currentTreeWithDeadwood == null) return 0;
-            return PerCent(_currentTreeWithDeadwood.LivingWoodMass, woodAmountToReach - woodAmountCollectedThisTick);
-        }
-
-        private static double PerCent(double part, double full)
-        {
-            return 100d / full * part;
         }
 
         public bool PackWoodForTransport()
