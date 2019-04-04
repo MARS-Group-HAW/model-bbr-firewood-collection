@@ -8,18 +8,18 @@ namespace Bushbuckridge.Actions
     {
         private readonly FirewoodCollector _agent;
 
-        public CutBranchesSb(FirewoodCollector agent) : base(agent.AgentStates, 70)
+        public CutBranchesSb(FirewoodCollector agent) : base(agent.AgentStates, 30)
         {
             _agent = agent;
 
-            AddOrUpdatePrecondition(FirewoodState.IsNearAlivewoodTree, true);
             AddOrUpdatePrecondition(FirewoodState.HasAxe, true);
 
-            AddOrUpdatePrecondition(FirewoodState.Orientated, true);
-            AddOrUpdatePrecondition(FirewoodState.WoodstockRaised, false);
-            AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, false);
+            AddOrUpdatePrecondition(FirewoodState.AtExploitablePosition, true);
+            AddOrUpdatePrecondition(FirewoodState.IsNearAlivewoodTree, true);
 
-            AddOrUpdateEffect(FirewoodState.Orientated, false);
+            AddOrUpdateEffect(FirewoodState.AtExploitablePosition, false);
+            AddOrUpdateEffect(FirewoodState.IsNearAlivewoodTree, false);
+
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, true);
         }
 

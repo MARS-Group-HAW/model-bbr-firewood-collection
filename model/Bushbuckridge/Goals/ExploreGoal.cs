@@ -9,6 +9,9 @@ namespace Bushbuckridge.Goals
         public ExploreGoal(FirewoodCollector agent) : base(agent.AgentStates, 0.2f)
         {
             AddOrUpdateDesiredState(FirewoodState.AtExploitablePosition, true);
+            
+            AddOrUpdateDesiredState(FirewoodState.Home, false);
+            AddOrUpdateDesiredState(FirewoodState.HasEnoughFirewood, false);
         }
     }
 }

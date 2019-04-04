@@ -55,7 +55,7 @@ namespace Bushbuckridge.Agents.Collector
             if (SimulationClock.CurrentTimePoint.Value.Month == 9 && SimulationClock.CurrentTimePoint.Value.Day == 1 &&
                 daysSinceLastDroughtTest >= 365)
             {
-                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + stopwatch.Elapsed.Seconds);
+                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + ": " + stopwatch.Elapsed.Minutes.ToString("D2") +" minutes " + stopwatch.Elapsed.Seconds.ToString("D2") +" secs " + stopwatch.Elapsed.Milliseconds.ToString("D3") +" millisec");
                 stopwatch.Restart();
 //                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + (int)precipitationWithinYear);
                 if (IsDroughtSituationReached())

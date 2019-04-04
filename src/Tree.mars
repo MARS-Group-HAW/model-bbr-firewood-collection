@@ -48,7 +48,7 @@ agent Tree on SavannaLayer {
 	def TreePosition() => return #(xcor, ycor)
 		
 	initialize {
-		MyTreeAgeGroup = TreeAgeGroup.Seedling
+		MyTreeAgeGroup = TreeAgeGroup.Seed
 		MyDamageType = DamageType.No
 		UpdateTreeAgeGroup
 		InitWoodMass
@@ -92,7 +92,6 @@ agent Tree on SavannaLayer {
 	}
 
 	passive TakeLivingWoodMass(mass : real) {
-		//TODO 1 cm diameter und 100cm height bleiben auf jeden Fall!
 		var currentLivingWoodMass = CalculateLivingWoodMassByDiameter
 		var result : real
 		
@@ -426,7 +425,7 @@ agent Tree on SavannaLayer {
 		var cosBearing : real = Math.Cos(radBearing)
 		var temp1 : real = SinLatA * cosB 
 		var temp2 : real = 0
-       	var lat = Math.Asin(temp1+ cosLatB * sinB * cosBearing)
+       	var lat = Math.Asin(temp1 + cosLatB * sinB * cosBearing)
 		var SinLat : real = Math.Sin(lat)
        	var sindBearing : real = Math.Sin(radBearing)
       

@@ -10,6 +10,7 @@
     <Compile Remove="model_input\**" />
     <Compile Remove="src\**" />
     <Compile Remove="src-gen\**" />
+    <Compile Remove="tmp\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="analysis\**" />
@@ -18,6 +19,7 @@
     <EmbeddedResource Remove="model_input\**" />
     <EmbeddedResource Remove="src\**" />
     <EmbeddedResource Remove="src-gen\**" />
+    <EmbeddedResource Remove="tmp\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="analysis\**" />
@@ -29,6 +31,7 @@
     <None Remove=".project" />
     <None Remove="README.md" />
     <None Remove="run.sh" />
+    <None Remove="tmp\**" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mars.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
