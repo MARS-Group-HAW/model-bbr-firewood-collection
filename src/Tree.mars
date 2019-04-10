@@ -38,6 +38,7 @@ agent Tree on SavannaLayer {
 	observe var MyTreeAgeGroup : TreeAgeGroup
 	observe var LivingWoodMass : real
 	observe var DeadWoodMass : real
+	observe var Bark : real	// 1.0 = 100%
 	observe var DyingReason : string
 	
 	var HasLeaves : bool
@@ -50,6 +51,7 @@ agent Tree on SavannaLayer {
 	initialize {
 		MyTreeAgeGroup = TreeAgeGroup.Seed
 		MyDamageType = DamageType.No
+		Bark = 1.0
 		UpdateTreeAgeGroup
 		InitWoodMass
 	}
@@ -68,6 +70,23 @@ agent Tree on SavannaLayer {
 	passive IsSpecies(species: string) : bool {
 		return species === ALL_SPECIES or Species === species
 	}	
+
+	passive TakeBark(percent : real) {
+		ReduceBarkBy(percent / 100)
+		UpdateOnNewBark
+	}
+	
+	def ReduceBarkBy(subtrahend : real) {
+		Bark = Bark - subtrahend
+	}
+	
+	def UpdateOnNewBark() {
+		if (Bark < 0) {
+			Die("RoundBarked")
+		} else if (Bark < 0.5) {
+			MyDamageType = DamageType.Moderate
+		} //TODO sind nicht 20% -> trotzdem ok?
+	}
 	
 	passive TakeDeadWoodMass(mass : real) {
 		var result : real 
@@ -80,18 +99,20 @@ agent Tree on SavannaLayer {
 		
 		return result
 	}
-
-	def InitWoodMass() {
-		LivingWoodMass = CalculateLivingWoodMassByDiameter
-		DeadWoodMass = 0.017 * LivingWoodMass
+	
+	passive TakePushOver() {
+		return ReduceLivingWoodMassBy(LivingWoodMass)
 	}
-
-	def UpdateWoodMass() {
-		LivingWoodMass = CalculateLivingWoodMassByDiameter
-		DeadWoodMass = DeadWoodMass + GenerateDeadwoodMass
+	
+	passive TakeDamage(mass : real) {
+		return ReduceLivingWoodMassBy(mass)
 	}
-
+	
 	passive TakeLivingWoodMass(mass : real) {
+		return ReduceLivingWoodMassBy(mass)
+	}
+
+	def ReduceLivingWoodMassBy(mass : real) {
 		var currentLivingWoodMass = CalculateLivingWoodMassByDiameter
 		var result : real
 		
@@ -110,7 +131,7 @@ agent Tree on SavannaLayer {
 	def CalculateDamageType(result : real) {
 		var quota = result / LivingWoodMass
 		if (quota > 0.9) {
-			return DamageType.Extreme
+			return DamageType.Extreme //TODO increase possibility to die?
 		} else if (quota > 0.1) {
 			return DamageType.Moderate
 		}
@@ -164,7 +185,13 @@ agent Tree on SavannaLayer {
 		}
 				
 		UpdateWoodMass
-		ResetDamageType
+		
+		if (Time::Month(simtime) === 3 and Time::Day(simtime) === 15) {
+			ResetDamageType
+			ResetBarkBy(30)
+		}
+		//TODO wenn Blätter abgehen, reseten
+		// dann auch 30% borke regenerieren
 	}
 	
 	def Seed() {	
@@ -393,6 +420,20 @@ agent Tree on SavannaLayer {
 	def ResetDamageType() {
 		MyDamageType = DamageType.No	 
 	}	
+		
+	def ResetBarkBy(percent : real) {
+		Bark = Bark + Bark * percent / 100
+	}	
+	
+	def InitWoodMass() {
+		LivingWoodMass = CalculateLivingWoodMassByDiameter
+		DeadWoodMass = 0.017 * LivingWoodMass
+	}
+
+	def UpdateWoodMass() {
+		LivingWoodMass = CalculateLivingWoodMassByDiameter
+		DeadWoodMass = DeadWoodMass + GenerateDeadwoodMass
+	}
 	
 	static def Reduce(growthrate : real, min : integer, max : integer) {
 		return growthrate * (min + RandomBetween(min, max)) / 100 
