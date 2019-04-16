@@ -14,7 +14,6 @@ enum GenderType { Male Female }
 enum DamageType { No Light Moderate Heavy Extreme }
 
 agent Tree on SavannaLayer {	
-	var IsAlive : bool = true
 	static var growthBoosterByClimate = 1.0;
 	
 	static var AN = "an" // Arkazie
@@ -85,7 +84,7 @@ agent Tree on SavannaLayer {
 			Die("RoundBarked")
 		} else if (Bark < 0.5) {
 			MyDamageType = DamageType.Moderate
-		} //TODO sind nicht 20% -> trotzdem ok?
+		}
 	}
 	
 	passive TakeDeadWoodMass(mass : real) {
@@ -101,7 +100,11 @@ agent Tree on SavannaLayer {
 	}
 	
 	passive TakePushOver() {
-		return ReduceLivingWoodMassBy(LivingWoodMass)
+		var result = ReduceLivingWoodMassBy(LivingWoodMass)
+		if (RandomPropabilitySmallenThan(50)) {
+			Die("PushOver")
+		}
+		return result
 	}
 	
 	passive TakeDamage(mass : real) {
@@ -131,7 +134,7 @@ agent Tree on SavannaLayer {
 	def CalculateDamageType(result : real) {
 		var quota = result / LivingWoodMass
 		if (quota > 0.9) {
-			return DamageType.Extreme //TODO increase possibility to die?
+			return DamageType.Extreme
 		} else if (quota > 0.1) {
 			return DamageType.Moderate
 		}
@@ -190,8 +193,6 @@ agent Tree on SavannaLayer {
 			ResetDamageType
 			ResetBarkBy(30)
 		}
-		//TODO wenn Blätter abgehen, reseten
-		// dann auch 30% borke regenerieren
 	}
 	
 	def Seed() {	
@@ -414,7 +415,7 @@ agent Tree on SavannaLayer {
 	def Die(reason : string) {
 		DyingReason = reason
 		MyTreeAgeGroup = TreeAgeGroup.Death	
-		IsAlive = false 
+		kill me
 	}
 		
 	def ResetDamageType() {
@@ -423,6 +424,9 @@ agent Tree on SavannaLayer {
 		
 	def ResetBarkBy(percent : real) {
 		Bark = Bark + Bark * percent / 100
+		if (Bark > 1.0) {
+			Bark = 1.0
+		}
 	}	
 	
 	def InitWoodMass() {

@@ -2,6 +2,7 @@ namespace KruegerNationalPark {
 	using System;
 	using System.Linq;
 	using System.Collections.Generic;
+	// ReSharper disable All
 	#pragma warning disable 162
 	#pragma warning disable 219
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -14,6 +15,8 @@ namespace KruegerNationalPark {
 		private static readonly Mars.Common.Logging.ILogger _Logger = 
 					Mars.Common.Logging.LoggerFactory.GetLogger(typeof(SavannaLayer));
 		private static readonly Mars.Components.Common.Random _Random = new Mars.Components.Common.Random();
+		public Mars.Interfaces.Layer.UnregisterAgent _Unregister { get; set; }
+		public Mars.Interfaces.Layer.RegisterAgent _Register { get; set; }
 		private double?[] _bbox = new double?[4]; private int? _cellSizeMeters;
 		public Mars.Components.Environments.GeoGridHashEnvironment<Tree> _TreeEnvironment { get; set; }
 		public Precipitation _Precipitation { get; set; }
@@ -56,14 +59,15 @@ namespace KruegerNationalPark {
 			regHandle, unregHandle, 
 			new System.Collections.Generic.List<Mars.Interfaces.Layer.ILayer> { this, this._Precipitation, this._Temperature });
 			
-			
+			this._Register = regHandle;
+			this._Unregister = unregHandle;
 			return base.InitLayer(initData, regHandle, unregHandle);
 		}
 		
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public KruegerNationalPark.Tree _SpawnTree(double xcor = 0, double ycor = 0, int freq = 1) {
 			var id = System.Guid.NewGuid();
-			var agent = new KruegerNationalPark.Tree(id, this, RegisterAgent, UnregisterAgent,
+			var agent = new KruegerNationalPark.Tree(id, this, _Register, _Unregister,
 			_TreeEnvironment,
 			_Precipitation, 
 			_Temperature

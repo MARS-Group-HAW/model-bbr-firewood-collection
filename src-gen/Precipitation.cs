@@ -2,6 +2,7 @@ namespace KruegerNationalPark {
 	using System;
 	using System.Linq;
 	using System.Collections.Generic;
+	// ReSharper disable All
 	#pragma warning disable 162
 	#pragma warning disable 219
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "InconsistentNaming")]

@@ -2,6 +2,7 @@ namespace KruegerNationalPark {
 	using System;
 	using System.Linq;
 	using System.Collections.Generic;
+	// ReSharper disable All
 	#pragma warning disable 162
 	#pragma warning disable 219
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -14,14 +15,6 @@ namespace KruegerNationalPark {
 		private static readonly Mars.Common.Logging.ILogger _Logger = 
 					Mars.Common.Logging.LoggerFactory.GetLogger(typeof(Tree));
 		private static readonly Mars.Components.Common.Random _Random = new Mars.Components.Common.Random();
-		private bool __IsAlive
-			 = true;
-		internal bool IsAlive { 
-			get { return __IsAlive; }
-			set{
-				if(__IsAlive != value) __IsAlive = value;
-			}
-		}
 		private static double __growthBoosterByClimate
 			 = 1.0;
 		internal static double growthBoosterByClimate { 
@@ -341,47 +334,47 @@ namespace KruegerNationalPark {
 		public bool IsJuvenileByStemDiameter() 
 		{
 			{
-			string _switch165_3800 = (Species);
-			bool _matched_165_3800 = false;
-			bool _fallthrough_165_3800 = false;
-			if(!_matched_165_3800 || _fallthrough_165_3800) {
-				if(Equals(_switch165_3800, AN)) {
-					_matched_165_3800 = true;
+			string _switch168_3786 = (Species);
+			bool _matched_168_3786 = false;
+			bool _fallthrough_168_3786 = false;
+			if(!_matched_168_3786 || _fallthrough_168_3786) {
+				if(Equals(_switch168_3786, AN)) {
+					_matched_168_3786 = true;
 					{
 					return StemDiameter < 8
 					;}
 				} else {
-					_fallthrough_165_3800 = false;
+					_fallthrough_168_3786 = false;
 				}
 			}
-			if(!_matched_165_3800 || _fallthrough_165_3800) {
-				if(Equals(_switch165_3800, CA)) {
-					_matched_165_3800 = true;
+			if(!_matched_168_3786 || _fallthrough_168_3786) {
+				if(Equals(_switch168_3786, CA)) {
+					_matched_168_3786 = true;
 					{
 					return StemDiameter < 10
 					;}
 				} else {
-					_fallthrough_165_3800 = false;
+					_fallthrough_168_3786 = false;
 				}
 			}
-			if(!_matched_165_3800 || _fallthrough_165_3800) {
-				if(Equals(_switch165_3800, SB)) {
-					_matched_165_3800 = true;
+			if(!_matched_168_3786 || _fallthrough_168_3786) {
+				if(Equals(_switch168_3786, SB)) {
+					_matched_168_3786 = true;
 					{
 					return StemDiameter < 20
 					;}
 				} else {
-					_fallthrough_165_3800 = false;
+					_fallthrough_168_3786 = false;
 				}
 			}
-			if(!_matched_165_3800 || _fallthrough_165_3800) {
-				if(Equals(_switch165_3800, TT)) {
-					_matched_165_3800 = true;
+			if(!_matched_168_3786 || _fallthrough_168_3786) {
+				if(Equals(_switch168_3786, TT)) {
+					_matched_168_3786 = true;
 					{
 					return StemDiameter < 13
 					;}
 				} else {
-					_fallthrough_165_3800 = false;
+					_fallthrough_168_3786 = false;
 				}
 			}
 			;}
@@ -552,8 +545,8 @@ namespace KruegerNationalPark {
 					 i++){
 					 	{
 					 	KruegerNationalPark.Tree seed = new System.Func<KruegerNationalPark.Tree>(() => {
-					 	var _target274_6387 = GetRelativePosition(base.Position[0],base.Position[1],_Random.Next(50),_Random.Next(360));
-					 	return _SavannaLayer._SpawnTree(_target274_6387.Item1, _target274_6387.Item2);}).Invoke();
+					 	var _target275_6296 = GetRelativePosition(base.Position[0],base.Position[1],_Random.Next(50),_Random.Next(360));
+					 	return _SavannaLayer._SpawnTree(_target275_6296.Item1, _target275_6296.Item2);}).Invoke();
 					 	seed.SetSpecies(Species);
 					 	seed.SetTreeAgeGroup(TreeAgeGroup.Seed);
 					 	seed.SetRaster(Raster)
@@ -582,47 +575,47 @@ namespace KruegerNationalPark {
 		public void GrowJuvenile() 
 		{
 			{
-			string _switch302_6940 = (Species);
-			bool _matched_302_6940 = false;
-			bool _fallthrough_302_6940 = false;
-			if(!_matched_302_6940 || _fallthrough_302_6940) {
-				if(Equals(_switch302_6940, AN)) {
-					_matched_302_6940 = true;
+			string _switch303_6849 = (Species);
+			bool _matched_303_6849 = false;
+			bool _fallthrough_303_6849 = false;
+			if(!_matched_303_6849 || _fallthrough_303_6849) {
+				if(Equals(_switch303_6849, AN)) {
+					_matched_303_6849 = true;
 					{
 					GrowJuvenileAn()
 					;}
 				} else {
-					_fallthrough_302_6940 = false;
+					_fallthrough_303_6849 = false;
 				}
 			}
-			if(!_matched_302_6940 || _fallthrough_302_6940) {
-				if(Equals(_switch302_6940, CA)) {
-					_matched_302_6940 = true;
+			if(!_matched_303_6849 || _fallthrough_303_6849) {
+				if(Equals(_switch303_6849, CA)) {
+					_matched_303_6849 = true;
 					{
 					GrowJuvenileCa()
 					;}
 				} else {
-					_fallthrough_302_6940 = false;
+					_fallthrough_303_6849 = false;
 				}
 			}
-			if(!_matched_302_6940 || _fallthrough_302_6940) {
-				if(Equals(_switch302_6940, SB)) {
-					_matched_302_6940 = true;
+			if(!_matched_303_6849 || _fallthrough_303_6849) {
+				if(Equals(_switch303_6849, SB)) {
+					_matched_303_6849 = true;
 					{
 					GrowJuvenileSb()
 					;}
 				} else {
-					_fallthrough_302_6940 = false;
+					_fallthrough_303_6849 = false;
 				}
 			}
-			if(!_matched_302_6940 || _fallthrough_302_6940) {
-				if(Equals(_switch302_6940, TT)) {
-					_matched_302_6940 = true;
+			if(!_matched_303_6849 || _fallthrough_303_6849) {
+				if(Equals(_switch303_6849, TT)) {
+					_matched_303_6849 = true;
 					{
 					GrowJuvenileTt()
 					;}
 				} else {
-					_fallthrough_302_6940 = false;
+					_fallthrough_303_6849 = false;
 				}
 			}
 			;}
@@ -664,47 +657,47 @@ namespace KruegerNationalPark {
 		public void GrowAdult(double reduceFactor) 
 		{
 			{
-			string _switch327_7667 = (Species);
-			bool _matched_327_7667 = false;
-			bool _fallthrough_327_7667 = false;
-			if(!_matched_327_7667 || _fallthrough_327_7667) {
-				if(Equals(_switch327_7667, AN)) {
-					_matched_327_7667 = true;
+			string _switch328_7576 = (Species);
+			bool _matched_328_7576 = false;
+			bool _fallthrough_328_7576 = false;
+			if(!_matched_328_7576 || _fallthrough_328_7576) {
+				if(Equals(_switch328_7576, AN)) {
+					_matched_328_7576 = true;
 					{
 					GrowAdultAn(reduceFactor)
 					;}
 				} else {
-					_fallthrough_327_7667 = false;
+					_fallthrough_328_7576 = false;
 				}
 			}
-			if(!_matched_327_7667 || _fallthrough_327_7667) {
-				if(Equals(_switch327_7667, CA)) {
-					_matched_327_7667 = true;
+			if(!_matched_328_7576 || _fallthrough_328_7576) {
+				if(Equals(_switch328_7576, CA)) {
+					_matched_328_7576 = true;
 					{
 					GrowAdultCa(reduceFactor)
 					;}
 				} else {
-					_fallthrough_327_7667 = false;
+					_fallthrough_328_7576 = false;
 				}
 			}
-			if(!_matched_327_7667 || _fallthrough_327_7667) {
-				if(Equals(_switch327_7667, SB)) {
-					_matched_327_7667 = true;
+			if(!_matched_328_7576 || _fallthrough_328_7576) {
+				if(Equals(_switch328_7576, SB)) {
+					_matched_328_7576 = true;
 					{
 					GrowAdultSb(reduceFactor)
 					;}
 				} else {
-					_fallthrough_327_7667 = false;
+					_fallthrough_328_7576 = false;
 				}
 			}
-			if(!_matched_327_7667 || _fallthrough_327_7667) {
-				if(Equals(_switch327_7667, TT)) {
-					_matched_327_7667 = true;
+			if(!_matched_328_7576 || _fallthrough_328_7576) {
+				if(Equals(_switch328_7576, TT)) {
+					_matched_328_7576 = true;
 					{
 					GrowAdultTt(reduceFactor)
 					;}
 				} else {
-					_fallthrough_327_7667 = false;
+					_fallthrough_328_7576 = false;
 				}
 			}
 			;}
@@ -763,7 +756,7 @@ namespace KruegerNationalPark {
 		{
 			{
 			KruegerNationalPark.Tree tree = new Func<KruegerNationalPark.Tree>(() => {
-			Func<KruegerNationalPark.Tree, bool> _predicate373_9315 = new Func<KruegerNationalPark.Tree,bool>((KruegerNationalPark.Tree x) =>  {
+			Func<KruegerNationalPark.Tree, bool> _predicate374_9224 = new Func<KruegerNationalPark.Tree,bool>((KruegerNationalPark.Tree x) =>  {
 					{
 					return x.IsTreeAgeGroup(treeAgeGroup)
 					 && x.IsSpecies(species)
@@ -771,9 +764,9 @@ namespace KruegerNationalPark {
 					;
 					return default(bool);;
 			});
-			const int _range373_9315 = -1;
-			var _source373_9315 = this;
-			return _SavannaLayer._TreeEnvironment.Explore(_source373_9315, _range373_9315, 1, _predicate373_9315)?.FirstOrDefault();}).Invoke();
+			const int _range374_9224 = -1;
+			var _source374_9224 = this;
+			return _SavannaLayer._TreeEnvironment.Explore(_source374_9224, _range374_9224, 1, _predicate374_9224)?.FirstOrDefault();}).Invoke();
 			return !Equals(tree, null) && DistanceTo(tree) < minDistance
 			;}
 			return default(bool);;
@@ -811,51 +804,51 @@ namespace KruegerNationalPark {
 							return 0
 							;}
 					;} ;
-			string _switch393_10128 = (Species);
-			bool _matched_393_10128 = false;
-			bool _fallthrough_393_10128 = false;
-			if(!_matched_393_10128 || _fallthrough_393_10128) {
-				if(Equals(_switch393_10128, AN)) {
-					_matched_393_10128 = true;
+			string _switch394_10037 = (Species);
+			bool _matched_394_10037 = false;
+			bool _fallthrough_394_10037 = false;
+			if(!_matched_394_10037 || _fallthrough_394_10037) {
+				if(Equals(_switch394_10037, AN)) {
+					_matched_394_10037 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, (-3.55 + 3.060 * Mars.Components.Common.Math.Log(StemDiameter)
 					)) / 0.6
 					;}
 				} else {
-					_fallthrough_393_10128 = false;
+					_fallthrough_394_10037 = false;
 				}
 			}
-			if(!_matched_393_10128 || _fallthrough_393_10128) {
-				if(Equals(_switch393_10128, CA)) {
-					_matched_393_10128 = true;
+			if(!_matched_394_10037 || _fallthrough_394_10037) {
+				if(Equals(_switch394_10037, CA)) {
+					_matched_394_10037 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, (-3.27 + 2.800 * Mars.Components.Common.Math.Log(StemDiameter)
 					)) / 0.6
 					;}
 				} else {
-					_fallthrough_393_10128 = false;
+					_fallthrough_394_10037 = false;
 				}
 			}
-			if(!_matched_393_10128 || _fallthrough_393_10128) {
-				if(Equals(_switch393_10128, SB)) {
-					_matched_393_10128 = true;
+			if(!_matched_394_10037 || _fallthrough_394_10037) {
+				if(Equals(_switch394_10037, SB)) {
+					_matched_394_10037 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, (-3.35 + 2.620 * Mars.Components.Common.Math.Log(StemDiameter)
 					)) / 0.6
 					;}
 				} else {
-					_fallthrough_393_10128 = false;
+					_fallthrough_394_10037 = false;
 				}
 			}
-			if(!_matched_393_10128 || _fallthrough_393_10128) {
-				if(Equals(_switch393_10128, TT)) {
-					_matched_393_10128 = true;
+			if(!_matched_394_10037 || _fallthrough_394_10037) {
+				if(Equals(_switch394_10037, TT)) {
+					_matched_394_10037 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, (-3.39 + 2.827 * Mars.Components.Common.Math.Log(StemDiameter)
 					)) / 0.6
 					;}
 				} else {
-					_fallthrough_393_10128 = false;
+					_fallthrough_394_10037 = false;
 				}
 			}
 			;}
@@ -865,51 +858,51 @@ namespace KruegerNationalPark {
 		public double CalculateDiameterByWoodMass() 
 		{
 			{
-			string _switch402_10510 = (Species);
-			bool _matched_402_10510 = false;
-			bool _fallthrough_402_10510 = false;
-			if(!_matched_402_10510 || _fallthrough_402_10510) {
-				if(Equals(_switch402_10510, AN)) {
-					_matched_402_10510 = true;
+			string _switch403_10419 = (Species);
+			bool _matched_403_10419 = false;
+			bool _fallthrough_403_10419 = false;
+			if(!_matched_403_10419 || _fallthrough_403_10419) {
+				if(Equals(_switch403_10419, AN)) {
+					_matched_403_10419 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, ((3.55 + Mars.Components.Common.Math.Log(LivingWoodMass * 0.6)
 					) / 3.060))
 					;}
 				} else {
-					_fallthrough_402_10510 = false;
+					_fallthrough_403_10419 = false;
 				}
 			}
-			if(!_matched_402_10510 || _fallthrough_402_10510) {
-				if(Equals(_switch402_10510, CA)) {
-					_matched_402_10510 = true;
+			if(!_matched_403_10419 || _fallthrough_403_10419) {
+				if(Equals(_switch403_10419, CA)) {
+					_matched_403_10419 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, ((3.27 + Mars.Components.Common.Math.Log(LivingWoodMass * 0.6)
 					) / 2.800))
 					;}
 				} else {
-					_fallthrough_402_10510 = false;
+					_fallthrough_403_10419 = false;
 				}
 			}
-			if(!_matched_402_10510 || _fallthrough_402_10510) {
-				if(Equals(_switch402_10510, SB)) {
-					_matched_402_10510 = true;
+			if(!_matched_403_10419 || _fallthrough_403_10419) {
+				if(Equals(_switch403_10419, SB)) {
+					_matched_403_10419 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, ((3.35 + Mars.Components.Common.Math.Log(LivingWoodMass * 0.6)
 					) / 2.620))
 					;}
 				} else {
-					_fallthrough_402_10510 = false;
+					_fallthrough_403_10419 = false;
 				}
 			}
-			if(!_matched_402_10510 || _fallthrough_402_10510) {
-				if(Equals(_switch402_10510, TT)) {
-					_matched_402_10510 = true;
+			if(!_matched_403_10419 || _fallthrough_403_10419) {
+				if(Equals(_switch403_10419, TT)) {
+					_matched_403_10419 = true;
 					{
 					return Mars.Components.Common.Math.Pow(E, ((3.39 + Mars.Components.Common.Math.Log(LivingWoodMass * 0.6)
 					) / 2.827))
 					;}
 				} else {
-					_fallthrough_402_10510 = false;
+					_fallthrough_403_10419 = false;
 				}
 			}
 			;}
@@ -929,7 +922,12 @@ namespace KruegerNationalPark {
 			{
 			DyingReason = reason;
 			MyTreeAgeGroup = TreeAgeGroup.Death;
-			IsAlive = false
+			new System.Action(() => {
+				var _target418_10932 = this
+				if (target != null) {
+					_agent418_10932._Layer_._Unregister(_SavannaLayer, _target418_10932, _target418_10932._executionFrequency);
+				}
+			}).Invoke()
 			;}
 			return;
 		}
@@ -945,7 +943,12 @@ namespace KruegerNationalPark {
 		public void ResetBarkBy(double percent) 
 		{
 			{
-			Bark = Bark + Bark * percent / 100
+			Bark = Bark + Bark * percent / 100;
+			if(Bark > 1.0) {
+							{
+							Bark = 1.0
+							;}
+					;} 
 			;}
 			return;
 		}
@@ -1096,7 +1099,13 @@ namespace KruegerNationalPark {
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
 		public double TakePushOver() {
 			{
-			return ReduceLivingWoodMassBy(LivingWoodMass)
+			double result = ReduceLivingWoodMassBy(LivingWoodMass);
+			if(RandomPropabilitySmallenThan(50)) {
+							{
+							Die("PushOver")
+							;}
+					;} ;
+			return result
 			;}
 			
 			return default(double);;
@@ -1158,7 +1167,10 @@ namespace KruegerNationalPark {
 			
 			return;
 		}
+		internal bool _isAlive;
+		internal int _executionFrequency;
 		
+		public KruegerNationalPark.SavannaLayer _Layer_ => _SavannaLayer;
 		public KruegerNationalPark.SavannaLayer _SavannaLayer { get; set; }
 		public Mars.Components.Environments.GeoGridHashEnvironment<Tree> _TreeEnvironment { get; set; }
 		public KruegerNationalPark.Precipitation _Precipitation { get; set; }
@@ -1190,6 +1202,8 @@ namespace KruegerNationalPark {
 			this._Temperature = _Temperature;
 			_SavannaLayer._TreeEnvironment.Insert(this);
 			_register(_layer, this, freq);
+			_isAlive = true;
+			_executionFrequency = freq;
 			{
 			MyTreeAgeGroup = TreeAgeGroup.Seed;
 			MyDamageType = DamageType.No;
@@ -1201,6 +1215,7 @@ namespace KruegerNationalPark {
 		
 		public void Tick()
 		{
+			{ if (!_isAlive) return; }
 			{
 			UpdateTreeAgeGroup();
 			UpdatePhotosyntheseActive();
