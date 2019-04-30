@@ -1,2 +1,0 @@
-[ERROR] 2019-04-18 15:11:10,212 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/RCP4.5_2018_2050_temp.zip could not found for mapping Temperature 
-[ERROR] 2019-04-18 15:11:10,280 | Mars.Core.ModelContainer.Implementation.Validator - The input file model_input/RCP4.5_2018_2050_pre.zip could not found for mapping Precipitation 

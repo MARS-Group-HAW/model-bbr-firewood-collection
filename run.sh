@@ -1,1 +1,3 @@
-dotnet run -sm src/config.json --project src-gen
+!#bin/bash
+cd model
+dotnet run -sm config.json --project Starter
