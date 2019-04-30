@@ -146,7 +146,22 @@ agent Tree on SavannaLayer {
 			Die("Drought")
 		}
 	}
-
+	
+	passive SufferHerbivorePressure() {
+		if (MyTreeAgeGroup === TreeAgeGroup.Juvenile) { //and height < 1.5m
+			switch (Species) {
+			case AN: { ReduceStemDiameterBy(5) }
+			case CA: { ReduceStemDiameterBy(20) }
+			case SB: { ReduceStemDiameterBy(30) }
+			case TT: { ReduceStemDiameterBy(18) } 
+			}
+		}//TODO auch heribvore Pressure layer bauen (vgl. DroughtLayer)
+	}
+	
+	def ReduceStemDiameterBy(percent : real) {
+		StemDiameter = StemDiameter - StemDiameter * percent / 100
+	}
+	
 	def UpdatePhotosyntheseActive() { // SUM: 228 days with leaves
 		if      (Time::Month(simtime) === 10 and Time::Day(simtime) === 15)
 			HasLeaves = true
@@ -196,14 +211,14 @@ agent Tree on SavannaLayer {
 	}
 	
 	def Seed() {	
-		if (HasPrecipitation) {
-			MyTreeAgeGroup = TreeAgeGroup.Seedling 
-			FirstTickAsSeedling = simtime			
+		if (HasPrecipitation) {		
 			if (RandomPropabilitySmallenThan(100 - SeedlingSurvivalRate + random(SeedlingSurvivalRate))) {
 				Die("RandomProbability") // 88% - 100% die eventually
 			} else if (IsPopulationDensityExceeded) {
 				Die("PopulationDensity")
 			}
+			FirstTickAsSeedling = simtime	
+			MyTreeAgeGroup = TreeAgeGroup.Seedling 
 		} 	
 	}
 	
@@ -233,7 +248,7 @@ agent Tree on SavannaLayer {
 			seedSurvivedFirst12Days = HasPrecipitation
 			return false
 		} 
-		return seedSurvivedFirst12Days
+		return not seedSurvivedFirst12Days
 	}
 
 	def HasPrecipitation() {
@@ -414,7 +429,7 @@ agent Tree on SavannaLayer {
 	
 	def Die(reason : string) {
 		DyingReason = reason
-		MyTreeAgeGroup = TreeAgeGroup.Death	
+		//MyTreeAgeGroup = TreeAgeGroup.Death	
 		kill me
 	}
 		
@@ -423,7 +438,7 @@ agent Tree on SavannaLayer {
 	}	
 		
 	def ResetBarkBy(percent : real) {
-		Bark = Bark + Bark * percent / 100
+		Bark = Bark + Bark * percent / 100.0
 		if (Bark > 1.0) {
 			Bark = 1.0
 		}

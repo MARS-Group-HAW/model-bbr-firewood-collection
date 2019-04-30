@@ -55,13 +55,18 @@ namespace Bushbuckridge.Agents.Collector
             if (SimulationClock.CurrentTimePoint.Value.Month == 9 && SimulationClock.CurrentTimePoint.Value.Day == 1 &&
                 daysSinceLastDroughtTest >= 365)
             {
-                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + ": " + stopwatch.Elapsed.Minutes.ToString("D2") +" minutes " + stopwatch.Elapsed.Seconds.ToString("D2") +" secs " + stopwatch.Elapsed.Milliseconds.ToString("D3") +" millisec");
+                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year +"("+ precipitationWithinYear + "ml): " + stopwatch.Elapsed.Minutes.ToString("D2") +" minutes " + stopwatch.Elapsed.Seconds.ToString("D2") +" secs " + stopwatch.Elapsed.Milliseconds.ToString("D3") +" millisec");
                 stopwatch.Restart();
 //                Console.WriteLine( SimulationClock.CurrentTimePoint.Value.Year + " " + (int)precipitationWithinYear);
                 if (IsDroughtSituationReached())
                 {
+                    Console.WriteLine("DROUGHT!!");
                     // fire drought event
-                    Parallel.ForEach(_savannaLayer._TreeAgents.Values, tree => tree.SufferDrought());
+                    foreach (var tree in _savannaLayer._TreeAgents.Values)
+                    {
+                        tree.SufferDrought();
+                    }
+//                    Parallel.ForEach(_savannaLayer._TreeAgents.Values, tree => tree.SufferDrought());
                 }
 
                 precipitationWithinYear = 0;

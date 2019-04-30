@@ -2,8 +2,8 @@
 	"globals": {
 		"deltaT": 1,
 		"deltaTUnit": "days",
-		"startTime": "10/14/2018",
-		"endTime": "10/15/2033",
+		"startTime": "10/14/2010",
+		"endTime": "10/15/2050",
 		"output": "csv",
 		"options": {
 			"delimiter": ";",
@@ -12,11 +12,11 @@
 	},
 	"layers": [{
 			"name": "Temperature",
-			"file": "model_input/RCP4.5_2018_2050_temp.zip"
+			"file": "model_input/RCP4.5_2010_2050_temp.zip"
 		},
 		{
 			"name": "Precipitation",
-			"file": "model_input/RCP4.5_2018_2050_pre.zip"
+			"file": "model_input/RCP4.5_2010_2050_pre.zip"
 		}
 	],
 	"agents": [{

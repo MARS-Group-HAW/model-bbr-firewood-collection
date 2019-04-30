@@ -34,11 +34,9 @@
     <None Remove="tmp\**" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Mars.Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\.nuget\packages\mars.life.simulations\3.0.352-preview\lib\netstandard2.0\Mars.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="model\Bushbuckridge\Bushbuckridge.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="model\Bushbuckridge\Bushbuckridge.csproj" />
+    <PackageReference Include="Mars.Life.Simulations" Version="3.0.1-preview" />
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ namespace Bushbuckridge.Agents.Collector
         private const double deadMassWorthExploiting = 1;
         private const double livingMassWorthExploiting = 4;
         private const double treeDiameterWorthExploiting = 3;
-        private const double desiredWoodAmountForEachTick = 20;
+        private const double desiredWoodAmountForEachTick = 10;
 
         private double woodAmountCollectedThisTick;
         public double woodAmountCollectedThisYear { get; private set; }
@@ -112,7 +112,7 @@ namespace Bushbuckridge.Agents.Collector
 
         private bool IsActiveThisWeek()
         {
-            return _treeLayer.GetCurrentTick() % 7 == 0;
+            return _treeLayer.GetCurrentTick() % 3 == 0;
         }
 
         private bool NextYearHasStarted()
