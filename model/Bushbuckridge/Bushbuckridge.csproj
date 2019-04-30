@@ -6,6 +6,6 @@
     <PackageReference Include="Mars.Life.Simulations" Version="3.0.1-preview" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src-gen\KruegerNationalPark.csproj" />
+    <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
   </ItemGroup>
 </Project>

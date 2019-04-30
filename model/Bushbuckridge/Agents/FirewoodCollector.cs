@@ -2,7 +2,6 @@
 using Bushbuckridge.Actions;
 using Bushbuckridge.Goals;
 using Bushbuckridge.States;
-using KruegerNationalPark;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services.Planning.Implementation;
@@ -11,6 +10,7 @@ using Mars.Interfaces.Agent;
 using Mars.Interfaces.Environment.GeoCommon;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.LIFECapabilities;
+using SavannaTrees;
 
 namespace Bushbuckridge.Agents.Collector
 {

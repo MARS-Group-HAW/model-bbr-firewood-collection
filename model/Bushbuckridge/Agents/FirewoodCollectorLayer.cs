@@ -3,12 +3,12 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Bushbuckridge.Config;
-using KruegerNationalPark;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.Layer.Initialization;
+using SavannaTrees;
 
 namespace Bushbuckridge.Agents.Collector
 {

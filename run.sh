@@ -1,3 +1,2 @@
-!#bin/bash
-cd model
-dotnet run -sm config.json --project Starter
+cd model/Starter
+dotnet run -sm ../../config.json --project Starter.csproj

@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Linq;
 using Bushbuckridge.Agents.Collector;
-using KruegerNationalPark;
 using Mars.Common.Logging;
 using Mars.Common.Logging.Enums;
 using Mars.Core.ModelContainer.Entities;
 using Mars.Core.SimulationStarter;
+using SavannaTrees;
 
 public static class Program
 {
