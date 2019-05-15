@@ -14,6 +14,7 @@ namespace Bushbuckridge.Agents.Collector
 {
     public class FirewoodCollectorLayer : ISteppedActiveLayer
     {
+        public readonly Random Random;
         private readonly SavannaLayer _savannaLayer;
         private readonly GeoGridEnvironment<GeoAgent<FirewoodCollector>> _environment;
 
@@ -26,6 +27,7 @@ namespace Bushbuckridge.Agents.Collector
             _environment =
                 new GeoGridEnvironment<GeoAgent<FirewoodCollector>>(Territory.TOP_LAT, Territory.BOTTOM_LAT,
                     Territory.LEFT_LONG, Territory.RIGHT_LONG, 1000);
+            Random = new Random();
         }
 
         public bool InitLayer(TInitData layerInitData, RegisterAgent registerAgentHandle,
