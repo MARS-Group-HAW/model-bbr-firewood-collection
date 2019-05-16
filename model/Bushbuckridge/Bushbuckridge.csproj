@@ -3,9 +3,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mars.Life.Simulations" Version="3.0.1-preview" />
+    <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
+    <PackageReference Include="Mars.Life.Simulations" Version="3.0.3-preview" />
   </ItemGroup>
 </Project>

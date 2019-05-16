@@ -9,6 +9,6 @@
     <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mars.Life.Simulations" Version="3.0.1-preview" />
+    <PackageReference Include="Mars.Life.Simulations" Version="3.0.3-preview" />
   </ItemGroup>
 </Project>

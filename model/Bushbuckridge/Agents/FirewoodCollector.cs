@@ -34,7 +34,7 @@ namespace Bushbuckridge.Agents.Collector
         private const double treeDiameterWorthExploiting = 3;
         private const double desiredWoodAmountForEachTick = 25;
 
-        private const double woodConsumptionPerDay = 10;
+        private const double woodConsumptionPerDay = 7.5;
         private double woodAmountInStock;
 
         private double woodAmountCollectedThisTick;
@@ -213,7 +213,7 @@ namespace Bushbuckridge.Agents.Collector
 //            _currentTreeWithDeadwood = FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
             AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
 
-            _currentTreeWithAlivewood = FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && !tree.IsSpecies("sb"));
+            _currentTreeWithAlivewood = FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting);// && !tree.IsSpecies("sb"));
             var nearAlivewoodTree = _currentTreeWithAlivewood != null;
             AgentStates.AddOrUpdateState(FirewoodState.IsNearAlivewoodTree, nearAlivewoodTree);
             if (nearAlivewoodTree)
