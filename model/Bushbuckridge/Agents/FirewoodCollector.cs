@@ -34,7 +34,7 @@ namespace Bushbuckridge.Agents.Collector
         private const double treeDiameterWorthExploiting = 3;
         private const double desiredWoodAmountForEachTick = 25;
 
-        private const double woodConsumptionPerDay = 7.5;
+        private const double woodConsumptionPerDay = 10;
         private double woodAmountInStock;
 
         private double woodAmountCollectedThisTick;

@@ -3,6 +3,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+  <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">
+    <Exec Command="rm -rf tmp" />
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\Bushbuckridge\Bushbuckridge.csproj" />
     <ProjectReference Include="..\model-savanna-trees\model\DroughtLayer\DroughtLayer.csproj" />

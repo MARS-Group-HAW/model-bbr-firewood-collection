@@ -2,8 +2,8 @@
    "globals":{
       "deltaT":1,
       "deltaTUnit":"days",
-      "startTime":"10/14/2010",
-      "endTime":"10/15/2020",
+      "startTime":"10/13/2010",
+      "endTime":"10/16/2020",
       "output":"csv",
       "options":{
          "delimiter":";",
@@ -30,14 +30,14 @@
       },
       {
          "name":"Tree",
-         "count":4508,
-         "file":"../../model_input/tree_bushbuckridge_test_ha.csv",
+         "count":1000,
+         "file":"../../model_input/tree_bushbuckridge_3ha.csv",
          "frequency":1,
-         "outputFrequency":365,
+         "outputFrequency":1,
          "individuals":[
             {
                "parameter":"IsScenario45not85",
-               "value":false
+               "value":true
             },
             {
                "name":"ycor",
