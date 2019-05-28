@@ -47,7 +47,7 @@
       {  
          "name":"Tree",
          "count":13524,
-         "file":"../../model_input/tree_bushbuckridge_test_3ha.csv",
+         "file":"../../model_input/tree_bushbuckridge.csv",
          "frequency":1,
          "outputFrequency":365,
          "individuals":[  

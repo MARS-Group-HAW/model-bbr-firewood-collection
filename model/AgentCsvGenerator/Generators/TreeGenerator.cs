@@ -28,7 +28,7 @@ namespace AgentCsvGenerator.Generators
     public class TreeGenerator
     {
         private readonly AreaDefinition _area;
-        private const string Delimiter = ",";
+        private const string Delimiter = ";";
 
         private static readonly Random Random = new Random();
 
