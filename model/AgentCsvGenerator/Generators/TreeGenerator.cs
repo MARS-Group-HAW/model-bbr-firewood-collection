@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Text;
 using AgentCsvGenerator.Config;
 
@@ -27,7 +28,7 @@ namespace AgentCsvGenerator.Generators
     public class TreeGenerator
     {
         private readonly AreaDefinition _area;
-        private const string Delimiter = ";";
+        private const string Delimiter = ",";
 
         private static readonly Random Random = new Random();
 
@@ -36,7 +37,7 @@ namespace AgentCsvGenerator.Generators
             _area = area;
         }
 
-        public string Generate(List<Species> species)
+        public string Generate(List<Species> species, Func<int, int, bool> isEmptyRaster = null, Func<int, int, double> evaluateFilterPercentage = null)
         {
             var result = new StringBuilder();
             result.AppendLine(string.Join(Delimiter, "lat", "lon", "species", "diameter", "raster"));
@@ -51,33 +52,49 @@ namespace AgentCsvGenerator.Generators
                 var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
                 for (var rasterLatIndex = 0; rasterLatIndex < rasterCountLat; rasterLatIndex++)
                 {
-                    var offsetLat = _area.North + _area.LatOffsetWithoutAgentsFromNorth +
-                                    rasterLatIndex * 100 * _area.OneMeterLat;
-                    Console.WriteLine(rasterLatIndex);
+                    if (isEmptyRaster != null && isEmptyRaster.Invoke(rasterLatIndex, rasterLonIndex)) continue;
+                    var filterPercentage = evaluateFilterPercentage?.Invoke(rasterLatIndex, rasterLonIndex) ?? 1.0;
+                    var offsetLat = _area.North + rasterLatIndex * 100 * _area.OneMeterLat;
+                    // Console.WriteLine(GenRasterId(rasterLatIndex,rasterLonIndex));
                     foreach (var aSpecies in species)
                     {
                         for (var i = 0; i < aSpecies.SeedlingsPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                offsetLon, GenerateRandomDiameter(0, 0)));
+                            if (IsNotFiltered(filterPercentage))
+                            {
+                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                    offsetLon, GenerateRandomDiameter(0, 0)));
+                            }
                         }
 
                         for (var i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                offsetLon, GenerateRandomDiameter(1, 6)));
+                            if (IsNotFiltered(filterPercentage))
+                            {
+                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                    offsetLon, GenerateRandomDiameter(1, 6)));
+                            }
                         }
 
                         for (var i = 0; i < aSpecies.AdultPerHa; i++)
                         {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                offsetLon, GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
+                            if (IsNotFiltered(filterPercentage))
+                            {
+                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                    offsetLon,
+                                    GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
+                            }
                         }
                     }
                 }
             }
 
             return result.ToString();
+        }
+
+        private bool IsNotFiltered(double filterPercentage)
+        {
+            return Random.NextDouble() <= filterPercentage;
         }
 
         private string GenerateTree(Species type, int rasterLatIndex, int rasterLonIndex, double offsetLat,
