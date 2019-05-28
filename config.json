@@ -1,61 +1,77 @@
-{
-   "globals":{
+{  
+   "globals":{  
       "deltaT":1,
       "deltaTUnit":"days",
-      "startTime":"10/13/2010",
-      "endTime":"10/16/2020",
+      "startTime":"10/1/2010",
+      "endTime":"10/2/2050",
       "output":"csv",
-      "options":{
+      "options":{  
          "delimiter":";",
          "format":"de-DE"
       }
    },
-   "layers":[
-      {
+   "layers":[  
+      {  
          "name":"Temperature",
          "file":"../../model_input/RCP4.5_2010_2050_temp.zip"
       },
-      {
+      {  
          "name":"Precipitation",
          "file":"../../model_input/RCP4.5_2010_2050_pre.zip"
+      },
+      {  
+         "name":"DroughtLayer",
+         "frequency":1,
+         "mapping":[  
+            {  
+               "parameter":"precipitationThreshold",
+               "value":435
+            }
+         ]
       }
    ],
-   "agents":[
-      {
+   "agents":[  
+      {  
          "name":"FirewoodCollector",
          "count":1,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
       },
-      {
+      {  
+         "name":"Rafiki",
+         "count":1,
+         "frequency":365,
+         "outputFrequency":364
+      },
+      {  
          "name":"Tree",
-         "count":1000,
-         "file":"../../model_input/tree_bushbuckridge_3ha.csv",
+         "count":13524,
+         "file":"../../model_input/tree_bushbuckridge_test_3ha.csv",
          "frequency":1,
-         "outputFrequency":1,
-         "individuals":[
-            {
+         "outputFrequency":365,
+         "individuals":[  
+            {  
                "parameter":"IsScenario45not85",
                "value":true
             },
-            {
+            {  
                "name":"ycor",
                "field":"lat"
             },
-            {
+            {  
                "name":"xcor",
                "field":"lon"
             },
-            {
+            {  
                "name":"StemDiameter",
                "field":"diameter"
             },
-            {
+            {  
                "name":"Species",
                "field":"species"
             },
-            {
+            {  
                "name":"Raster",
                "field":"raster"
             }

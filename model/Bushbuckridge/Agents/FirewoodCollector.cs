@@ -23,7 +23,6 @@ namespace Bushbuckridge.Agents.Collector
         public IGoapAgentStates AgentStates { get; set; }
         private readonly GoapPlanner _goapPlanner;
 
-        private readonly FirewoodCollectorLayer _layer;
         private readonly SavannaLayer _treeLayer;
 
         private Tree _currentTreeWithDeadwood;

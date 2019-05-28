@@ -8,7 +8,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Starter", "Starter\Starter.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavannaTrees", "model-savanna-trees\src-gen\SavannaTrees.csproj", "{64BE99DD-DF45-4096-8539-4D1C090F6646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroughtLayer", "model-savanna-trees\model\DroughtLayer\DroughtLayer.csproj", "{F94511E4-0FA8-4E7B-BB03-9D067FB6BCC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroughtLayer", "model-savanna-trees\model\DroughtLayer\DroughtLayer.csproj", "{555BA14E-A32B-4CD3-A2B9-0480717A2CA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HerbivorePressureLayer", "model-savanna-trees\model\HerbivorePressureLayer\HerbivorePressureLayer.csproj", "{D7B6A2D5-6296-484C-97E6-C3C96542623C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +34,13 @@ Global
 		{64BE99DD-DF45-4096-8539-4D1C090F6646}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64BE99DD-DF45-4096-8539-4D1C090F6646}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64BE99DD-DF45-4096-8539-4D1C090F6646}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F94511E4-0FA8-4E7B-BB03-9D067FB6BCC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F94511E4-0FA8-4E7B-BB03-9D067FB6BCC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F94511E4-0FA8-4E7B-BB03-9D067FB6BCC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F94511E4-0FA8-4E7B-BB03-9D067FB6BCC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555BA14E-A32B-4CD3-A2B9-0480717A2CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555BA14E-A32B-4CD3-A2B9-0480717A2CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555BA14E-A32B-4CD3-A2B9-0480717A2CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555BA14E-A32B-4CD3-A2B9-0480717A2CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B6A2D5-6296-484C-97E6-C3C96542623C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B6A2D5-6296-484C-97E6-C3C96542623C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B6A2D5-6296-484C-97E6-C3C96542623C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B6A2D5-6296-484C-97E6-C3C96542623C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
