@@ -28,7 +28,6 @@ namespace AgentCsvGenerator.Generators
     public class TreeGenerator
     {
         private readonly AreaDefinition _area;
-        private const string Delimiter = ";";
 
         private static readonly Random Random = new Random();
 
@@ -40,7 +39,7 @@ namespace AgentCsvGenerator.Generators
         public string Generate(List<Species> species, Func<int, int, bool> isEmptyRaster = null, Func<int, int, double> evaluateFilterPercentage = null)
         {
             var result = new StringBuilder();
-            result.AppendLine(string.Join(Delimiter, "lat", "lon", "species", "diameter", "raster"));
+            result.AppendLine(string.Join(AgentCsvGenerator.Delimiter, "lat", "lon", "species", "diameter", "raster"));
 
             const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
 
@@ -104,12 +103,12 @@ namespace AgentCsvGenerator.Generators
             var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
             var raster = GenRasterId(rasterLatIndex, rasterLonIndex);
 
-            return string.Join(Delimiter, posLat, posLon, type.Name, diameter, raster);
+            return string.Join(AgentCsvGenerator.Delimiter, posLat, posLon, type.Name, diameter, raster);
         }
 
         private static string GenRasterId(int rasterLatIndex, int rasterLonIndex)
         {
-            return rasterLonIndex.ToString("D2") + "_" + rasterLatIndex.ToString("D2");
+            return 1 + rasterLonIndex.ToString("D2") + rasterLatIndex.ToString("D2");
         }
 
         private static float GenerateRandomDiameter(int min, int max)

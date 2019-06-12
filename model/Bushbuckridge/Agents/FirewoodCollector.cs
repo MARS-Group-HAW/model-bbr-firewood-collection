@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Bushbuckridge.Actions;
 using Bushbuckridge.Goals;
 using Bushbuckridge.States;
 using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services.Planning.Implementation;
+using Mars.Components.Services.Planning.Implementation.ActionCommons;
 using Mars.Components.Services.Planning.Interfaces;
 using Mars.Interfaces.Agent;
 using Mars.Interfaces.Environment.GeoCommon;
@@ -81,13 +84,37 @@ namespace Bushbuckridge.Agents.Collector
             woodAmountInStock = layer.Random.Next(10, 30);
         }
 
-        protected override IInteraction Reason()
+        
+        protected override void Reason()
         {
             UpdateObserveProperties();
             ConsumeWood();
-            return RequiresWoodStockRefill()
-                ? new ReplaningGoapInteraction(_goapPlanner, AgentStates)
-                : NoActionInteraction.Get;
+            if (RequiresWoodStockRefill())
+            {
+                Act();
+            }
+        }
+
+        private void Act()
+        {
+            IList<IGoapAction> actions = new List<IGoapAction>();
+            do
+            {
+                actions = _goapPlanner.Plan();
+                var goal = _goapPlanner.SelectedGoal;
+                foreach (var action in actions)
+                {
+                    if (!action.Execute())
+                    {
+                        break;
+                    }
+                }
+
+                if (goal is ReturnHomeGoal finishingGoal && finishingGoal.IsSatisfied())
+                {
+                    break;
+                }
+            } while (actions.Any() && !actions.First().Equals(NoGoalReachableAction.Instance));
         }
 
         private void ConsumeWood()
@@ -236,5 +263,6 @@ namespace Bushbuckridge.Agents.Collector
             //TODO or no time anymore
             return true;
         }
+
     }
 }

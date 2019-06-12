@@ -6,7 +6,6 @@ namespace AgentCsvGenerator.Generators
     public class HouseholdGenerator
     {
         private readonly AreaDefinition _area;
-        private static readonly string Delmiter = ";";
 
         public HouseholdGenerator(AreaDefinition area)
         {
@@ -16,7 +15,7 @@ namespace AgentCsvGenerator.Generators
         public string Generate(int householdCount)
         {
             var result = new StringBuilder();
-            result.AppendLine("lat" + Delmiter + "lon");
+            result.AppendLine(string.Join(AgentCsvGenerator.Delimiter, "lat", "lon"));
 
             var lastPositionLat = _area.North;
             var lastPositionLon = _area.West;
@@ -25,7 +24,7 @@ namespace AgentCsvGenerator.Generators
 
             for (var i = 0; i < householdCount; i++)
             {
-                result.AppendLine(lastPositionLat + Delmiter + lastPositionLon);
+                result.AppendLine(string.Join(AgentCsvGenerator.Delimiter, lastPositionLat, lastPositionLon));
                 lastPositionLon += stepLon;
                 if (lastPositionLon > _area.East)
                 {

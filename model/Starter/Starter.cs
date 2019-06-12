@@ -18,13 +18,16 @@ public static class Program
             LoggerFactory.SetLogLevel(LogLevel.Info);
             LoggerFactory.ActivateConsoleLogging();
         }
+
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-        
+
         var description = new ModelDescription();
         description.AddLayer<Precipitation>();
         description.AddLayer<Temperature>();
+        description.AddLayer<TreeRaster>();
 
         description.AddLayer<SavannaLayer>();
+
         description.AddLayer<DroughtLayer>();
         description.AddLayer<HerbivorePressureLayer>();
         description.AddLayer<FirewoodCollectorLayer>();
@@ -36,8 +39,8 @@ public static class Program
 
         var task = SimulationStarter.Start(description, args);
         var loopResults = task.Run();
-        Console.WriteLine($"Simulation execution finished after {loopResults.Iterations} steps in seconds: " +
-                          stopwatch.Elapsed.Seconds);
-           
+        Console.WriteLine($"Simulation execution finished after {loopResults.Iterations} steps in " +
+                          stopwatch.Elapsed.Days + "d " + stopwatch.Elapsed.Hours + "h " + stopwatch.Elapsed.Minutes +
+                          "m " + stopwatch.Elapsed.Seconds + "s");
     }
 }
