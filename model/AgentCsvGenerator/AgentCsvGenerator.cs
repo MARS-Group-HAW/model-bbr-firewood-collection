@@ -45,50 +45,50 @@ namespace AgentCsvGenerator
             species.Add(new Species("tt", 3546, 638, 38, 13));
 
             var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster, EvaluateFilterPercentage);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_11.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_3x3.csv"), trees);
 
             var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
-            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_11.asc");
+            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_3x3.asc");
             SaveContentInZip(filePath, raster);
         }
 
 
         private static bool IsEmptyRaster(int rasterLatIndex, int rasterLonIndex)
         {
-            if (rasterLonIndex < 10 && (rasterLatIndex < 20 || rasterLatIndex >= 30))
+//            if (rasterLonIndex < 10 && (rasterLatIndex < 20 || rasterLatIndex >= 30))
+//            {
+//                return true;
+//            }
+//
+//            if (rasterLonIndex >= 10 && rasterLonIndex < 20 && rasterLatIndex >= 20 && rasterLatIndex < 30)
+//            {
+//                return true;
+//            }
+//
+//            if (rasterLonIndex >= 30 && rasterLonIndex < 40 && rasterLatIndex >= 30 && rasterLatIndex < 40)
+//            {
+//                return true;
+//            }
+//
+//            if (rasterLonIndex >= 40 && rasterLatIndex >= 20)
+//            {
+//                return true;
+//            }
+
+            if (rasterLatIndex >= 11 && rasterLatIndex < 14 && rasterLonIndex >= 11 && rasterLonIndex < 14)
             {
-                return true;
+                return false;
             }
 
-            if (rasterLonIndex >= 10 && rasterLonIndex < 20 && rasterLatIndex >= 20 && rasterLatIndex < 30)
-            {
-                return true;
-            }
-
-            if (rasterLonIndex >= 30 && rasterLonIndex < 40 && rasterLatIndex >= 30 && rasterLatIndex < 40)
-            {
-                return true;
-            }
-
-            if (rasterLonIndex >= 40 && rasterLatIndex >= 20)
-            {
-                return true;
-            }
-
-            if (rasterLatIndex >= 11)
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         private static double EvaluateFilterPercentage(int rasterLatIndex, int rasterLonIndex)
         {
-            if (rasterLatIndex < 15)
-            {
-                return 0.2;
-            }
+//            if (rasterLatIndex < 15)
+//            {
+//                return 0.2;
+//            }
 
             return 1;
         }

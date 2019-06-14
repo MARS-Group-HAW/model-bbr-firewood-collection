@@ -84,9 +84,22 @@ namespace Bushbuckridge.Agents.Collector
             woodAmountInStock = layer.Random.Next(10, 30);
         }
 
-        
+        /// <summary>
+        /// Set position directly north of any tree
+        /// </summary>
+        private void initAgentPosition()
+        {
+            var anyTree = _treeLayer._TreeEnvironment.GetNearest(this);
+            Mover.SetToPosition(Latitude, anyTree.Longitude, 0);
+        }
+
+
         protected override void Reason()
         {
+            if (Layer.GetCurrentTick() == 0)
+            {
+                initAgentPosition();
+            }
             UpdateObserveProperties();
             ConsumeWood();
             if (RequiresWoodStockRefill())

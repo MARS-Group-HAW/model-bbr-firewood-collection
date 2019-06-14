@@ -16,7 +16,7 @@ public static class Program
     {
         if (args != null && Enumerable.Any(args, s => s.Equals("-l")))
         {
-            LoggerFactory.SetLogLevel(LogLevel.Info);
+            LoggerFactory.SetLogLevel(LogLevel.Warning);
             LoggerFactory.ActivateConsoleLogging();
         }
 

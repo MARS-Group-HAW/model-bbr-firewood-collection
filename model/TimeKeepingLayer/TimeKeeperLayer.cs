@@ -1,5 +1,7 @@
 using System;
 using System.Diagnostics;
+using log4net.Repository.Hierarchy;
+using Mars.Common.Logging;
 using Mars.Core.SimulationManager.Entities;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.Layer.Initialization;
@@ -12,12 +14,15 @@ namespace TimeKeepingLayer
         private readonly SavannaLayer _savannaLayer;
         private readonly Stopwatch _stopWatch;
         private long _currentTick;
+        private ILogger _logger;
 
         public TimeKeeperLayer(SavannaLayer savannaLayer)
         {
             _savannaLayer = savannaLayer;
             _stopWatch = new Stopwatch();
             _stopWatch.Restart();
+
+            _logger = LoggerFactory.GetLogger(typeof(TimeKeeperLayer));
         }
 
         public bool InitLayer(TInitData layerInitData, RegisterAgent registerAgentHandle,
@@ -51,7 +56,7 @@ namespace TimeKeepingLayer
 
             if (!IsNextYearTick()) return;
             Console.WriteLine();
-            Console.WriteLine(SimulationClock.CurrentTimePoint.Value.Year + " in " + _stopWatch.Elapsed.Days + "d " +
+            _logger.LogWarning(SimulationClock.CurrentTimePoint.Value.Year + " in " + _stopWatch.Elapsed.Days + "d " +
                               _stopWatch.Elapsed.Hours + "h " + _stopWatch.Elapsed.Minutes + "m " +
                               _stopWatch.Elapsed.Seconds + "s " +
                               " and tree count: " + _savannaLayer._TreeAgents.Count);

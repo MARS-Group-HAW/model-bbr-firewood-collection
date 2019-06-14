@@ -3,8 +3,8 @@
       "deltaT":1,
       "deltaTUnit":"days",
       "startTime":"10/1/2010",
-      "endTime":"10/2/2030",
-      "output":"csv",
+      "endTime":"10/2/2050",
+      "output":"csv"
       // "options":{  
       //    "delimiter":";",
       //    "format":"de-DE"
@@ -21,7 +21,7 @@
       },
       {  
          "name":"TreeRaster",
-         "file":"../../model_input/tree_bushbuckridge_raster_11.zip"
+         "file":"../../model_input/tree_bushbuckridge_raster_3x3.zip"
       },
       {  
          "name":"DroughtLayer",
@@ -37,7 +37,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":13,
+         "count":5,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -50,8 +50,8 @@
       },
       {  
          "name":"Tree",
-         "count":	100,
-         "file":"../../model_input/tree_bushbuckridge_11.csv",
+         "count":	40572,
+         "file":"../../model_input/tree_bushbuckridge_3x3.csv",
          "frequency":1,
          "outputFrequency":365,
          "outputType": "individual",
