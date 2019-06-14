@@ -13,12 +13,12 @@ namespace AgentCsvGenerator
 //    -24.8239,31.2436
     internal static class AgentCsvGenerator
     {
-        public const string Delimiter = ",";
+        public const string Delimiter = ";";
 
         private static void Main()
         {
-            BushbuckridgeSite();
-//            SkukuzaSite();
+              BushbuckridgeSite();
+         //   SkukuzaSite();
 
             Console.WriteLine("Files are generated :)");
         }
@@ -45,10 +45,10 @@ namespace AgentCsvGenerator
             species.Add(new Species("tt", 3546, 638, 38, 13));
 
             var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster, EvaluateFilterPercentage);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_11.csv"), trees);
 
             var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
-            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster.asc");
+            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_11.asc");
             SaveContentInZip(filePath, raster);
         }
 
@@ -71,6 +71,11 @@ namespace AgentCsvGenerator
             }
 
             if (rasterLonIndex >= 40 && rasterLatIndex >= 20)
+            {
+                return true;
+            }
+
+            if (rasterLatIndex >= 11)
             {
                 return true;
             }
@@ -108,6 +113,11 @@ namespace AgentCsvGenerator
 
             var trees = new TreeGenerator(area).Generate(species);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza.csv"), trees);
+            
+            
+            var raster = new TreeRasterGenerator(area).Generate();
+            var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster.asc");
+            SaveContentInZip(filePath, raster);
         }
 
         private static void SaveContentInFile(string path, string content)

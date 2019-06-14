@@ -11,6 +11,7 @@
     <ProjectReference Include="..\model-savanna-trees\model\DroughtLayer\DroughtLayer.csproj" />
     <ProjectReference Include="..\model-savanna-trees\model\HerbivorePressureLayer\HerbivorePressureLayer.csproj" />
     <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
+    <ProjectReference Include="..\TimeKeepingLayer\TimeKeepingLayer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mars.Life.Simulations" Version="3.1.0" />
