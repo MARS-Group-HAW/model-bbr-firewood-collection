@@ -74,7 +74,7 @@ namespace Bushbuckridge.Agents.Collector
             searchAndGatherWoodGoal.AddAction(new CutShoots(this));
             searchAndGatherWoodGoal.AddAction(new CutBranchesSb(this));
             //searchAndGatherWoodGoal.AddAction(new CutBranchesCaAn(this));
-            searchAndGatherWoodGoal.AddAction(new CollectDeadWood(this));
+            searchAndGatherWoodGoal.AddAction(new CollectDeadWoodAction(this));
 
             evaluateSituationGoal.AddAction(new EvaluateAndPackWoodForTransport(this));
 
@@ -252,7 +252,7 @@ namespace Bushbuckridge.Agents.Collector
 //            _currentTreeWithDeadwood = FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
             AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
 
-            _currentTreeWithAlivewood = FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting);// && !tree.IsSpecies("sb"));
+            _currentTreeWithAlivewood = FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && !tree.IsSpecies("sb"));
             var nearAlivewoodTree = _currentTreeWithAlivewood != null;
             AgentStates.AddOrUpdateState(FirewoodState.IsNearAlivewoodTree, nearAlivewoodTree);
             if (nearAlivewoodTree)
