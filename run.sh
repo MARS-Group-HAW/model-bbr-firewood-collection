@@ -1,2 +1,2 @@
 cd model/Starter
-dotnet run -sm ../../config.json --project Starter.csproj
+dotnet run -l -sm ../../config.json --project Starter.csproj
