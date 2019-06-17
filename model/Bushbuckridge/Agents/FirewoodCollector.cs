@@ -71,10 +71,10 @@ namespace Bushbuckridge.Agents.Collector
 
             exploreGoal.AddAction(new Explore(this));
 
+            searchAndGatherWoodGoal.AddAction(new CollectDeadWoodAction(this));
             searchAndGatherWoodGoal.AddAction(new CutShoots(this));
             searchAndGatherWoodGoal.AddAction(new CutBranchesSb(this));
             //searchAndGatherWoodGoal.AddAction(new CutBranchesCaAn(this));
-            searchAndGatherWoodGoal.AddAction(new CollectDeadWoodAction(this));
 
             evaluateSituationGoal.AddAction(new EvaluateAndPackWoodForTransport(this));
 

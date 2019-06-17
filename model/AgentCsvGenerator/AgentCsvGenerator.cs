@@ -17,8 +17,8 @@ namespace AgentCsvGenerator
 
         private static void Main()
         {
-              BushbuckridgeSite();
-         //   SkukuzaSite();
+//              BushbuckridgeSite();
+          SkukuzaSite();
 
             Console.WriteLine("Files are generated :)");
         }
@@ -75,7 +75,7 @@ namespace AgentCsvGenerator
 //                return true;
 //            }
 
-            if (rasterLatIndex >= 11 && rasterLatIndex < 14 && rasterLonIndex >= 11 && rasterLonIndex < 14)
+            if (rasterLatIndex >= 20 && rasterLatIndex < 30 && rasterLonIndex >= 20 && rasterLonIndex < 30)
             {
                 return false;
             }
@@ -111,12 +111,12 @@ namespace AgentCsvGenerator
             species.Add(new Species("an", 683, 130, 7, 8));
             species.Add(new Species("tt", 1817, 300, 46, 13));
 
-            var trees = new TreeGenerator(area).Generate(species);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza.csv"), trees);
+            var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_20x29.csv"), trees);
             
             
-            var raster = new TreeRasterGenerator(area).Generate();
-            var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster.asc");
+            var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
+            var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster_20x29.asc");
             SaveContentInZip(filePath, raster);
         }
 

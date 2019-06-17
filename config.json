@@ -3,7 +3,7 @@
       "deltaT":1,
       "deltaTUnit":"days",
       "startTime":"10/1/2010",
-      "endTime":"10/2/2050",
+      "endTime":"10/2/2011",
       "output":"csv"
       // "options":{  
       //    "delimiter":";",
@@ -55,6 +55,13 @@
          "frequency":1,
          "outputFrequency":365,
          "outputType": "individual",
+         "outputFilter":[
+          {
+             "parameter":"Species",
+             "operator":"notIn",
+             "value": ["tt"]
+          }
+      ],
          "individuals":[  
             {  
                "parameter":"IsScenario45not85",
