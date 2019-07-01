@@ -3,12 +3,12 @@
       "deltaT":1,
       "deltaTUnit":"days",
       "startTime":"10/1/2010",
-      "endTime":"10/2/2011",
-      "output":"csv"
-      // "options":{  
-      //    "delimiter":";",
-      //    "format":"de-DE"
-      // }
+      "endTime":"10/4/2010",
+      "output":"csv",
+      "options":{  
+        "delimiter": ";",
+   		"numberFormat": "F2"
+      }
    },
    "layers":[  
       {  
@@ -37,7 +37,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":5,
+         "count":1,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -50,18 +50,18 @@
       },
       {  
          "name":"Tree",
-         "count":	40572,
+         "count":	1000,
          "file":"../../model_input/tree_bushbuckridge_3x3.csv",
          "frequency":1,
          "outputFrequency":365,
          "outputType": "individual",
-         "outputFilter":[
-          {
-             "parameter":"Species",
-             "operator":"notIn",
-             "value": ["tt"]
-          }
-      ],
+      //    "outputFilter":[
+      //     {
+      //        "parameter":"MyTreeAgeGroup",
+      //        "operator":"in",
+      //        "values": ["Adult"]
+      //     }
+      // ],
          "individuals":[  
             {  
                "parameter":"IsScenario45not85",

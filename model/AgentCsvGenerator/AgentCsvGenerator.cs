@@ -17,8 +17,8 @@ namespace AgentCsvGenerator
 
         private static void Main()
         {
-//              BushbuckridgeSite();
-          SkukuzaSite();
+            BushbuckridgeSite();
+//            SkukuzaSite();
 
             Console.WriteLine("Files are generated :)");
         }
@@ -45,10 +45,10 @@ namespace AgentCsvGenerator
             species.Add(new Species("tt", 3546, 638, 38, 13));
 
             var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster, EvaluateFilterPercentage);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_3x3.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_10x10.csv"), trees);
 
             var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
-            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_3x3.asc");
+            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_10x10.asc");
             SaveContentInZip(filePath, raster);
         }
 
@@ -113,8 +113,8 @@ namespace AgentCsvGenerator
 
             var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster);
             SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_20x29.csv"), trees);
-            
-            
+
+
             var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
             var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster_20x29.asc");
             SaveContentInZip(filePath, raster);

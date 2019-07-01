@@ -6,9 +6,10 @@ namespace Bushbuckridge.Actions
 {
     public class CutBranchesCaAn : GoapAction
     {
+        private static readonly int originalCost;
         private readonly FirewoodCollector _agent;
 
-        public CutBranchesCaAn(FirewoodCollector agent) : base(agent.AgentStates, 50)
+        public CutBranchesCaAn(FirewoodCollector agent) : base(agent.AgentStates, originalCost)
         {
             _agent = agent;
 
@@ -26,6 +27,11 @@ namespace Bushbuckridge.Actions
         protected override bool ExecuteAction()
         {
             return _agent.CutBranch();
+        }
+        
+        public override void UpdateCost()
+        {
+            Cost = originalCost + _agent.GetCostForAliveWoodDistance();
         }
     }
 }
