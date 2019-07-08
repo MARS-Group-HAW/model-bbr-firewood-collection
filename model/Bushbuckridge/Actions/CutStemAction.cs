@@ -6,19 +6,19 @@ using SavannaTrees;
 
 namespace Bushbuckridge.Actions
 {
-    public class CollectDeadWoodAction : GoapAction
+    public class CutStemAction : GoapAction
     {
-        private const int originalCost = 1;
-        private const double deadMassWorthExploiting = 1;
+        private const int originalCost = 100;
+        private const double treeDiameterWorthExploiting = 3;
 
         private readonly FirewoodCollector _agent;
         private Tree _tree;
 
-        public CollectDeadWoodAction(FirewoodCollector agent) : base(agent.AgentStates, originalCost)
+        public CutStemAction(FirewoodCollector agent) : base(agent.AgentStates, originalCost)
         {
             _agent = agent;
 
-            AddOrUpdatePrecondition(FirewoodState.IsNearDeadwoodTree, true);
+            AddOrUpdatePrecondition(FirewoodState.CaAnTtAdultAvailable, true);
             AddOrUpdatePrecondition(FirewoodState.HasAxe, true);
 
             AddOrUpdatePrecondition(FirewoodState.HasEnoughFirewood, false);
@@ -35,9 +35,9 @@ namespace Bushbuckridge.Actions
 
         public override void UpdateCost()
         {
-            _tree = _agent.FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
+            _tree = _agent.FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && !tree.IsSpecies("sb"));
             var treeFound = _tree != null;
-            AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, treeFound);
+            AgentStates.AddOrUpdateState(FirewoodState.CaAnTtAdultAvailable, treeFound);
 
             if (treeFound)
             {

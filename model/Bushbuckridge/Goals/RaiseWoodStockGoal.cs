@@ -10,8 +10,9 @@ namespace Bushbuckridge.Goals
     /// </summary>
     public class RaiseWoodStockGoal : GoapGoal
     {
-        public RaiseWoodStockGoal(FirewoodCollector agent) : base(agent.AgentStates)
+        public RaiseWoodStockGoal(FirewoodCollector agent) : base(agent.AgentStates, 0.15f)
         {
+            AddOrUpdateDesiredState(FirewoodState.Home, false);
             AddOrUpdateDesiredState(FirewoodState.WoodstockRaised, true);
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Bushbuckridge.Actions;
 using Bushbuckridge.Goals;
@@ -10,11 +9,10 @@ using Mars.Components.Environments;
 using Mars.Components.Services.Planning.Implementation;
 using Mars.Components.Services.Planning.Implementation.ActionCommons;
 using Mars.Components.Services.Planning.Interfaces;
-using Mars.Interfaces.Agent;
 using Mars.Interfaces.Environment.GeoCommon;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.LIFECapabilities;
-using Mars.Mathematics;
+using NetTopologySuite.Index.Quadtree;
 using SavannaTrees;
 
 namespace Bushbuckridge.Agents.Collector
@@ -32,9 +30,9 @@ namespace Bushbuckridge.Agents.Collector
         private Tree _currentTreeWithDeadwood;
         private Tree _currentTreeWithAlivewood;
 
-        private double[] _currentPosition;
+        public double[] StartPosition;
+        public double[] CollectingPosition;
 
-        private const double deadMassWorthExploiting = 1;
         private const double livingMassWorthExploiting = 4;
         private const double treeDiameterWorthExploiting = 3;
         private const double desiredWoodAmountForEachTick = 25;
@@ -62,22 +60,22 @@ namespace Bushbuckridge.Agents.Collector
             AgentStates.AddOrUpdateState(FirewoodState.TimeIsUp, false);
 
             _goapPlanner = new GoapPlanner(AgentStates);
-            var exploreGoal = new ExploreGoal(this);
+            // var exploreGoal = new ExploreGoal(this);
             var searchAndGatherWoodGoal = new RaiseWoodStockGoal(this);
             var evaluateSituationGoal = new EvaluateSituationGoal(this);
             var goHomeGoal = new ReturnHomeGoal(this);
 
-            _goapPlanner.AddGoal(exploreGoal);
+            // _goapPlanner.AddGoal(exploreGoal);
             _goapPlanner.AddGoal(searchAndGatherWoodGoal);
             _goapPlanner.AddGoal(evaluateSituationGoal);
             _goapPlanner.AddGoal(goHomeGoal);
 
-            exploreGoal.AddAction(new Explore(this));
+            // _goapPlanner.AddAction(new Explore(this));
 
-            searchAndGatherWoodGoal.AddAction(new CollectDeadWoodAction(this));
-            searchAndGatherWoodGoal.AddAction(new CutShoots(this));
-            searchAndGatherWoodGoal.AddAction(new CutBranchesSb(this));
-            searchAndGatherWoodGoal.AddAction(new CutBranchesCaAn(this));
+//            searchAndGatherWoodGoal.AddAction(new CollectDeadWoodAction(this));
+            //searchAndGatherWoodGoal.AddAction(new CutShootsAction(this));
+            //searchAndGatherWoodGoal.AddAction(new CutBranchesSbAction(this));
+            searchAndGatherWoodGoal.AddAction(new CutBranchesCaAnTtAction(this));
 
             evaluateSituationGoal.AddAction(new EvaluateAndPackWoodForTransport(this));
 
@@ -85,6 +83,10 @@ namespace Bushbuckridge.Agents.Collector
             goHomeGoal.AddAction(new AbortAndGoHome(this));
 
             woodAmountInStock = layer.Random.Next(10, 30);
+
+            AgentStates.AddOrUpdateState(FirewoodState.Home, true);
+            AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, false);
+            AgentStates.AddOrUpdateState(FirewoodState.WoodstockRaised, false);
         }
 
         /// <summary>
@@ -93,8 +95,9 @@ namespace Bushbuckridge.Agents.Collector
         private void initAgentPosition()
         {
             var anyTree = _treeLayer._TreeEnvironment.GetNearest(this);
-            Mover.SetToPosition(Latitude, anyTree.Longitude, 0);
-            _currentPosition = Position;
+//            Mover.SetToPosition(Latitude, anyTree.Longitude, 0);
+            StartPosition = new[] {Latitude, anyTree.Longitude};
+            CollectingPosition = StartPosition;
         }
 
 
@@ -122,6 +125,13 @@ namespace Bushbuckridge.Agents.Collector
                 var goal = _goapPlanner.SelectedGoal;
                 foreach (var action in actions)
                 {
+                    Console.WriteLine("-------- " + GetTick());
+                    Console.WriteLine(action);
+                    foreach (var s in AgentStates.States)
+                    {
+                        Console.WriteLine(s);
+                    }
+
                     if (!action.Execute())
                     {
                         break;
@@ -149,13 +159,13 @@ namespace Bushbuckridge.Agents.Collector
         {
             if (NextYearHasStarted())
             {
-                ResetObserveProperties();
+                ResetObservePropertiesForThisYear();
             }
 
             UpdateObservePropertiesForThisTick();
         }
 
-        private void ResetObserveProperties()
+        private void ResetObservePropertiesForThisYear()
         {
             woodAmountCollectedThisYear = 0;
             countOfAbortAndGoHome = 0;
@@ -170,7 +180,6 @@ namespace Bushbuckridge.Agents.Collector
             woodAmountCollectedThisTick = 0;
         }
 
-
         private bool NextYearHasStarted()
         {
             return _treeLayer.GetCurrentTick() % 366 == 0;
@@ -183,7 +192,7 @@ namespace Bushbuckridge.Agents.Collector
                 AddWoodToStock(_currentTreeWithDeadwood.TakeDeadWoodMass(
                     desiredWoodAmountForEachTick - woodAmountCollectedThisTick));
                 countGatherDeadWood++;
-                _currentPosition = _currentTreeWithDeadwood.Position;
+                CollectingPosition = _currentTreeWithDeadwood.Position;
             }
 
             return true;
@@ -195,27 +204,26 @@ namespace Bushbuckridge.Agents.Collector
             woodAmountCollectedThisTick += woodMass;
         }
 
-        public bool CutBranch()
+        public bool CutBranch(Tree tree)
         {
-            if (_currentTreeWithAlivewood != null)
-            {
-                AddWoodToStock(
-                    _currentTreeWithAlivewood.TakeLivingWoodMass(Math.Abs(
-                        desiredWoodAmountForEachTick - woodAmountCollectedThisTick)));
-                countCutBranches++;
-                _currentPosition = _currentTreeWithAlivewood.Position;
-            }
+            if (tree == null) return true;
+            var amount =
+                tree.TakeLivingWoodMass(Math.Abs(desiredWoodAmountForEachTick - woodAmountCollectedThisTick));
+            AddWoodToStock(amount);
+            countCutBranches++;
+            Console.WriteLine(amount);
+            CollectingPosition = tree.Position;
 
             return true;
         }
 
-        public bool CutShoots()
+        public bool CutShoots(Tree tree)
         {
-            if (_currentTreeWithAlivewood != null)
+            if (tree != null)
             {
-                AddWoodToStock(_currentTreeWithAlivewood.TakeLivingWoodMass(_currentTreeWithAlivewood.LivingWoodMass));
+                AddWoodToStock(tree.TakeLivingWoodMass(tree.LivingWoodMass));
                 countCutShoots++;
-                _currentPosition = _currentTreeWithAlivewood.Position;
+                CollectingPosition = tree.Position;
             }
 
             return true;
@@ -234,7 +242,7 @@ namespace Bushbuckridge.Agents.Collector
         public bool CarryWoodHome()
         {
             //TODO check also time 
-            _currentPosition = Position;
+            CollectingPosition = StartPosition;
             return true;
         }
 
@@ -248,28 +256,25 @@ namespace Bushbuckridge.Agents.Collector
         {
             AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, HasEnoughFirewood());
 
-            _currentTreeWithDeadwood = null;
-            _currentTreeWithAlivewood = null;
-            //TODO wenn neuer Baum genutzt, dann auch Pos dahin verlagern.  
-            //TODO ursprüngliche Position speichern.
-
+//            _currentTreeWithDeadwood = null;
+//            _currentTreeWithAlivewood = null;
+//            //TODO wenn neuer Baum genutzt, dann auch Pos dahin verlagern.  
+//            //TODO ursprüngliche Position speichern.
+//
 //            _currentTreeWithDeadwood = FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
-            AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
-
-            _currentTreeWithAlivewood =
-                FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && !tree.IsSpecies("sb"));
-            var nearAlivewoodTree = _currentTreeWithAlivewood != null;
-            AgentStates.AddOrUpdateState(FirewoodState.IsNearAlivewoodTree, nearAlivewoodTree);
-            if (nearAlivewoodTree)
-            {
-                AgentStates.AddOrUpdateState(FirewoodState.IsNearShoot,
-                    _currentTreeWithAlivewood.IsTreeAgeGroup(TreeAgeGroup.Juvenile));
-            }
+//            AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
+//
+//
+//            if (_currentTreeWithAlivewood != null)
+//            {
+//                AgentStates.AddOrUpdateState(FirewoodState.IsNearShoot,
+//                    _currentTreeWithAlivewood.IsTreeAgeGroup(TreeAgeGroup.Juvenile));
+//            }
 
             return true;
         }
 
-        private Tree FindTree(Func<Tree, bool> func)
+        public Tree FindTree(Func<Tree, bool> func)
         {
             return _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1, func);
         }
@@ -281,14 +286,6 @@ namespace Bushbuckridge.Agents.Collector
                 _currentTreeWithDeadwood == null && _currentTreeWithAlivewood == null);
             //TODO or no time anymore
             return true;
-        }
-
-        public int GetCostForAliveWoodDistance()
-        {
-            var distance = Distance.Euclidean(_currentPosition[0], _currentPosition[1], _currentTreeWithAlivewood[0],
-                _currentTreeWithAlivewood[1]);
-            Console.WriteLine(distance + " in which unit?");
-            return 0;
         }
     }
 }

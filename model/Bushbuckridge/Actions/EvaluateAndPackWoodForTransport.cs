@@ -15,8 +15,8 @@ namespace Bushbuckridge.Actions
 //            AddOrUpdatePrecondition(FirewoodState.WoodstockRaised, true);
             AddOrUpdatePrecondition(FirewoodState.Evaluated, false);
 
-            AddOrUpdateEffect(FirewoodState.WoodstockRaised, false);
             AddOrUpdateEffect(FirewoodState.Evaluated, true);
+            AddOrUpdateEffect(FirewoodState.WoodstockRaised, false);
         }
 
         protected override bool ExecuteAction()

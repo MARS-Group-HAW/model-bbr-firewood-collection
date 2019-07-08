@@ -11,8 +11,9 @@ namespace Bushbuckridge.States
 
         public static readonly GoapStateKey<bool> IsNearDeadwoodTree = new GoapStateKey<bool>("IsNearDeadwoodTree");
 
-        public static readonly GoapStateKey<bool> IsNearAlivewoodTree = new GoapStateKey<bool>("IsNearAlivewoodTree");
-        public static readonly GoapStateKey<bool> IsNearShoot = new GoapStateKey<bool>("IsNearShoot");
+        public static readonly GoapStateKey<bool> SbAdultAvailable = new GoapStateKey<bool>("SbAdultAvailable");
+        public static readonly GoapStateKey<bool> CaAnTtAdultAvailable = new GoapStateKey<bool>("CaAnTtAdultAvailable");
+        public static readonly GoapStateKey<bool> ShootAvailable = new GoapStateKey<bool>("ShootAvailable");
 
 //        public static readonly GoapStateKey<bool> IsShootAvailable = new GoapStateKey<bool>("IsShootAvailable");
         public static readonly GoapStateKey<bool> Orientated = new GoapStateKey<bool>("Orientated");

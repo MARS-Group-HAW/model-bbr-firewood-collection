@@ -52,7 +52,6 @@ namespace AgentCsvGenerator
             SaveContentInZip(filePath, raster);
         }
 
-
         private static bool IsEmptyRaster(int rasterLatIndex, int rasterLonIndex)
         {
 //            if (rasterLonIndex < 10 && (rasterLatIndex < 20 || rasterLatIndex >= 30))
