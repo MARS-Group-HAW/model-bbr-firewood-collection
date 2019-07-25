@@ -3,7 +3,7 @@
       "deltaT":1,
       "deltaTUnit":"days",
       "startTime":"10/1/2010",
-      "endTime":"10/4/2010",
+      "endTime":"10/3/2020",
       "output":"csv",
       "options":{  
         "delimiter": ",",
@@ -50,7 +50,7 @@
       },
       {  
          "name":"Tree",
-         "count":	2000,
+         "count":	10000,
          "file":"../../model_input/tree_bushbuckridge_3x3.csv",
          "frequency":1,
          "outputFrequency":365,

@@ -26,11 +26,12 @@ namespace Bushbuckridge.Actions
 
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, true);
             AddOrUpdateEffect(FirewoodState.Home, false);
+            AddOrUpdateEffect(FirewoodState.Evaluated, false);
         }
 
         protected override bool ExecuteAction()
         {
-            return _agent.CutBranch(_tree);
+            return _agent.CollectDeadWood(_tree);
         }
 
         public override void UpdateCost()

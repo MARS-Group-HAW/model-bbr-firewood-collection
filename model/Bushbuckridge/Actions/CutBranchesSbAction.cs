@@ -26,6 +26,7 @@ namespace Bushbuckridge.Actions
 
             AddOrUpdateEffect(FirewoodState.WoodstockRaised, true);
             AddOrUpdateEffect(FirewoodState.Home, false);
+            AddOrUpdateEffect(FirewoodState.Evaluated, false);
         }
 
         protected override bool ExecuteAction()
@@ -35,7 +36,8 @@ namespace Bushbuckridge.Actions
 
         public override void UpdateCost()
         {
-            _tree = _agent.FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && tree.IsSpecies("sb"));
+            _tree = _agent.FindTree(tree => tree.StemDiameter > treeDiameterWorthExploiting && tree.IsSpecies("sb") &&
+                                            tree.IsTreeAgeGroup(TreeAgeGroup.Adult));
             var treeFound = _tree != null;
             AgentStates.AddOrUpdateState(FirewoodState.SbAdultAvailable, treeFound);
 
