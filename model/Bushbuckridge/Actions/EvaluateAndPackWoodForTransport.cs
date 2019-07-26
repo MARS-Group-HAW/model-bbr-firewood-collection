@@ -21,7 +21,7 @@ namespace Bushbuckridge.Actions
 
         protected override bool ExecuteAction()
         {
-            return _agent.PackWoodForTransport();
+            return _agent.Evaluate();
         }
     }
 }

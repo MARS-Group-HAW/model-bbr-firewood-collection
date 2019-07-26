@@ -46,7 +46,7 @@ namespace Bushbuckridge.Actions
                 var distance = (float) Distance.Euclidean(_agent.CollectingPosition[0], _agent.CollectingPosition[1],
                     _tree[0],
                     _tree[1]);
-                Cost = originalCost * distance;
+                Cost = originalCost * (distance + 0.0005f);
             }
         }
     }

@@ -8,7 +8,7 @@ namespace Bushbuckridge.Actions
 {
     public class CollectDeadWoodAction : GoapAction
     {
-        private const int originalCost = 1;
+        private const int originalCost = 10;
         private const double deadMassWorthExploiting = 1;
 
         private readonly FirewoodCollector _agent;

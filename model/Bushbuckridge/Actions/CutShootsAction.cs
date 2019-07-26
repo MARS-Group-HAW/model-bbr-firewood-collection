@@ -9,7 +9,7 @@ namespace Bushbuckridge.Actions
 {
     public class CutShootsAction : GoapAction
     {
-        private const int originalCost = 50;
+        private const int originalCost = 30;
         private const double treeDiameterWorthExploiting = 3;
 
         private readonly FirewoodCollector _agent;
