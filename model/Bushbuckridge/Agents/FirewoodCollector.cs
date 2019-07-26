@@ -100,7 +100,6 @@ namespace Bushbuckridge.Agents.Collector
             }
             if (NextYearHasStarted())
             {
-                Console.WriteLine(woodAmountCollectedThisYear);//TODO delete
                 ResetObservePropertiesForThisYear();
             }
             
@@ -113,7 +112,6 @@ namespace Bushbuckridge.Agents.Collector
 
         private void Act()
         {
-            Console.WriteLine("----");
             IList<IGoapAction> actions = new List<IGoapAction>();
             do
             {
@@ -122,7 +120,6 @@ namespace Bushbuckridge.Agents.Collector
               
                 foreach (var action in actions)
                 {  
-                    Console.WriteLine(action);//TODO delete
                     if (!action.Execute())
                     {
                         break;
@@ -184,8 +181,6 @@ namespace Bushbuckridge.Agents.Collector
             var amount =
                 tree.TakeLivingWoodMass(Math.Abs(desiredWoodAmountForEachTick - woodAmountCollectedThisTick));
             AddWoodToStock(amount);
-            Console.WriteLine("amount "+ amount);
-            Console.WriteLine("tree.LivingWoodMass "+ tree.LivingWoodMass);
             countCutBranches++;
             CollectingPosition = tree.Position;
 
@@ -223,28 +218,6 @@ namespace Bushbuckridge.Agents.Collector
         {
             countOfAbortAndGoHome++;
             return CarryWoodHome();
-        }
-
-        public bool Explore()
-        {
-            AgentStates.AddOrUpdateState(FirewoodState.HasEnoughFirewood, HasEnoughFirewood());
-
-//            _currentTreeWithDeadwood = null;
-//            _currentTreeWithAlivewood = null;
-//            //TODO wenn neuer Baum genutzt, dann auch Pos dahin verlagern.  
-//            //TODO ursprüngliche Position speichern.
-//
-//            _currentTreeWithDeadwood = FindTree(tree => tree.DeadWoodMass > deadMassWorthExploiting);
-//            AgentStates.AddOrUpdateState(FirewoodState.IsNearDeadwoodTree, _currentTreeWithDeadwood != null);
-//
-//
-//            if (_currentTreeWithAlivewood != null)
-//            {
-//                AgentStates.AddOrUpdateState(FirewoodState.IsNearShoot,
-//                    _currentTreeWithAlivewood.IsTreeAgeGroup(TreeAgeGroup.Juvenile));
-//            }
-
-            return true;
         }
 
         public Tree FindTree(Func<Tree, bool> func)
