@@ -3,7 +3,7 @@
       "deltaT":1,
       "deltaTUnit":"days",
       "startTime":"10/1/2010",
-      "endTime":"10/3/2014",
+      "endTime":"10/3/2020",
       "output":"csv",
       "options":{  
         "delimiter": ",",
@@ -37,7 +37,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":1,
+         "count":0,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -50,7 +50,7 @@
       },
       {  
          "name":"Tree",
-         "count":	10000,
+         "count":	1,
          "file":"../../model_input/tree_bushbuckridge_3x3.csv",
          "frequency":1,
          "outputFrequency":365,

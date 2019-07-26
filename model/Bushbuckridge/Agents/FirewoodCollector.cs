@@ -27,19 +27,16 @@ namespace Bushbuckridge.Agents.Collector
         public double[] StartPosition;
         public double[] CollectingPosition;
 
-        private const double livingMassWorthExploiting = 4;
-        private const double treeDiameterWorthExploiting = 3;
-        private const double desiredWoodAmountForEachTick = 25;
-
-        private const double woodConsumptionPerDay = 10;
+        private const int desiredWoodAmountForEachTick = 25;
+        private const int woodConsumptionPerDay = 10;
+        
         private double woodAmountInStock;
-
         private double woodAmountCollectedThisTick;
         public double woodAmountCollectedThisYear { get; private set; }
-        public double countOfAbortAndGoHome { get; private set; }
-        public double countCutShoots { get; private set; }
-        public double countCutBranches { get; private set; }
-        public double countGatherDeadWood { get; private set; }
+        public int countOfAbortAndGoHome { get; private set; }
+        public int countCutShoots { get; private set; }
+        public int countCutBranches { get; private set; }
+        public int countGatherDeadWood { get; private set; }
 
         [PublishForMappingInMars]
         public FirewoodCollector(FirewoodCollectorLayer layer, RegisterAgent register, UnregisterAgent unregister,
@@ -111,7 +108,6 @@ namespace Bushbuckridge.Agents.Collector
 
         private void Act()
         {
-//            Console.WriteLine("---");
             IList<IGoapAction> actions = new List<IGoapAction>();
             do
             {
@@ -120,7 +116,6 @@ namespace Bushbuckridge.Agents.Collector
 
                 foreach (var action in actions)
                 {
-//                    Console.WriteLine(action + " "+ action.Cost);
                     if (!action.Execute())
                     {
                         break;
