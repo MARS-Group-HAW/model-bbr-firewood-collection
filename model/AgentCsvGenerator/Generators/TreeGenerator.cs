@@ -9,7 +9,6 @@ namespace AgentCsvGenerator.Generators
     public class Species
     {
         public string Name { get; }
-
         public float SeedlingsPerHa { get; }
         public float JuvenilesPerHa { get; }
         public float AdultPerHa { get; }
@@ -27,62 +26,46 @@ namespace AgentCsvGenerator.Generators
 
     public class TreeGenerator
     {
-        private readonly AreaDefinition _area;
-
+        private readonly TreeRasterGenerator _raster;
         private static readonly Random Random = new Random();
 
-        public TreeGenerator(AreaDefinition area)
+        public TreeGenerator(TreeRasterGenerator raster)
         {
-            _area = area;
+            _raster = raster;
         }
 
-        public string Generate(List<Species> species, Func<int, int, bool> isEmptyRaster = null, Func<int, int, double> evaluateFilterPercentage = null)
+        public string Generate(IEnumerable<Species> species)
         {
             var result = new StringBuilder();
             result.AppendLine(string.Join(AgentCsvGenerator.Delimiter, "lat", "lon", "species", "diameter", "raster"));
 
-            const int rasterMeterLength = 100; //raster in 1 ha = 100m x 100m
-
-            var rasterCountLon = _area.WidthInMeter / rasterMeterLength;
-            var rasterCountLat = _area.LengthInMeter / rasterMeterLength;
-
-            for (var rasterLonIndex = 0; rasterLonIndex < rasterCountLon; rasterLonIndex++)
+            for (var rasterLonIndex = 0; rasterLonIndex < _raster.rasterCountLon; rasterLonIndex++)
             {
-                var offsetLon = _area.West + rasterLonIndex * 100 * _area.OneMeterLon;
-                for (var rasterLatIndex = 0; rasterLatIndex < rasterCountLat; rasterLatIndex++)
+                var offsetLon = _raster.West + rasterLonIndex * _raster.CellSize;
+                for (var rasterLatIndex = 0; rasterLatIndex <  _raster.rasterCountLat; rasterLatIndex++)
                 {
-                    if (isEmptyRaster != null && isEmptyRaster.Invoke(rasterLatIndex, rasterLonIndex)) continue;
-                    var filterPercentage = evaluateFilterPercentage?.Invoke(rasterLatIndex, rasterLonIndex) ?? 1.0;
-                    var offsetLat = _area.North + rasterLatIndex * 100 * _area.OneMeterLat;
-                    // Console.WriteLine(GenRasterId(rasterLatIndex,rasterLonIndex));
+                    if (_raster.IsEmptyRaster != null && _raster.IsEmptyRaster.Invoke(rasterLatIndex, rasterLonIndex)) continue;
+                    
+                    var offsetLat = _raster.South +  _raster.CellSize * (_raster.rasterCountLat - 1)  - rasterLatIndex * _raster.CellSize;
                     foreach (var aSpecies in species)
                     {
                         for (var i = 0; i < aSpecies.SeedlingsPerHa; i++)
                         {
-                            if (IsNotFiltered(filterPercentage))
-                            {
-                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                    offsetLon, GenerateRandomDiameter(0, 0)));
-                            }
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon, GenerateRandomDiameter(0, 0)));
                         }
 
                         for (var i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
-                            if (IsNotFiltered(filterPercentage))
-                            {
-                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                    offsetLon, GenerateRandomDiameter(1, 6)));
-                            }
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon, GenerateRandomDiameter(1, 6)));
                         }
 
                         for (var i = 0; i < aSpecies.AdultPerHa; i++)
                         {
-                            if (IsNotFiltered(filterPercentage))
-                            {
-                                result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                    offsetLon,
-                                    GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
-                            }
+                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
+                                offsetLon,
+                                GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
                         }
                     }
                 }
@@ -91,24 +74,14 @@ namespace AgentCsvGenerator.Generators
             return result.ToString();
         }
 
-        private bool IsNotFiltered(double filterPercentage)
-        {
-            return Random.NextDouble() <= filterPercentage;
-        }
-
         private string GenerateTree(Species type, int rasterLatIndex, int rasterLonIndex, double offsetLat,
             double offsetLon, float diameter)
         {
-            var posLon = offsetLon + _area.OneMeterLon * Random.NextDouble() * 100;
-            var posLat = offsetLat + _area.OneMeterLat * Random.NextDouble() * 100;
-            var raster = GenRasterId(rasterLatIndex, rasterLonIndex);
+            var posLon = offsetLon + _raster.CellSize * Random.NextDouble();
+            var posLat = offsetLat + _raster.CellSize * Random.NextDouble();
+            var raster = TreeRasterGenerator.GenRasterId(rasterLatIndex, rasterLonIndex);
 
             return string.Join(AgentCsvGenerator.Delimiter, posLat, posLon, type.Name, diameter, raster);
-        }
-
-        private static string GenRasterId(int rasterLatIndex, int rasterLonIndex)
-        {
-            return 1 + rasterLonIndex.ToString("D2") + rasterLatIndex.ToString("D2");
         }
 
         private static float GenerateRandomDiameter(int min, int max)

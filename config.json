@@ -37,7 +37,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":0,
+         "count":5,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -50,7 +50,7 @@
       },
       {  
          "name":"Tree",
-         "count":	1,
+         "count":	40572,
          "file":"../../model_input/tree_bushbuckridge_3x3.csv",
          "frequency":1,
          "outputFrequency":365,

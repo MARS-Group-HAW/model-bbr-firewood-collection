@@ -26,11 +26,12 @@ namespace AgentCsvGenerator
         private static void BushbuckridgeSite()
         {
             var area = new AreaDefinition
-            ( // 5km x 5km (2500ha)
-                west: 31.194250,
-                east: 31.2430319,
-                north: -24.823869,
-                south: -24.8695669,
+            (
+                // 5km x 5km (2500ha)
+                west: (31.1935585189625 + 31.1942138994156) / 2,
+                east: (31.2436689351037 + 31.2430314807223) / 2,
+                north: (-24.8238427454749 + -24.8244319759918) / 2,
+                south: (-24.8695670454221 + -24.8689766010734) / 2,
                 widthInMeter: 5000,
                 lengthInMeter: 5000
             );
@@ -44,12 +45,13 @@ namespace AgentCsvGenerator
             species.Add(new Species("an", 8, 2, 0, 8));
             species.Add(new Species("tt", 3546, 638, 38, 13));
 
-            var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster, EvaluateFilterPercentage);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_10x10.csv"), trees);
-
-            var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
-            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_10x10.asc");
+            var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
+            var raster = rasterGenerator.Generate();
+            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_3x3.asc");
             SaveContentInZip(filePath, raster);
+
+            var trees = new TreeGenerator(rasterGenerator).Generate(species);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_3x3.csv"), trees);
         }
 
         private static bool IsEmptyRaster(int rasterLatIndex, int rasterLonIndex)
@@ -74,7 +76,7 @@ namespace AgentCsvGenerator
 //                return true;
 //            }
 
-            if (rasterLatIndex >= 20 && rasterLatIndex < 30 && rasterLonIndex >= 20 && rasterLonIndex < 30)
+            if (rasterLatIndex >= 20 && rasterLatIndex < 23 && rasterLonIndex >= 20 && rasterLonIndex < 23)
             {
                 return false;
             }
@@ -82,24 +84,14 @@ namespace AgentCsvGenerator
             return true;
         }
 
-        private static double EvaluateFilterPercentage(int rasterLatIndex, int rasterLonIndex)
-        {
-//            if (rasterLatIndex < 15)
-//            {
-//                return 0.2;
-//            }
-
-            return 1;
-        }
-
         private static void SkukuzaSite()
         {
             var area = new AreaDefinition
             ( // 4km x 4km (1600ha)
-                west: 31.472,
-                east: 31.521,
-                north: -24.986,
-                south: -25.031,
+                west: 31.4775235586284,
+                east: 31.5174756607007,
+                north: -24.9902720235945,
+                south: -25.0269073473815,
                 widthInMeter: 4000,
                 lengthInMeter: 4000
             );
@@ -110,13 +102,13 @@ namespace AgentCsvGenerator
             species.Add(new Species("an", 683, 130, 7, 8));
             species.Add(new Species("tt", 1817, 300, 46, 13));
 
-            var trees = new TreeGenerator(area).Generate(species, IsEmptyRaster);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_20x29.csv"), trees);
-
-
-            var raster = new TreeRasterGenerator(area).Generate(IsEmptyRaster);
+            var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
+            var raster = rasterGenerator.Generate();
             var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster_20x29.asc");
             SaveContentInZip(filePath, raster);
+
+            var trees = new TreeGenerator(rasterGenerator).Generate(species);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_20x29.csv"), trees);
         }
 
         private static void SaveContentInFile(string path, string content)
