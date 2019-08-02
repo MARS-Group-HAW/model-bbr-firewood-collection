@@ -49,12 +49,6 @@ namespace AgentCsvGenerator.Generators
                     var offsetLat = _raster.South +  _raster.CellSize * (_raster.rasterCountLat - 1)  - rasterLatIndex * _raster.CellSize;
                     foreach (var aSpecies in species)
                     {
-                        for (var i = 0; i < aSpecies.SeedlingsPerHa; i++)
-                        {
-                            result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
-                                offsetLon, GenerateRandomDiameter(0, 0)));
-                        }
-
                         for (var i = 0; i < aSpecies.JuvenilesPerHa; i++)
                         {
                             result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
