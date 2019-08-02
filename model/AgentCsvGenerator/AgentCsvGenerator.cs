@@ -43,7 +43,7 @@ namespace AgentCsvGenerator
             species.Add(new Species("sb", 31, 73, 7, 20));
             species.Add(new Species("ca", 31, 131, 3, 10));
             species.Add(new Species("an", 8, 2, 0, 8));
-            species.Add(new Species("tt", 3546, 638, 38, 13));
+            species.Add(new Species("tt", 3546, 638, 38, 14));
 
             var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
             var raster = rasterGenerator.Generate();

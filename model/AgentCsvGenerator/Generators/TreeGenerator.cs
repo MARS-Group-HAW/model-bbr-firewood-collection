@@ -65,7 +65,7 @@ namespace AgentCsvGenerator.Generators
                         {
                             result.AppendLine(GenerateTree(aSpecies, rasterLatIndex, rasterLonIndex, offsetLat,
                                 offsetLon,
-                                GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 5)));
+                                GenerateRandomDiameter(aSpecies.MinAdultDiameter, aSpecies.MinAdultDiameter + 6)));
                         }
                     }
                 }

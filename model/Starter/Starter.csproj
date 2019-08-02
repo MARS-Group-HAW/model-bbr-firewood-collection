@@ -3,9 +3,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
-  <Target Name="PrecompileScript" BeforeTargets="BeforeBuild">
-    <Exec Command="rm -rf tmp" />
-  </Target>
   <ItemGroup>
     <ProjectReference Include="..\Bushbuckridge\Bushbuckridge.csproj" />
     <ProjectReference Include="..\model-savanna-trees\model\DroughtLayer\DroughtLayer.csproj" />
@@ -14,6 +11,6 @@
     <ProjectReference Include="..\TimeKeepingLayer\TimeKeepingLayer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mars.Life.Simulations" Version="3.1.3" />
+    <PackageReference Include="Mars.Life.Simulations" Version="3.1.8" />
   </ItemGroup>
 </Project>

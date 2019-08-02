@@ -29,7 +29,7 @@ namespace Bushbuckridge.Agents.Collector
 
         private const int desiredWoodAmountForEachTick = 25;
         private const int woodConsumptionPerDay = 10;
-        
+
         private double woodAmountInStock;
         private double woodAmountCollectedThisTick;
         public double woodAmountCollectedThisYear { get; private set; }
@@ -81,8 +81,9 @@ namespace Bushbuckridge.Agents.Collector
         /// </summary>
         private void initAgentPosition()
         {
-            var anyTree = _treeLayer._TreeEnvironment.GetNearest(this);
-            StartPosition = new[] {Latitude, anyTree.Longitude};
+            var nearestTree = _treeLayer._TreeEnvironment.GetNearest(this);
+            var furthestTree = _treeLayer._TreeEnvironment.Explore(this).Last();
+            StartPosition = new[] {Latitude, (nearestTree.Longitude + furthestTree.Longitude) / 2};
             CollectingPosition = StartPosition;
         }
 
