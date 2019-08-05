@@ -55,11 +55,11 @@ namespace TimeKeepingLayer
             }
 
             if (!IsNextYearTick()) return;
-            Console.WriteLine();
-            _logger.LogWarning(SimulationClock.CurrentTimePoint.Value.Year + " in " + _stopWatch.Elapsed.Days + "d " +
+            Console.Write(SimulationClock.CurrentTimePoint.Value.Year + " in " + _stopWatch.Elapsed.Days + "d " +
                               _stopWatch.Elapsed.Hours + "h " + _stopWatch.Elapsed.Minutes + "m " +
                               _stopWatch.Elapsed.Seconds + "s " +
                               " and tree count: " + _savannaLayer._TreeAgents.Count);
+            Console.WriteLine();
             _stopWatch.Restart();
         }
 
