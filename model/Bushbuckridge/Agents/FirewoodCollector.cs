@@ -216,7 +216,7 @@ namespace Bushbuckridge.Agents.Collector
 
         public Tree FindTree(Func<Tree, bool> func)
         {
-            return _treeLayer._TreeEnvironment.GetNearest(Latitude, Longitude, -1, func);
+            return _treeLayer._TreeEnvironment.GetNearest(CollectingPosition[0], CollectingPosition[1], -1, func);
         }
 
         public bool Evaluate()

@@ -2,8 +2,8 @@
    "globals":{  
       "deltaT":1,
       "deltaTUnit":"days",
-      "startTime":"1/10/2010",
-      "endTime":"2/10/2050",
+      "startTime":"10/1/2010",
+      "endTime":"10/4/2030",
       "output":"csv",
       "options":{  
         "delimiter": ",",
