@@ -26,7 +26,7 @@ public static class Program
         description.AddLayer<Precipitation>();
         description.AddLayer<Temperature>();
         description.AddLayer<TreeRaster>();
-        
+
         description.AddLayer<SavannaLayer>();
         description.AddLayer<TimeKeeperLayer>();
 
