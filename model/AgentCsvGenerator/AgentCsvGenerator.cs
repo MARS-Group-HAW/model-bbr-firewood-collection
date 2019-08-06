@@ -17,8 +17,8 @@ namespace AgentCsvGenerator
 
         private static void Main()
         {
-//            BushbuckridgeSite();
-            SkukuzaSite();
+            BushbuckridgeSite();
+//            SkukuzaSite();
 
             Console.WriteLine("Files are generated :)");
         }
@@ -47,11 +47,11 @@ namespace AgentCsvGenerator
 
             var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
             var raster = rasterGenerator.Generate();
-            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_3x3.asc");
+            var filePath = Path.Combine("..", "..", "model_input", "tree_bushbuckridge_raster_10x10.asc");
             SaveContentInZip(filePath, raster);
 
             var trees = new TreeGenerator(rasterGenerator).Generate(species);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_3x3.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_bushbuckridge_10x10.csv"), trees);
         }
 
         private static bool IsEmptyRaster(int rasterLatIndex, int rasterLonIndex)
@@ -76,7 +76,7 @@ namespace AgentCsvGenerator
 //                return true;
 //            }
 
-            if (rasterLatIndex >= 20 && rasterLatIndex < 21 && rasterLonIndex >= 20 && rasterLonIndex < 21)
+            if (rasterLatIndex >= 20 && rasterLatIndex < 29 && rasterLonIndex >= 20 && rasterLonIndex < 29)
             {
                 return false;
             }
@@ -104,11 +104,11 @@ namespace AgentCsvGenerator
 
             var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
             var raster = rasterGenerator.Generate();
-            var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster_1x1.asc");
+            var filePath = Path.Combine("..", "..", "model_input", "tree_skukuza_raster_3x3.asc");
             SaveContentInZip(filePath, raster);
 
             var trees = new TreeGenerator(rasterGenerator).Generate(species);
-            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_1x1.csv"), trees);
+            SaveContentInFile(Path.Combine("..", "..", "model_input", "tree_skukuza_3x3.csv"), trees);
         }
 
         private static void SaveContentInFile(string path, string content)

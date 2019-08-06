@@ -39,7 +39,7 @@
          "mapping":[  
             {  
                "parameter":"damageMultiplier",
-               "value":5
+               "value":1
             }
          ]
       }
