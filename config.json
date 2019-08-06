@@ -32,6 +32,16 @@
                "value":435
             }
          ]
+      },
+      {  
+         "name":"HerbivorePressureLayer",
+         "frequency":1,
+         "mapping":[  
+            {  
+               "parameter":"damageMultiplier",
+               "value":5
+            }
+         ]
       }
    ],
    "agents":[  

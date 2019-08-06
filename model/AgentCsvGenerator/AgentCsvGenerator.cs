@@ -97,10 +97,10 @@ namespace AgentCsvGenerator
             );
 
             var species = new List<Species>();
-            species.Add(new Species("sb", 89, 17, 1, 20));
-            species.Add(new Species("ca", 2888, 550, 26, 10));
-            species.Add(new Species("an", 683, 130, 7, 8));
-            species.Add(new Species("tt", 1817, 300, 46, 14));
+            species.Add(new Species("sb", 89, 17, 1, 26));
+            species.Add(new Species("ca", 2888, 550, 26, 13));
+            species.Add(new Species("an", 683, 130, 7, 11));
+            species.Add(new Species("tt", 1817, 300, 46, 18));
 
             var rasterGenerator = new TreeRasterGenerator(area, IsEmptyRaster);
             var raster = rasterGenerator.Generate();
