@@ -21,7 +21,7 @@
       },
       {  
          "name":"TreeRaster",
-         "file":"../../model_input/tree_bushbuckridge_raster_3x3.zip"
+         "file":"../../model_input/tree_bushbuckridge_raster_10x10.zip"
       },
       {  
          "name":"DroughtLayer",
@@ -51,7 +51,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":5,
+         "count":56,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -64,11 +64,11 @@
       },
       {  
          "name":"Tree",
-         "count":	40572,
-         "file":"../../model_input/tree_bushbuckridge_3x3.csv",
+         "count":	72252,
+         "file":"../../model_input/tree_bushbuckridge_10x10.csv",
          "frequency":1,
          "outputFrequency":365,
-         "outputType": "individual",
+         "outputT.ype": "individual",
       //    "outputFilter":[
       //     {
       //        "parameter":"MyTreeAgeGroup",
