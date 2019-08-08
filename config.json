@@ -68,7 +68,7 @@
          "file":"../../model_input/tree_bushbuckridge_10x10.csv",
          "frequency":1,
          "outputFrequency":365,
-         "outputT.ype": "individual",
+         "outputType": "individual",
       //    "outputFilter":[
       //     {
       //        "parameter":"MyTreeAgeGroup",
