@@ -13,11 +13,11 @@
    "layers":[  
       {  
          "name":"Temperature",
-         "file":"../../model_input/RCP4.5_2010_2050_temp.zip"
+         "file":"../../model_input/RCP8.5_2010_2050_temp.zip"
       },
       {  
          "name":"Precipitation",
-         "file":"../../model_input/RCP4.5_2010_2050_pre.zip"
+         "file":"../../model_input/RCP8.5_2010_2050_pre.zip"
       },
       {  
          "name":"TreeRaster",
@@ -68,7 +68,7 @@
          "file":"../../model_input/tree_bushbuckridge_10x10.csv",
          "frequency":1,
          "outputFrequency":365,
-         "outputT.ype": "individual",
+         "outputType": "individual",
       //    "outputFilter":[
       //     {
       //        "parameter":"MyTreeAgeGroup",
@@ -79,7 +79,7 @@
          "individuals":[  
             {  
                "parameter":"IsScenario45not85",
-               "value":true
+               "value":false
             },
             {  
                "name":"ycor",
