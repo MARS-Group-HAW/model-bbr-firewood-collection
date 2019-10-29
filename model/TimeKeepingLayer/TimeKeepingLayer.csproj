@@ -5,11 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Mars.Life.Simulations" Version="3.1.9" />
+      <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\model-savanna-trees\src-gen\SavannaTrees.csproj" />
+      <PackageReference Include="Mars.Life.Simulations" Version="3.1.9" />
     </ItemGroup>
 
 </Project>

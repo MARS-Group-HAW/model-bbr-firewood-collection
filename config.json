@@ -13,15 +13,15 @@
    "layers":[  
       {  
          "name":"Temperature",
-         "file":"../../model_input/RCP8.5_2010_2050_temp.zip"
+         "file":"../../model_input/RCP4.5_2010_2050_temp.zip"
       },
       {  
          "name":"Precipitation",
-         "file":"../../model_input/RCP8.5_2010_2050_pre.zip"
+         "file":"../../model_input/RCP4.5_2010_2050_pre.zip"
       },
       {  
          "name":"TreeRaster",
-         "file":"../../model_input/tree_bushbuckridge_raster_10x10.zip"
+         "file":"../../model_input/tree_bushbuckridge_raster_5x5.zip"
       },
       {  
          "name":"DroughtLayer",
@@ -51,7 +51,7 @@
    "agents":[  
       {  
          "name":"FirewoodCollector",
-         "count":56,
+         "count":14,
          "file":"../../model_input/household.csv",
          "frequency":1,
          "outputFrequency":365
@@ -64,8 +64,8 @@
       },
       {  
          "name":"Tree",
-         "count":	72252,
-         "file":"../../model_input/tree_bushbuckridge_10x10.csv",
+         "count":	22300,
+         "file":"../../model_input/tree_bushbuckridge_5x5.csv",
          "frequency":1,
          "outputFrequency":365,
          "outputType": "individual",
@@ -79,7 +79,7 @@
          "individuals":[  
             {  
                "parameter":"IsScenario45not85",
-               "value":false
+               "value":true
             },
             {  
                "name":"ycor",
