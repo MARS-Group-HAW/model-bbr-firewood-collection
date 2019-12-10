@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Bushbuckridge.Config;
-using Mars.Components.Agents;
 using Mars.Components.Environments;
 using Mars.Components.Services;
 using Mars.Interfaces.Layer;
@@ -16,7 +15,7 @@ namespace Bushbuckridge.Agents.Collector
     {
         public readonly Random Random;
         private readonly SavannaLayer _savannaLayer;
-        private readonly GeoGridEnvironment<GeoAgent<FirewoodCollector>> _environment;
+        private readonly GeoHashEnvironment<FirewoodCollector> _environment;
 
         private ConcurrentDictionary<Guid, FirewoodCollector> _agents;
         private long CurrentTick { get; set; }
@@ -24,9 +23,9 @@ namespace Bushbuckridge.Agents.Collector
         public FirewoodCollectorLayer(SavannaLayer savannaLayer)
         {
             _savannaLayer = savannaLayer;
-            _environment =
-                new GeoGridEnvironment<GeoAgent<FirewoodCollector>>(Territory.TOP_LAT, Territory.BOTTOM_LAT,
-                    Territory.LEFT_LONG, Territory.RIGHT_LONG, 1000);
+            _environment = GeoHashEnvironment<FirewoodCollector>.BuildEnvironment(Territory.TOP_LAT, Territory.BOTTOM_LAT,
+                Territory.LEFT_LONG, Territory.RIGHT_LONG);
+            
             Random = new Random();
         }
 

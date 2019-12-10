@@ -44,9 +44,8 @@ namespace Bushbuckridge.Actions
 
             if (treeFound)
             {
-                var distance = (float) Distance.Euclidean(_agent.CollectingPosition[0], _agent.CollectingPosition[1],
-                    _tree[0],
-                    _tree[1]);
+                var distance = (float) Distance.Euclidean(_agent.Position.X, _agent.Position.Y, _tree.Position.X,
+                    _tree.Position.Y);
                 Cost = originalCost * (distance + 0.0005f);
             }
         }

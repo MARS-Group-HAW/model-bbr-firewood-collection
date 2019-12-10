@@ -4,6 +4,6 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mars.Life.Simulations" Version="3.1.9" />
+    <PackageReference Include="Mars.Life.Simulations" Version="4.1.8" />
   </ItemGroup>
 </Project>

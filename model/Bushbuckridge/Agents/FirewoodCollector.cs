@@ -9,23 +9,24 @@ using Mars.Components.Environments;
 using Mars.Components.Services.Planning.Implementation;
 using Mars.Components.Services.Planning.Implementation.ActionCommons;
 using Mars.Components.Services.Planning.Interfaces;
-using Mars.Interfaces.Environment.GeoCommon;
+using Mars.Interfaces.Environment;
 using Mars.Interfaces.Layer;
 using Mars.Interfaces.LIFECapabilities;
 using SavannaTrees;
 
 namespace Bushbuckridge.Agents.Collector
 {
-    public class FirewoodCollector : GeoAgent<FirewoodCollector>
+    public class FirewoodCollector : Agent, IPositionable
     {
-        public override FirewoodCollector AgentReference => this;
+        public Position Position { get; set; }
+        public Position StartPosition { get; protected set; }
+
         public IGoapAgentStates AgentStates { get; }
         private readonly GoapPlanner _goapPlanner;
 
+        private readonly GeoHashEnvironment<FirewoodCollector> _environment;
         private readonly SavannaLayer _treeLayer;
 
-        public double[] StartPosition;
-        public double[] CollectingPosition;
 
         private const int desiredWoodAmountForEachTick = 25;
         private const int woodConsumptionPerDay = 10;
@@ -40,10 +41,12 @@ namespace Bushbuckridge.Agents.Collector
 
         [PublishForMappingInMars]
         public FirewoodCollector(FirewoodCollectorLayer layer, RegisterAgent register, UnregisterAgent unregister,
-            GeoGridEnvironment<GeoAgent<FirewoodCollector>> env, SavannaLayer treeLayer, Guid id,
+            GeoHashEnvironment<FirewoodCollector> environment, SavannaLayer treeLayer, Guid id,
             double lat, double lon) :
-            base(layer, register, unregister, env, new GeoCoordinate(lat, lon), id.ToByteArray())
+            base(layer, register, unregister, id.ToByteArray())
         {
+            Position = Position.CreateGeoPosition(lon, lat);
+            _environment = environment;
             _treeLayer = treeLayer;
             AgentStates = new GoapAgentStates();
             AgentStates.AddOrUpdateState(FirewoodState.HasAxe, true);
@@ -81,10 +84,10 @@ namespace Bushbuckridge.Agents.Collector
         /// </summary>
         private void initAgentPosition()
         {
-            var nearestTree = _treeLayer._TreeEnvironment.GetNearest(this);
-            var furthestTree = _treeLayer._TreeEnvironment.Explore(this).Last();
-            StartPosition = new[] {Latitude, (nearestTree.Longitude + furthestTree.Longitude) / 2};
-            CollectingPosition = StartPosition;
+            var nearestTree = _treeLayer._TreeEnvironment.GetNearest(Position);
+            var furthestTree = _treeLayer._TreeEnvironment.Explore(Position).Last();
+            StartPosition = Position.CreateGeoPosition((nearestTree.Position.Longitude + furthestTree.Position.Longitude) / 2, Position.Latitude);
+            Position = StartPosition;
         }
 
 
@@ -161,7 +164,7 @@ namespace Bushbuckridge.Agents.Collector
             var desired = desiredWoodAmountForEachTick - woodAmountCollectedThisTick;
             AddWoodToStock(tree.TakeDeadWoodMass(desired));
             countGatherDeadWood++;
-            CollectingPosition = tree.Position;
+            Position = tree.Position;
 
             return true;
         }
@@ -179,7 +182,7 @@ namespace Bushbuckridge.Agents.Collector
             var amount = tree.TakeLivingWoodMass(desired);
             AddWoodToStock(amount);
             countCutBranches++;
-            CollectingPosition = tree.Position;
+            Position = tree.Position;
 
             return true;
         }
@@ -189,7 +192,7 @@ namespace Bushbuckridge.Agents.Collector
             if (tree == null) return true;
             AddWoodToStock(tree.TakeLivingWoodMass(tree.LivingWoodMass));
             countCutShoots++;
-            CollectingPosition = tree.Position;
+            Position = tree.Position;
 
             return true;
         }
@@ -201,7 +204,7 @@ namespace Bushbuckridge.Agents.Collector
 
         public bool CarryWoodHome()
         {
-            CollectingPosition = StartPosition;
+            Position = StartPosition;
 
             woodAmountCollectedThisYear += woodAmountCollectedThisTick;
             woodAmountCollectedThisTick = 0;
@@ -216,7 +219,7 @@ namespace Bushbuckridge.Agents.Collector
 
         public Tree FindTree(Func<Tree, bool> func)
         {
-            return _treeLayer._TreeEnvironment.GetNearest(CollectingPosition[0], CollectingPosition[1], -1, func);
+            return _treeLayer._TreeEnvironment.GetNearest(Position[0], Position[1], -1, func);
         }
 
         public bool Evaluate()

@@ -1,6 +1,7 @@
 ﻿using Bushbuckridge.Agents.Collector;
 using Bushbuckridge.States;
 using Mars.Components.Services.Planning.Implementation;
+using Mars.Interfaces.Environment;
 using Mars.Mathematics;
 using SavannaTrees;
 
@@ -42,9 +43,8 @@ namespace Bushbuckridge.Actions
 
             if (treeFound)
             {
-                var distance = (float) Distance.Euclidean(_agent.CollectingPosition[0], _agent.CollectingPosition[1],
-                    _tree[0],
-                    _tree[1]);
+                var distance = (float) Distance.Euclidean(_agent.Position.X, _agent.Position.Y, _tree.Position.X,
+                    _tree.Position.Y);
                 Cost = originalCost * distance;
             }
         }
