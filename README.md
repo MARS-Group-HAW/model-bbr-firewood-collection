@@ -6,9 +6,25 @@ Start the simulation by running the `run.sh`-script.
 
 ## Configuration
 
-Use the `config.json` to define the time period, the number of involved agents, and the RCP4.5 or RCP8.5 forecast data. The input data can be found in `model/model-savanna-trees/model_input`.
+Use the `config.json` to define the time period, the number of involved agents, and the RCP4.5 or RCP8.5 forecast data.
 
-Further information on configuration options can be found on the [MARS documentation website](https://www.mars-group.org/docs/category/configuration).
+Detailed information on configuration options can be found on the [MARS documentation website](https://www.mars-group.org/docs/category/configuration).
+
+## Input files
+
+The input files are located in `model_input/` and `model/model-savanna-trees/model_input/`.
+
+> **Note** Due to file size restrictions, some input files had to be zipped or split into multiple files before being added to this repository. Follow the below steps to prepare all input files for your local simulation runs:
+
+1. Unpack the ZIP archive `model_input/tree_bushbuckridge.zip`. This should produce one CSV file with the same name in `model_input/`.
+2. The CSV files located in `model/model-savanna-trees/model_input/tree_bushbuckridge` need to be merged into one CSV file. To do this, follow the below steps:
+   1. Move the Python script `csv_splitter_merger.py` from `input_processing/` to `model/model-savanna-trees/model_input/`.
+   2. Open a terminal and move to `model/model-savanna-trees/model_input/`.
+   3. Run the script as follows: `python3 csv_splitter_merger.py -m -ip tree_bushbuckridge/ -op merge_result/`
+      1. For additional information on the script, run `python3 csv_splitter_merger.py -h`.
+   4. The script should produce one CSV file named `tree_bushbuckridge.csv` in `model/model-savanna-trees/model_input/merge_result/`. This CSV file contains the data of the CSV files in `model/model-savanna-trees/model_input/tree_bushbuckridge`.
+   5. Move the produced CSV file from `model/model-savanna-trees/model_input/merge_result/` to `model/model-savanna-trees/model_input/`.
+   6. Delete the directory `merge_result/`.
 
 ## Results
 
