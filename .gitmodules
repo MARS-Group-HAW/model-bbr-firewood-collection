@@ -1,3 +1,4 @@
 [submodule "model/model-savanna-trees"]
 	path = model/model-savanna-trees
 	url = https://github.com/MARS-Group-HAW/model-knp-savanna-trees
+	branch = master
