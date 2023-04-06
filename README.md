@@ -22,7 +22,7 @@ The input files are located in `model_input/` and `model/model-savanna-trees/mod
    2. Open a terminal and move to `model/model-savanna-trees/model_input/`.
    3. Run the script as follows: `python3 csv_splitter_merger.py -m -ip tree_bushbuckridge/ -op merge_result/`
       1. For additional information on the script, run `python3 csv_splitter_merger.py -h`.
-   4. The script should produce one CSV file named `tree_bushbuckridge.csv` in `model/model-savanna-trees/model_input/merge_result/`. This CSV file contains the data of the CSV files in `model/model-savanna-trees/model_input/tree_bushbuckridge`.
+   4. The script should produce one CSV file named `tree_bushbuckridge.csv` in `model/model-savanna-trees/model_input/merge_result/`. This CSV file contains the data of the CSV files in `model/model-savanna-trees/model_input/tree_bushbuckridge/`.
    5. Move the produced CSV file from `model/model-savanna-trees/model_input/merge_result/` to `model/model-savanna-trees/model_input/`.
    6. Delete the directory `merge_result/`.
 
